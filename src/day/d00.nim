@@ -1,10 +1,12 @@
 
-# std lib modules https://nim-lang.org/docs/lib.html
+# std lib modules: https://nim-lang.org/docs/lib.html
 import std/[algorithm, deques, math, options, os, parsecsv, sequtils, sets,
     strformat, strscans, strtabs, strutils, sugar, tables, unittest]
 
+# nimble pkgs: https://nimble.directory/
 import pkg/[itertools, memo, stint]
 
+# local lib modules: src/lib/
 import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const

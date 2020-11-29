@@ -1,4 +1,8 @@
 
+## this exists primarily to play with nimscript,
+## but it's also a good place to put helper tasks
+## https://nim-lang.org/docs/nimscript.html
+
 import std/[strformat, strutils, parseutils]
 from os import splitFile
 from parseutils import parseInt
@@ -39,17 +43,18 @@ hint("Conf",false)
 switch("hints","off")
 switch("warnings","off")
 switch("verbosity", "0")
+switch("out",&"{nimOutDir}/runme")
 
-proc execho(cmd:string) =
+proc excho(cmd:string) =
   echo cmd
   exec cmd
 
-proc selfexecho(cmd:string) =
-  echo &"nim {cmd}"
+proc selfexcho(cmd:string) =
+  echo &"nim[self] {cmd}"
   selfexec cmd
 
 task cleanout, "delete the out dir":
-  execho &"rm -rf {nimOutDir}"
+  excho &"rm -rf {nimOutDir}"
 
 task day, "build and run the given day(s), usage: `nim day 1 2 3 -f`":
   echo "day"
@@ -72,7 +77,8 @@ task day, "build and run the given day(s), usage: `nim day 1 2 3 -f`":
       inputFile = &"{nimDayDir}/d{day:02}{secret}.nim"
       outputFile = &"{nimOutDir}/d{day:02}"
     if fast == fastOn:
-      selfexecho &"c {fast}{gc}{verbose}-o:{outputFile} {inputFile}"
-      execho &"time ./{outputFile}"
+      selfexcho &"c {fast}{gc}{verbose}-o:{outputFile} {inputFile}"
+      excho &"time ./{outputFile}"
     else:
-      selfexecho &"c -r {fast}{gc}{verbose}-o:{outputFile} {inputFile}"
+      selfexcho &"c -r {fast}{gc}{verbose}-o:{outputFile} {inputFile}"
+

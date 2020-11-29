@@ -1,5 +1,9 @@
 
-## Vectors of N dimensions and Any type.  AKA: Yet Another Simple Vector Lib, but "yasvl" is harder to pronounce.  This was made with my convenience and learning in mind while I did Advent of Code and other exercises in nim.  If you are interested in performance, then you should probably look at something like arraymancer.
+## Vectors of N dimensions and Any type.
+## AKA: Yet Another Simple Vector Lib, but "yasvl" is harder to pronounce.
+## This was made with my convenience and learning in mind while I did Advent of Code and other exercises in nim.
+## If you are interested in performance,
+## then you should probably look at something like arraymancer.
 
 # TODO
 # lerp & lerped or lerp & lerp= ?
@@ -11,14 +15,16 @@
 # vector table slicing
 # make `grid` generic across vector lengths (template/macro)
 # tests!
-
+# matrices  strided vec/seq or vec of vecs? perf it!
+# in debug mode, vecs of vecs are 50%-2X faster than strided vecs, but!
+# with d:danger and opt:speed, strided vecs are up to 3-10X faster than nested arrays!
 
 # std lib modules https://nim-lang.org/docs/lib.html
 import std/[math, sets, strformat, tables]
 
-# nimble pggs
+# nimble pkgs: https://nimble.directory/
 
-# local lib modules
+# local lib modules: src/lib/
 import bedrock, shenanigans
 
 
@@ -47,10 +53,14 @@ template `y=`*[N, A](a: Vec[N, A]; b: A): untyped = a[1] = b
 template `z=`*[N, A](a: Vec[N, A]; b: A): untyped = a[2] = b
 template `w=`*[N, A](a: Vec[N, A]; b: A): untyped = a[3] = b
 
+# origin vector, lowest and highest vectors
+
 DistributeSymbols([Name, Fn], [[origin, default], [lowest, low], [highest, high]]):
   proc Name*[N, A](): Vec[N, A] =
     for i in 0..result.high:
       result[i] = Fn(A)
+
+# convert to vecs of different lengths
 
 DistributeSymbols([Name, Num], [[toVec2, 2], [toVec3, 3], [toVec4, 4]]):
   proc Name*[A](v: openArray[A]; def: A = A.default): Vec[Num, A] =
@@ -96,16 +106,18 @@ proc dot*[N, A](a, b: Vec[N, A]): A {.inline.} = a *. b ## Dot product
 proc `*%`*[A](a, b: Vec[2, A]): A =
   ## Cross product, Only defined for vectors of length 2 and 3.
   a[0]*b[1] - a[1]*b[0]
-proc cross*[A](a, b: Vec[2, A]): A {.inline.} = a *%
-    b ## Cross product, Only defined for vectors of length 2 and 3.
+proc cross*[A](a, b: Vec[2, A]): A {.inline.} =
+  ## Cross product, Only defined for vectors of length 2 and 3.
+  a *% b
 
 proc `*%`*[A](a, b: Vec[3, A]): Vec[3, A] =
   ## Cross product. Only defined for vectors of length 2 and 3.
   result[0] = a[1]*b[2] - a[2]*b[1]
   result[1] = a[2]*b[0] - a[0]*b[2]
   result[2] = a[0]*b[1] - a[1]*b[0]
-proc cross*[A](a, b: Vec[3, A]): Vec[3, A] {.inline.} = a *%
-    b ## Cross product, Only defined for vectors of length 2 and 3.
+proc cross*[A](a, b: Vec[3, A]): Vec[3, A] {.inline.} =
+  ## Cross product, Only defined for vectors of length 2 and 3.
+  a *% b
 
 proc mdist*[N, A](a: Vec[N, A]): A =
   ## Manhattan distance to origin
@@ -219,10 +231,10 @@ template `[]=`*[A, T](t: var TableRef[Vec[4, A], T]; x, y, z, w: A; val: T) = t[
 # getters/setters for seqs using coordinates
 template `[]`*[T](s: Seq2i[T]; x, y: int): T = s[y][x]
 template `[]=`*[T](s: Seq2i[T]; x, y: int; val: T) = s[y][x] = val
-template `[]`*[T](s: Seq3i[T]; x, y: int): T = s[z][y][x]
-template `[]=`*[T](s: Seq3i[T]; x, y: int; val: T) = s[z][y][x] = val
-template `[]`*[T](s: Seq4i[T]; x, y: int): T = s[w][z][y][x]
-template `[]=`*[T](s: Seq4i[T]; x, y: int; val: T) = s[w][z][y][x] = val
+template `[]`*[T](s: Seq3i[T]; x, y, z: int): T = s[z][y][x]
+template `[]=`*[T](s: Seq3i[T]; x, y, z: int; val: T) = s[z][y][x] = val
+template `[]`*[T](s: Seq4i[T]; x, y, z, w: int): T = s[w][z][y][x]
+template `[]=`*[T](s: Seq4i[T]; x, y, z, w: int; val: T) = s[w][z][y][x] = val
 
 # getters/setters for seqs using vecs
 template `[]`*[T](s: Seq2i[T]; v: Vec2i): T = s[v.x, v.y]
@@ -292,11 +304,6 @@ proc drawTab*[T](t: Tab3i[T] or TabR3i[T]; p: proc(v: Vec3i): char): string =
       yPrev = v.y
       result.add '\n'
     result.add p(v)
-
-# matrices  strided vec/seq or vec of vecs? perf it!
-# in debug mode, vecs of vecs are 50%-2X faster than strided vecs, but!
-# with d:danger and opt:speed, strided vecs are up to 3-10X faster than nested arrays!
-
 
 when isMainModule:
 
