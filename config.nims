@@ -1,5 +1,5 @@
 
-import strformat, strutils, parseutils
+import std/[strformat, strutils, parseutils]
 from os import splitFile
 from parseutils import parseInt
 
@@ -11,25 +11,45 @@ const
   nimOutDir = "out"
   nimDocDir = "doc"
 
-  fastOn = "-d:danger -d:release --opt:speed"
+  fastOn = "-d:danger -d:release --opt:speed "
   secretOn = "_secret"
+  arcOn = "--gc:arc "
+  orcOn = "--gc:orc "
+  verboseOn = "--warnings=on "
+  veryVerboseOn = "--hints=on --warnings=on "
+  # veryVerboseOn = "--hints=on --warnings=on --verbosity=3" # let's not go crazy
 
 var
   fast = ""
   secret = ""
+  gc = ""
+  verbose = ""
 
-proc setFast(goFast=true) = fast = if goFast: fastOn else: ""
+proc setFast() = fast =  fastOn
+proc setSecret() = secret = secretOn
+proc setArc() = gc = arcOn
+proc setOrc() = gc = orcOn
+proc setVerbose() = verbose = verboseOn
+proc setVeryVerbose() = verbose = veryVerboseOn
 
-proc setSecret(goSecret=true) = secret = if goSecret: secretOn else: ""
 
 switch("path",nimSrc)
+hint("Processing", false)
+hint("Conf",false)
+switch("hints","off")
+switch("warnings","off")
+switch("verbosity", "0")
 
-proc echoex(cmd:string) =
+proc execho(cmd:string) =
   echo cmd
   exec cmd
 
+proc selfexecho(cmd:string) =
+  echo &"nim {cmd}"
+  selfexec cmd
+
 task cleanout, "delete the out dir":
-  echoex &"rm -rf {nimOutDir}"
+  execho &"rm -rf {nimOutDir}"
 
 task day, "build and run the given day(s), usage: `nim day 1 2 3 -f`":
   echo "day"
@@ -41,11 +61,18 @@ task day, "build and run the given day(s), usage: `nim day 1 2 3 -f`":
       case arg
       of "-f","--fast": setFast()
       of "-s","--secret": setSecret()
+      of "-a","--arc": setArc()
+      of "-o","--orc": setOrc()
+      of "-v","--verbose": setVerbose()
+      of "--vv","--veryverbose": setVeryVerbose()
     else:
       days.add num
   for day in days:
     let
       inputFile = &"{nimDayDir}/d{day:02}{secret}.nim"
       outputFile = &"{nimOutDir}/d{day:02}"
-    echoex &"nim c {fast} -o:{outputFile} {inputFile}"
-    echoex &"time ./{outputFile}"
+    if fast == fastOn:
+      selfexecho &"c {fast}{gc}{verbose}-o:{outputFile} {inputFile}"
+      execho &"time ./{outputFile}"
+    else:
+      selfexecho &"c -r {fast}{gc}{verbose}-o:{outputFile} {inputFile}"

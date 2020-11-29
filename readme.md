@@ -8,6 +8,7 @@ I probably won't have time to do all of the days. I definitely won't have time t
 ## Docs
 
 - [nim std lib](https://nim-lang.org/docs/lib.html)
+- [nimscript](https://nim-lang.org/docs/nimscript.html)
 - [nimble](https://nimble.directory/)
 - [itertools](https://github.com/narimiran/itertools)
 - [memo](https://github.com/andreaferretti/memo)
