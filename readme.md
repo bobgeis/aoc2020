@@ -5,8 +5,14 @@
 
 I probably won't have time to do all of the days. I definitely won't have time to do them all as they come out, but we'll see.
 
-## Docs
+## Link
 
+- [nim aoc 2020 thread](https://forum.nim-lang.org/t/7162)
+- [aoc subreddit](https://old.reddit.com/r/adventofcode/)
+
+## References
+
+- [nim manual](https://nim-lang.org/docs/manual.html)
 - [nim std lib](https://nim-lang.org/docs/lib.html)
 - [nimscript](https://nim-lang.org/docs/nimscript.html)
 - [nimble](https://nimble.directory/)
@@ -14,18 +20,19 @@ I probably won't have time to do all of the days. I definitely won't have time t
 - [memo](https://github.com/andreaferretti/memo)
 - [stint](https://github.com/status-im/nim-stint)
 
-## Links
+___
 
-- [nim aoc 2020 thread](https://forum.nim-lang.org/t/7162)
-- [aoc subreddit](https://old.reddit.com/r/adventofcode/)
+___
 
-## SPOILERS BELOW
+___
 
----
+# SPOILERS BELOW
 
----
+___
 
----
+___
+
+___
 
 ## d00
 
@@ -33,7 +40,7 @@ Generic setup. I haven't had time this year to learn a new programming language,
 
 I'm coding using vscode with [nim](https://marketplace.visualstudio.com/items?itemName=kosz78.nim) and [indent-rainbow](https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow) extensions. Plus some others, but those two are nim-specific.
 
-I've included 'lib' of code I found useful last year. `aocutils` has some utility procs for dealing with this particular repo (finding data files for each day, etc). `bedrock` is a misc utilities file that has requirement that it import nothing else from this repo. It's the "bottom". `vecna` is a bunch of convenience functions for working with vectors (eg: x,y[,z] coordinates) which happens a lot in aoc. It makes vectors of "N" values of "A" type. `graphwalk` is a very generic implementation of BFS and Djikstra's algorithm. Because I got tired of re-implementing them. `shenanigans` is for experimentation, weird macros, and causing trouble.
+I've included a 'lib' of code I found useful last year. `aocutils` has some utility procs for dealing with this particular repo (finding data files for each day, etc). `bedrock` is a misc utilities file that has requirement that it import nothing else from this repo. It's the "bottom". `vecna` is a bunch of convenience functions for working with vectors (eg: x,y[,z] coordinates) which happens a lot in aoc. It makes vectors of "N" values of "A" type. `graphwalk` is a very generic implementation of BFS and Djikstra's algorithm. Because I got tired of re-implementing them. `shenanigans` is for experimentation, weird macros, and causing trouble.
 
 For nimble packages, the `stint` package is vital for dealing with very large ints. `memo` and `itertools` are sometimes very helpful and convenient.
 

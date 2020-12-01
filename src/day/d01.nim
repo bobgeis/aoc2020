@@ -9,14 +9,16 @@ import std/[algorithm, deques, math, options, os, parsecsv, sequtils, sets,
 # nimble pkgs: https://nimble.directory/
 import pkg/[itertools, memo, stint]
 
-# local lib modules: src/lib/
+# local modules: src/lib/
 import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
-  dayNum = "00"
+  dayNum = "01"
   inputFile = inputFilePath(dayNum)
 
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
+
+echo inputFile
 
 proc part1*(): int =
   result = 1
