@@ -18,15 +18,24 @@ const
 
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
-echo inputFile
+let nums = inputFile.getlines.map(parseInt)
 
 proc part1*(): int =
-  result = 1
-  # assert xxx == result
+  for n in nums:
+    for m in nums:
+      let sum = n + m
+      if sum == 2020:
+        result = n * m
+  assert 1018944 == result
 
 proc part2*(): int =
-  result = 2
-  # assert xxx == result
+  for ni,n in nums:
+    for mi,m in nums:
+      for oi,o in nums:
+        let sum = n + m + o
+        if sum == 2020:
+          result = n * m * o
+  assert 8446464 == result
 
 when isMainModule:
   echo &"Day{dayNum}"
