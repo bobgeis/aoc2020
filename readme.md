@@ -44,103 +44,105 @@ I've included a 'lib' of code I found useful last year. `aocutils` has some util
 
 For nimble packages, the `stint` package is vital for dealing with very large ints. `memo` and `itertools` are sometimes very helpful and convenient.
 
-<!-- ## d01 -->
-<!-- NOT DONE -->
+## d01
 
+[Link](https://adventofcode.com/2020/day/1)
+
+Straightfoward arithmetic. Probably some room for optimization but brute force works. Starts off easy, as is tradition.
 
 <!-- ## d02 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d03 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d04 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d05 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d06 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d07 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d08 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d09 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d10 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d11 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d12 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d13 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d14 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d15 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d16 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d17 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d18 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d19 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d20 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 
 <!-- ## d21 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d22 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d23 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d24 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
 
 <!-- ## d25 -->
-<!-- NOT DONE -->
+<!-- [Link](https://adventofcode.com/2020/day/1) -->
 
