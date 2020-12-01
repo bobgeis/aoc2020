@@ -101,7 +101,9 @@ proc `*.`*[N, A](a, b: Vec[N, A]): A =
   ## Dot product
   for i in 0..a.high:
     result += a[i] * b[i]
-proc dot*[N, A](a, b: Vec[N, A]): A {.inline.} = a *. b ## Dot product
+proc dot*[N, A](a, b: Vec[N, A]): A {.inline.} =
+  ## Dot product
+  a *. b
 
 proc `*%`*[A](a, b: Vec[2, A]): A =
   ## Cross product, Only defined for vectors of length 2 and 3.
@@ -261,8 +263,8 @@ proc getMinMax*[N](hs: HashSet[Vec[N, int]]): (Vec[N, int], Vec[N, int]) =
     mins = highest[N, int]()
     maxs = lowest[N, int]()
   for item in hs.items:
-    mins.min = item
-    maxs.max = item
+    mins.min= item
+    maxs.max= item
   return (mins, maxs)
 
 iterator grid*[T](t: Tab2i[T] or TabR2i[T] or Set2i): Vec2i =
@@ -340,5 +342,13 @@ when isMainModule:
     assert 1 == t[0, 1]
     tr[0,1] = 1
     assert 1 == tr[0,1]
+
+  block:
+    var t = initTable[Vec2i,int]()
+    t[-1,1] = 2
+    t[10,-10] = 0
+    [mn,mx] ..= t.getMinMax
+    assert mn == [-1,-10]
+    assert mx == [10,1]
 
   echo "vecna asserts passed"
