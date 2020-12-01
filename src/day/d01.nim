@@ -18,9 +18,7 @@ const
 
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
-let nums = inputFile.readIntLines
-
-proc part1*(): int =
+proc part1*(nums:seq[int]): int =
   defer: doAssert 1018944 == result
   for n in nums:
     for m in nums:
@@ -28,7 +26,7 @@ proc part1*(): int =
       if sum == 2020 and n != m:
         return n * m
 
-proc part2*(): int =
+proc part2*(nums:seq[int]): int =
   defer: doAssert 8446464 == result
   for n in nums:
     for m in nums:
@@ -39,22 +37,25 @@ proc part2*(): int =
 
 when isMainModule:
   echo &"Day{dayNum}"
+  timeit "Read file":
+    let nums = inputFile.readIntLines
   timeit " ":
-    echo &"Part1 {part1()}"
+    echo &"Part1 is {part1(nums)}"
   timeit " ":
-    echo &"Part2 {part2()}"
+    echo &"Part2 is {part2(nums)}"
 
 #[
 ## Timing for brute force approach (full loops which are O(n^2) and O(n^3) respectively):
 $ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim
 $ time out/runme
 Day01
-Part1 1018944
-  in 15 microseconds and 271 nanoseconds
-Part2 8446464
-  in 1 millisecond, 990 microseconds, and 73 nanoseconds
+Read file in 176 microseconds and 153 nanoseconds
+Part1 is 1018944
+  in 6 microseconds and 596 nanoseconds
+Part2 is 8446464
+  in 1 millisecond, 944 microseconds, and 947 nanoseconds
 
-real    0m0.007s
+real    0m0.006s
 user    0m0.003s
 sys     0m0.002s
 ]#
