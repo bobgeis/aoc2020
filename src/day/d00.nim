@@ -1,6 +1,6 @@
 
-## solution for aoc 2020 day 1
-## https://adventofcode.com/2020/day/1
+## solution for aoc 2020 day 0
+## https://adventofcode.com/2020/day/0
 
 # std lib modules: https://nim-lang.org/docs/lib.html
 import std/[algorithm, deques, math, options, os, parsecsv, sequtils, sets,
@@ -19,15 +19,17 @@ const
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
 proc part1*(): int =
+  # defer: doAssert xxx == result
   result = 1
-  # assert xxx == result
 
 proc part2*(): int =
+  # defer: doAssert xxx == result
   result = 2
-  # assert xxx == result
 
 when isMainModule:
   echo &"Day{dayNum}"
-  echo &"Part1 {part1()}"
-  echo &"Part2 {part2()}"
+  timeit " ":
+    echo &"Part1 is {part1()}"
+  timeit " ":
+    echo &"Part2 is {part2()}"
 
