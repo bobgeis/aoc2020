@@ -18,7 +18,7 @@ const
 
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
-let nums = inputFile.getlines.map(parseInt)
+let nums = inputFile.readIntLines
 
 proc part1*(): int =
   for n in nums:
@@ -29,9 +29,9 @@ proc part1*(): int =
   assert 1018944 == result
 
 proc part2*(): int =
-  for ni,n in nums:
-    for mi,m in nums:
-      for oi,o in nums:
+  for n in nums:
+    for m in nums:
+      for o in nums:
         let sum = n + m + o
         if sum == 2020:
           result = n * m * o
