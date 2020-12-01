@@ -105,6 +105,9 @@ proc getlines*(path: string): seq[string] =
   for line in path.lines:
     result.add line
 
+proc readIntLines*(file:string):seq[int] =
+  file.getlines.map(parseInt)
+
 proc transpose*[T](ss: seq[seq[T]]): seq[seq[T]] =
   result = newSeqOfCap[seq[T]](ss[0].len)
   for i in 0..<ss[0].len:
