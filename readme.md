@@ -50,6 +50,27 @@ For nimble packages, the `stint` package is vital for dealing with very large in
 
 Straightfoward arithmetic. Probably some room for optimization but brute force works. Starts off easy, as is tradition.
 
+I tried a couple ways of improving it: using indices instead of full for..in loops. This made things noticeably faster. Then I tried using algorithms.binarySearch. Surprisingly it made part 1 take about ~3 times longer, but it was so fast to start with, that that's not a big deal. What was more surprising, is that it made part 2 take the about the same amount of time as part 1 (within noise) XD
+
+```sh
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+Day01
+Read file in 143 microseconds and 360 nanoseconds
+Part1 is 1018944
+  in 5 microseconds and 383 nanoseconds
+Part2 is 8446464
+  in 857 microseconds and 658 nanoseconds
+Part1binary is 1018944
+  in 14 microseconds and 576 nanoseconds
+Part2binary is 8446464
+  in 13 microseconds and 794 nanoseconds
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.002s
+```
+
+
 <!-- ## d02 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
 
