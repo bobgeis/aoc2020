@@ -72,98 +72,121 @@ sys     0m0.002s
 
 
 <!-- ## d02 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/2) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d03 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d04 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d05 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d06 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d07 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d08 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d09 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d10 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d11 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d12 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d13 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d14 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d15 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d16 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d17 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d18 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d19 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d20 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
-
+<!-- NOT DONE -->
 
 
 <!-- ## d21 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d22 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d23 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d24 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 
 
 <!-- ## d25 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- NOT DONE -->
 

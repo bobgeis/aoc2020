@@ -1,6 +1,6 @@
 
-## solution for aoc 2020 day XX
-## https://adventofcode.com/2020/day/XX
+## solution for aoc 2020 day 2
+## https://adventofcode.com/2020/day/2
 
 # std lib modules: https://nim-lang.org/docs/lib.html
 import std/[algorithm, deques, math, options, os, parsecsv, sequtils, sets,
@@ -13,8 +13,8 @@ import pkg/[itertools, memo, stint]
 import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
-  dayNum = "XX"
-  inputFile = "data/iXX.txt"
+  dayNum = "02"
+  inputFile = "data/i02.txt"
 
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
@@ -37,7 +37,7 @@ when isMainModule:
 
 #[
 ## Compiler commands:
-nim r src/day/dXX.nim
-nim c --gc:arc -d:danger --opt:speed src/day/dXX.nim && time out/runme
+nim r src/day/d02.nim
+nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/runme
 nim check --warnings:on --hints:on src/day/d01.nim
 ]#
