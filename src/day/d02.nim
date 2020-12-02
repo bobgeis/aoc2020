@@ -3,7 +3,7 @@
 ## https://adventofcode.com/2020/day/2
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[algorithm, deques, math, options, os, parsecsv, sequtils, sets,
+import std/[algorithm, deques, math, memfiles, options, os, parsecsv, sequtils, sets,
     strformat, strscans, strtabs, strutils, sugar, tables, unittest]
 
 # nimble pkgs: https://nimble.directory/
@@ -33,7 +33,9 @@ proc scanline(s:string):Input =
     return (minCount,maxCount,letter[0],pw)
 
 proc parse(path:string):seq[Input] =
-  for line in path.lines:
+  var mm = memfiles.open(path)
+  defer: close(mm)
+  for line in mm.lines:
     result.add line.scanline
 
 proc valid(inp:Input):bool =
@@ -48,15 +50,11 @@ proc valid2(inp:Input):bool =
 
 proc part1*(inputs:seq[Input]): int =
   defer: doAssert 569 == result
-  for inp in inputs:
-    if inp.valid:
-      inc result
+  inputs.countIt(it.valid)
 
 proc part2*(inputs:seq[Input]): int =
   defer: doAssert 346 == result
-  for inp in inputs:
-    if inp.valid2:
-      inc result
+  inputs.countIt(it.valid2)
 
 when isMainModule:
   echo &"Day{dayNum} at #{githash}"
