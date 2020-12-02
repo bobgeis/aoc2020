@@ -52,62 +52,31 @@ Straightfoward arithmetic. Probably some room for optimization but brute force w
 
 I tried a couple ways of improving it: using indices instead of full for..in loops. This made things noticeably faster. Then I tried using algorithms.binarySearch. Surprisingly it made part 1 take about ~3 times longer, but it was so fast to start with, that that's not a big deal. What was more surprising, is that it made part 2 take the about the same amount of time as part 1 (within noise) XD
 
-```sh
+After that I tried sorting everything at read time and made the discovery that with my input, things run drastically faster when sorted! This sort of makes sense given that for my particular input, the vast majority of integers are >1010, so sorting them actually makes something that should be O(n^2) or worse act like something closer to O(n). Trying other people's inputs didn't give quite as drastic a speedup. Next I tried deferring the echo/output until after the timing of the calculation was complete. Some timings are in the codefile.
+
+```
 $ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
 Day01
-Read file in 143 microseconds and 360 nanoseconds
-Part1 is 1018944
-  in 5 microseconds and 383 nanoseconds
-Part2 is 8446464
-  in 857 microseconds and 658 nanoseconds
-Part1binary is 1018944
-  in 14 microseconds and 576 nanoseconds
-Part2binary is 8446464
-  in 13 microseconds and 794 nanoseconds
+
+running my input
+Read file and sort in 159 microseconds and 239 nanoseconds
+Part1 is 1018944 in 1 microsecond and 337 nanoseconds
+Part2 is 8446464 in 236 nanoseconds
+Part1binary is 1018944 in 313 nanoseconds
+Part2binary is 8446464 in 201 nanoseconds
+
+running other's input
+Read file and sort in 96 microseconds and 80 nanoseconds
+Part1 is 840324 in 3 microseconds and 175 nanoseconds
+Part2 is 170098110 in 46 microseconds and 633 nanoseconds
+Part1binary is 840324 in 440 nanoseconds
+Part2binary is 170098110 in 17 microseconds and 44 nanoseconds
 
 real    0m0.004s
-user    0m0.002s
-sys     0m0.002s
-```
-
-Sorting the input actually makes ALL methods significantly faster. At first I thought nim had somehow optimized things to the point of putting the results directly in the binary. Inspecting the input, the vast majority of numbers are >1010, which means one or two of the numbers used will be early in the sorted seq. This effectively turns the problem into a near-linear search (at least for my input) :P
-```sh
-$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
-Day01
-Read file and sort in 144 microseconds and 933 nanoseconds
-Part1 is 1018944
-  in 1 microsecond and 881 nanoseconds
-Part2 is 8446464
-  in 1 microsecond and 458 nanoseconds
-Part1binary is 1018944
-  in 1 microsecond and 506 nanoseconds
-Part2binary is 8446464
-  in 1 microsecond and 369 nanoseconds
-
-real    0m0.003s
 user    0m0.001s
 sys     0m0.001s
 ```
 
-Running the same sorted program over someone else's input (that was a bit more varied than the one I got) gave slightly less absurd times:
-
-```sh
-$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
-Day01
-Read file and sort in 166 microseconds and 544 nanoseconds
-Part1 is 840324
-  in 5 microseconds and 504 nanoseconds
-Part2 is 170098110
-  in 42 microseconds and 75 nanoseconds
-Part1binary is 840324
-  in 1 microsecond and 684 nanoseconds
-Part2binary is 170098110
-  in 14 microseconds and 174 nanoseconds
-
-real    0m0.006s
-user    0m0.001s
-sys     0m0.002s
-```
 
 <!-- ## d02 -->
 <!-- [Link](https://adventofcode.com/2020/day/2) -->
