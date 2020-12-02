@@ -28,13 +28,12 @@ proc part1*(nums:seq[int]): int =
 
 proc part1binary*(nums:seq[int]): int =
   defer: doAssert 1018944 == result
-  let ns = nums.sorted
-  for i in 0..ns.high:
+  for i in 0..nums.high:
     let
-      x = 2020 - ns[i]
-      j = ns.binarySearch(x)
+      x = 2020 - nums[i]
+      j = nums.binarySearch(x)
     if j != -1 and i != j:
-      return x * ns[i]
+      return x * nums[i]
 
 proc part2*(nums:seq[int]): int =
   defer: doAssert 8446464 == result
@@ -47,19 +46,18 @@ proc part2*(nums:seq[int]): int =
 
 proc part2binary*(nums:seq[int]): int =
   defer: doAssert 8446464 == result
-  let ns = nums.sorted
-  for i in 0..ns.high:
-    for j in i..ns.high:
+  for i in 0..nums.high:
+    for j in i..nums.high:
       let
-        x = 2020 - ns[i] - ns[j]
-        k = ns.binarySearch(x)
+        x = 2020 - nums[i] - nums[j]
+        k = nums.binarySearch(x)
       if k != -1 and i != j and i != k and k != j:
-        return x * ns[i] * ns[j]
+        return x * nums[i] * nums[j]
 
 when isMainModule:
   echo &"Day{dayNum}"
-  timeit "Read file":
-    let nums = inputFile.readIntLines
+  timeit "Read file and sort":
+    let nums = inputFile.readIntLines.sorted
   timeit " ":
     echo &"Part1 is {part1(nums)}"
   timeit " ":
@@ -88,4 +86,26 @@ Part2binary is 8446464
 real    0m0.004s
 user    0m0.002s
 sys     0m0.002s
+]#
+
+#[
+## Sorting the input actually makes ALL methods significantly faster.
+## Inspecting the input, the vast majority of numbers are >1010, which
+## means one or two of the numbers used will be early in the sorted seq.
+## This effectively turns the problem into a near linear search :P
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+Day01
+Read file and sort in 144 microseconds and 933 nanoseconds
+Part1 is 1018944
+  in 1 microsecond and 881 nanoseconds
+Part2 is 8446464
+  in 1 microsecond and 458 nanoseconds
+Part1binary is 1018944
+  in 1 microsecond and 506 nanoseconds
+Part2binary is 8446464
+  in 1 microsecond and 369 nanoseconds
+
+real    0m0.003s
+user    0m0.001s
+sys     0m0.001s
 ]#

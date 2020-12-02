@@ -70,6 +70,24 @@ user    0m0.002s
 sys     0m0.002s
 ```
 
+Sorting the input actually makes ALL methods significantly faster. At first I thought nim had somehow optimized things to the point of putting the results directly in the binary. Inspecting the input, the vast majority of numbers are >1010, which means one or two of the numbers used will be early in the sorted seq. This effectively turns the problem into a near-linear search (at least for my input) :P
+```sh
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+Day01
+Read file and sort in 144 microseconds and 933 nanoseconds
+Part1 is 1018944
+  in 1 microsecond and 881 nanoseconds
+Part2 is 8446464
+  in 1 microsecond and 458 nanoseconds
+Part1binary is 1018944
+  in 1 microsecond and 506 nanoseconds
+Part2binary is 8446464
+  in 1 microsecond and 369 nanoseconds
+
+real    0m0.003s
+user    0m0.001s
+sys     0m0.001s
+```
 
 <!-- ## d02 -->
 <!-- [Link](https://adventofcode.com/2020/day/2) -->
