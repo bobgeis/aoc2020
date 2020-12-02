@@ -3,8 +3,10 @@
 ## https://adventofcode.com/2020/day/XX
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[algorithm, deques, math, options, os, parsecsv, sequtils, sets,
-    strformat, strscans, strtabs, strutils, sugar, tables, unittest]
+import std/[
+  algorithm, deques, math, options, os, parsecsv,
+  sequtils, sets, strformat, strscans, strtabs,
+  strutils, sugar, tables, unittest]
 
 # nimble pkgs: https://nimble.directory/
 import pkg/[itertools, memo, stint]
@@ -15,33 +17,41 @@ import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 const
   githash = staticexec "git rev-parse --short HEAD"
   dayNum = "XX"
-  inputFile = &"data/i{dayNum}.txt"
+  dayFile = &"data/i{dayNum}.txt"
 
+proc getPath():string = commandLineParams().getOr(0,dayFile)
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
 proc part1*(): int =
-  # defer: doAssert xxx == result
   result = 1
 
 proc part2*(): int =
-  # defer: doAssert xxx == result
   result = 2
 
-when isMainModule:
+proc run*(path:string=dayFile) =
   echo &"Day{dayNum} at #{githash}"
   var input:seq[string]
   timeit "Read file":
-    input = inputFile.getlines
+    input = path.getlines
   var res1:int
   timeit &"Part1 is {res1}":
     res1 = part1()
+    # if path == dayFile: check res1 == ?
   var res2:int
   timeit &"Part2 is {res2}":
     res2 = part2()
+    # if path == dayFile: check res2 == ?
+
+when isMainModule:
+  getPath().run()
 
 #[
-## Compiler commands:
-nim r src/day/dXX.nim
-nim c --gc:arc -d:danger --opt:speed src/day/dXX.nim && time out/runme
-nim check --warnings:on --hints:on src/day/d01.nim
+  Compiler commands:
+```sh
+export DAY="src/day/dXX.nim
+nim r $DAY
+nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+nim check --warnings:on --hints:on $DAY
+nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
+```
 ]#

@@ -43,7 +43,7 @@ hint("Conf",false)
 switch("hints","off")
 switch("warnings","off")
 switch("verbosity", "0")
-switch("out",&"{nimOutDir}/runme")
+switch("out",&"{nimOutDir}/run")
 
 proc excho(cmd:string) =
   echo cmd

@@ -83,3 +83,17 @@ real    0m0.004s
 user    0m0.002s
 sys     0m0.001s
 ]#
+
+#[
+  Strangely, removing the defer:doAssert from part1() and part2() made things _slower!_ I suspect this is due to some poor interaction between defer and my timing template. It doesn't make sense that adding a doAssert would make things faster.
+$ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run
+
+Day02 at #1957146
+Read file and parse in 392 microseconds and 509 nanoseconds
+Part1 is 569 in 22 microseconds and 486 nanoseconds
+Part2 is 346 in 5 microseconds and 965 nanoseconds
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+]#
