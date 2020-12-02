@@ -78,10 +78,22 @@ sys     0m0.001s
 ```
 
 
-<!-- ## d02 -->
-<!-- [Link](https://adventofcode.com/2020/day/2) -->
-<!-- NOT DONE -->
+## d02
+[Link](https://adventofcode.com/2020/day/2)
 
+Straightforward logic, but now we're parsing a more complicated input file.
+
+```
+$ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/runme
+Day02 at #19c4133
+Read file and parse in 517 microseconds and 801 nanoseconds
+Part1 is 569 in 17 microseconds and 442 nanoseconds
+Part2 is 346 in 1 microsecond and 794 nanoseconds
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.001s
+```
 
 <!-- ## d03 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
