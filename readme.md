@@ -89,6 +89,26 @@ user    0m0.001s
 sys     0m0.001s
 ```
 
+Running the same sorted program over someone else's input (that was a bit more varied than the one I got) gave slightly less absurd times:
+
+```sh
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+Day01
+Read file and sort in 166 microseconds and 544 nanoseconds
+Part1 is 840324
+  in 5 microseconds and 504 nanoseconds
+Part2 is 170098110
+  in 42 microseconds and 75 nanoseconds
+Part1binary is 840324
+  in 1 microsecond and 684 nanoseconds
+Part2binary is 170098110
+  in 14 microseconds and 174 nanoseconds
+
+real    0m0.006s
+user    0m0.001s
+sys     0m0.002s
+```
+
 <!-- ## d02 -->
 <!-- [Link](https://adventofcode.com/2020/day/2) -->
 <!-- NOT DONE -->

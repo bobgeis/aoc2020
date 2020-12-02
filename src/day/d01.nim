@@ -58,20 +58,21 @@ when isMainModule:
   echo &"Day{dayNum}"
   timeit "Read file and sort":
     let nums = inputFile.readIntLines.sorted
-  timeit " ":
-    echo &"Part1 is {part1(nums)}"
-  timeit " ":
-    echo &"Part2 is {part2(nums)}"
-  timeit " ":
-    echo &"Part1binary is {part1binary(nums)}"
-  timeit " ":
-    echo &"Part2binary is {part2binary(nums)}"
+  var val:int
+  timeit &"Part1 is {val}":
+    val = part1(nums)
+  timeit &"Part2 is {val}":
+    val = part2(nums)
+  timeit &"Part1binary is {val}":
+    val = part1binary(nums)
+  timeit &"Part2binary is {val}":
+    val = part2binary(nums)
 
 #[
 ## Timing for brute force approach (full loops which are O(n^2) and O(n^3)
 ## respectively), also for binary search approach (sort then binary search
 ## for last number, O(nlgn) and O(n^2lgn) respectively)
-$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
 Day01
 Read file in 143 microseconds and 360 nanoseconds
 Part1 is 1018944
@@ -106,6 +107,21 @@ Part2binary is 8446464
   in 1 microsecond and 369 nanoseconds
 
 real    0m0.003s
+user    0m0.001s
+sys     0m0.001s
+]#
+
+#[
+## Also deferring the echo until after the calculation is complete also makes each computation faster.
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+Day01
+Read file and sort in 165 microseconds and 295 nanoseconds
+Part1 is 1018944 in 329 nanoseconds
+Part2 is 8446464 in 300 nanoseconds
+Part1binary is 1018944 in 321 nanoseconds
+Part2binary is 8446464 in 624 nanoseconds
+
+real    0m0.004s
 user    0m0.001s
 sys     0m0.001s
 ]#
