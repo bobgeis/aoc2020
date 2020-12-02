@@ -3,34 +3,31 @@
 ## https://adventofcode.com/2020/day/2
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[algorithm, deques, math, memfiles, options, os, parsecsv, sequtils, sets,
-    strformat, strscans, strtabs, strutils, sugar, tables, unittest]
-
-# nimble pkgs: https://nimble.directory/
-import pkg/[itertools, memo, stint]
+import std/[ memfiles, os, sequtils,
+    strformat, strscans, unittest]
 
 # local lib modules: src/lib/
-import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
+import lib/[bedrock, shenanigans]
 
 const
   githash = staticexec "git rev-parse --short HEAD"
   dayNum = "02"
-  inputFile = &"data/i{dayNum}.txt"
+  dayFile = &"data/i{dayNum}.txt"
 
-proc testFile(i: int): string = inputTestFilePath(dayNum, i)
+proc getPath():string = commandLineParams().getOr(0,dayFile)
 
 type Input = tuple
-  min,max:int
+  lo,hi:int
   c:char
   pw:string
 
 proc scanline(s:string):Input =
   var
-    minCount,maxCount:int
-    letter:string
+    lo,hi:int
+    cs:string
     pw:string
-  if s.scanf("$i-$i $w: $w",minCount,maxCount,letter,pw):
-    return (minCount,maxCount,letter[0],pw)
+  if s.scanf("$i-$i $w: $w",lo,hi,cs,pw):
+    return (lo,hi,cs[0],pw)
 
 proc parse(path:string):seq[Input] =
   var mm = memfiles.open(path)
@@ -39,45 +36,44 @@ proc parse(path:string):seq[Input] =
     result.add line.scanline
 
 proc valid(inp:Input):bool =
-  var count = 0
-  for c in inp.pw:
-    if c == inp.c:
-      inc count
-  count in inp.min..inp.max
+  inp.pw.countIt(it == inp.c) in inp.lo..inp.hi
 
 proc valid2(inp:Input):bool =
-  (inp.pw[inp.min-1] == inp.c) xor (inp.pw[inp.max-1] == inp.c)
+  (inp.pw[inp.lo-1] == inp.c) xor (inp.pw[inp.hi-1] == inp.c)
 
 proc part1*(inputs:seq[Input]): int =
-  defer: doAssert 569 == result
   inputs.countIt(it.valid)
 
 proc part2*(inputs:seq[Input]): int =
-  defer: doAssert 346 == result
   inputs.countIt(it.valid2)
 
-when isMainModule:
+proc run*(path:string=dayFile) =
   echo &"Day{dayNum} at #{githash}"
   var inputs:seq[Input]
   timeit "Read file and parse":
-    inputs = inputFile.parse
+    inputs = path.parse
   var res1:int
   timeit &"Part1 is {res1}":
     res1 = part1(inputs)
+    if path == dayFile: check res1 == 569
   var res2:int
   timeit &"Part2 is {res2}":
     res2 = part2(inputs)
+    if path == dayFile: check res2 == 346
+
+when isMainModule:
+  getPath().run()
 
 #[
 ## Compiler commands:
 nim r src/day/d02.nim
-nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/runme
-nim check --warnings:on --hints:on src/day/d01.nim
+nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run
+nim check --warnings:on --hints:on src/day/d02.nim
+nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed src/day/d02.nim
 ]#
 
 #[
-  First attempt
-$ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/runme
+$ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run
 Day02 at #19c4133
 Read file and parse in 517 microseconds and 801 nanoseconds
 Part1 is 569 in 17 microseconds and 442 nanoseconds
