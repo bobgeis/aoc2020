@@ -13,8 +13,9 @@ import pkg/[itertools, memo, stint]
 import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
+  githash = staticexec "git rev-parse --short HEAD"
   dayNum = "XX"
-  inputFile = "data/iXX.txt"
+  inputFile = &"data/i{dayNum}.txt"
 
 proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 
@@ -27,13 +28,16 @@ proc part2*(): int =
   result = 2
 
 when isMainModule:
-  echo &"Day{dayNum}"
-  var val1:int
-  timeit &"Part1 is {val1}":
-    val1 = part1()
-  var val2:int
-  timeit &"Part2 is {val2}":
-    val2 = part2()
+  echo &"Day{dayNum} at #{githash}"
+  var input:seq[string]
+  timeit "Read file":
+    input = inputFile.getlines
+  var res1:int
+  timeit &"Part1 is {res1}":
+    res1 = part1()
+  var res2:int
+  timeit &"Part2 is {res2}":
+    res2 = part2()
 
 #[
 ## Compiler commands:
