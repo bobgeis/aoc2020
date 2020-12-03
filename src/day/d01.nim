@@ -12,7 +12,6 @@ const
   githash = staticexec "git rev-parse --short HEAD"
   dayNum = "01"
   dayFile = &"data/i{dayNum}.txt"
-  othersFile = "data/i01others.txt"
 
 proc getPath():string = commandLineParams().getOr(0,dayFile)
 
