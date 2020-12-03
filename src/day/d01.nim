@@ -3,26 +3,27 @@
 ## https://adventofcode.com/2020/day/1
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[algorithm, strformat]
+import std/[algorithm, os, strformat, unittest]
 
 # local modules: src/lib/
-import lib/[aocutils, shenanigans]
+import lib/[aocutils, bedrock, shenanigans]
 
 const
+  githash = staticexec "git rev-parse --short HEAD"
   dayNum = "01"
-  inputFile = inputFilePath(dayNum)
-  inputFileOthers = "data/i01others.txt"
+  dayFile = &"data/i{dayNum}.txt"
+  othersFile = "data/i01others.txt"
 
-proc part1*(nums: seq[int]): int =
-  defer: assert 1018944 == result
+proc getPath():string = commandLineParams().getOr(0,dayFile)
+
+proc part1brute*(nums: seq[int]): int =
   for i in 0..nums.high:
     for j in i..nums.high:
       let sum = nums[i] + nums[j]
       if sum == 2020 and i != j:
         return nums[i] * nums[j]
 
-proc part1binary*(nums: seq[int]): int =
-  defer: assert 1018944 == result
+proc part1*(nums: seq[int]): int =
   for i in 0..nums.high:
     let
       x = 2020 - nums[i]
@@ -30,8 +31,7 @@ proc part1binary*(nums: seq[int]): int =
     if j != -1 and i != j:
       return x * nums[i]
 
-proc part2*(nums: seq[int]): int =
-  defer: assert 8446464 == result
+proc part2brute*(nums: seq[int]): int =
   for i in 0..nums.high:
     for j in i..nums.high:
       for k in j..nums.high:
@@ -39,8 +39,7 @@ proc part2*(nums: seq[int]): int =
         if sum == 2020 and i != j and i != k and k != j:
           return nums[i] * nums[j] * nums[k]
 
-proc part2binary*(nums: seq[int]): int =
-  defer: assert 8446464 == result
+proc part2*(nums: seq[int]): int =
   for i in 0..nums.high:
     for j in i..nums.high:
       let
@@ -49,33 +48,28 @@ proc part2binary*(nums: seq[int]): int =
       if k != -1 and i != j and i != k and k != j:
         return x * nums[i] * nums[j]
 
-proc runParts(path:string) =
+proc run*(path=dayFile) =
+  echo &"Day{dayNum} at #{githash}"
   var nums:seq[int]
   timeit "Read file and sort":
     nums = path.readIntLines.sorted
-  var val: int
-  timeit &"Part1 is {val}":
-    val = part1(nums)
-  timeit &"Part2 is {val}":
-    val = part2(nums)
-  timeit &"Part1binary is {val}":
-    val = part1binary(nums)
-  timeit &"Part2binary is {val}":
-    val = part2binary(nums)
+  var res1:int
+  timeit &"Part1 is {res1}":
+    res1 = part1(nums)
+    if path == dayFile: check res1 == 1018944
+  var res2:int
+  timeit &"Part2 is {res2}":
+    res2 = part2(nums)
+    if path == dayFile: check res2 == 8446464
 
 when isMainModule:
-  echo &"Day{dayNum}"
-  echo ""
-  echo "running my input"
-  runParts(inputFile)
-  echo ""
-  echo "running other's input"
-  runParts("data/i01others.txt")
+  getPath().run()
 
 #[
 ## Compiler commands
 nim r src/day/d01.nim
-nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/runme
+nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/run
+nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/run data/i01others.txt
 nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed src/day/d01.nim
 ]#
 
