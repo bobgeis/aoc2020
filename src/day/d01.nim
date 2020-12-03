@@ -160,3 +160,29 @@ real    0m0.004s
 user    0m0.001s
 sys     0m0.001s
 ]#
+
+#[
+  After re-aligning with the template:
+
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/run
+
+Day01 at #e8363de
+Read file and sort in 156 microseconds and 805 nanoseconds
+Part1 is 1018944 in 3 microseconds and 923 nanoseconds
+Part2 is 8446464 in 268 nanoseconds
+
+real    0m0.006s
+user    0m0.001s
+sys     0m0.002s
+
+$ nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/run data/i01others.txt
+
+Day01 at #e8363de
+Read file and sort in 150 microseconds and 775 nanoseconds
+Part1 is 840324 in 425 nanoseconds
+Part2 is 170098110 in 12 microseconds and 699 nanoseconds
+
+real    0m0.003s
+user    0m0.001s
+sys     0m0.001s
+]#
