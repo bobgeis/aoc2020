@@ -87,7 +87,7 @@ proc clamp*[A: SomeNumber](v, max: A): A {.inline.} =
 
 proc wrap*[A: SomeNumber](v, min, max: A): A {.inline.} =
   return if v < min: v + (max - min)
-    elif v > max: v - (max - min)
+    elif v >= max: v - (max - min)
     else: v
 
 proc wrap*[A: SomeNumber](v, max: A): A {.inline.} =
