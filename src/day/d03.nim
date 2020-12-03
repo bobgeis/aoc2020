@@ -3,19 +3,12 @@
 ## https://adventofcode.com/2020/day/3
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[
-  algorithm, deques, math, options, os, parsecsv,
-  sequtils, sets, strformat, strscans, strtabs,
-  strutils, sugar, tables, unittest]
-
-# nimble pkgs: https://nimble.directory/
-import pkg/[itertools, memo, stint]
+import std/[ strformat, unittest]
 
 # local lib modules: src/lib/
-import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
+import lib/[aocutils, bedrock, shenanigans, vecna]
 
 const
-  githash = staticexec "git rev-parse --short HEAD"
   day = "03"
   inPath = inputPath(day)
   testPath = inputPath("03t1")
@@ -46,15 +39,19 @@ proc run*(path:string=inPath) =
   var res1:int
   timeit &"Part1 is {res1}":
     res1 = part1(input)
-  case path
-  of inPath: check res1 == 278
-  of testPath: check res1 == 7
   var res2:int
   timeit &"Part2 is {res2}":
     res2 = part2(input)
   case path
-  of inPath: check res2 == 9709761600
-  of testPath: check res2 == 336
+  of inPath:
+    check res1 == 278
+    check res2 == 9709761600
+  of testPath:
+    check res1 == 7
+    check res2 == 336
+  of otherPath:
+    check res1 == 257
+    check res2 == 1744787392
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)

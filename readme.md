@@ -98,10 +98,23 @@ user    0m0.001s
 sys     0m0.001s
 ```
 
-<!-- ## d03 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
-<!-- NOT DONE -->
+## d03
+[Link](https://adventofcode.com/2020/day/1)
 
+Not too complicated, just need to move across the grid and count trees. Part 2 can re-use the function from part 1 if you make the slope an argument.
+
+```
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+
+Day03 for in/i03.txt
+Read file in 126 microseconds and 892 nanoseconds
+Part1 is 278 in 1 microsecond and 874 nanoseconds
+Part2 is 9709761600 in 6 microseconds and 517 nanoseconds
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+```
 
 <!-- ## d04 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
