@@ -25,12 +25,13 @@ proc testFile(i: int): string = inputTestFilePath(dayNum, i)
 proc part1*(input:seq[string], slope:Vec2i=[3,1]): int =
   var
     pos = [0,0]
+    w = input[0].len
   for y in 0..input.high:
     if pos.y > input.high: return
     if input[pos.y][pos.x] == '#':
       inc result
     pos += slope
-    pos.x = pos.x.wrap(input[0].len)
+    pos.x = pos.x.wrap(w)
 
 proc part2*(input:seq[string]): int =
   let slopes = [[1,1],[3,1],[5,1],[7,1],[1,2]]
@@ -69,4 +70,16 @@ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
 nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
 ```
+]#
+
+#[
+  $ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+Day03 at #4eadcd4
+Read file in 122 microseconds and 717 nanoseconds
+Part1 is 278 in 1 microsecond and 576 nanoseconds
+Part2 is 9709761600 in 6 microseconds and 464 nanoseconds
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.002s
 ]#
