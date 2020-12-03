@@ -2,7 +2,7 @@
 ## This file is for miscellanious utilities.  It may import from the std libs or nimble libs, but from no local files.  It should contain generally useful procs, things that you potentially might have wished were in the std lib.
 ## Note that lots of things are in modules in the std lib, such as `reverse` and `reversed` which are in the `algorithms` std module. Try to be thorough in your search before you add something here.
 
-import std/[macros, monotimes, sequtils, strformat, strutils, tables, times]
+import std/[macros, memfiles, monotimes, sequtils, strformat, strutils, sugar, tables, times]
 
 proc square*(n: SomeNumber): SomeNumber = n * n
 
@@ -102,8 +102,16 @@ proc err*(msg = "Error!") =
   raise newException(Exception, msg)
 
 proc getlines*(path: string): seq[string] =
-  for line in path.lines:
+  var f = memfiles.open(path)
+  defer: f.close
+  for line in f.lines:
     result.add line
+
+proc parselines*[T](path:string, cb:(string)->T):seq[T] =
+  var f = memfiles.open(path)
+  defer: f.close
+  for line in f.lines:
+    result.add line.cb
 
 proc transpose*[T](ss: seq[seq[T]]): seq[seq[T]] =
   result = newSeqOfCap[seq[T]](ss[0].len)
