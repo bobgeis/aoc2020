@@ -7,14 +7,14 @@ import std/[ memfiles, os, sequtils,
     strformat, strscans, unittest]
 
 # local lib modules: src/lib/
-import lib/[bedrock, shenanigans]
+import lib/[aocutils, bedrock, shenanigans]
 
 const
   githash = staticexec "git rev-parse --short HEAD"
-  dayNum = "02"
-  dayFile = &"data/i{dayNum}.txt"
+  day = "02"
+  inPath = inputPath(day)
 
-proc getPath():string = commandLineParams().getOr(0,dayFile)
+proc getPath():string = commandLineParams().getOr(0,inPath)
 
 type Input = tuple
   lo,hi:int
@@ -47,22 +47,26 @@ proc part1*(inputs:seq[Input]): int =
 proc part2*(inputs:seq[Input]): int =
   inputs.countIt(it.valid2)
 
-proc run*(path:string=dayFile) =
-  echo &"Day{dayNum} at #{githash}"
+proc run*(path:string=inPath) =
+  echo &"Day{day} for {path}"
   var inputs:seq[Input]
   timeit "Read file and parse":
     inputs = path.parse
   var res1:int
   timeit &"Part1 is {res1}":
     res1 = part1(inputs)
-    if path == dayFile: check res1 == 569
+    if path == inPath: check res1 == 569
   var res2:int
   timeit &"Part2 is {res2}":
     res2 = part2(inputs)
-    if path == dayFile: check res2 == 346
+    if path == inPath: check res2 == 346
 
 when isMainModule:
-  getPath().run()
+  var paths = getCliPaths(default=inPath)
+  for path in paths:
+    echo ""
+    path.run
+
 
 #[
 ## Compiler commands:

@@ -3,10 +3,7 @@
 ## https://adventofcode.com/2020/day/XX
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[
-  algorithm, deques, math, options, os, parsecsv,
-  sequtils, sets, strformat, strscans, strtabs,
-  strutils, sugar, tables, unittest]
+import std/[ algorithm, deques, math, options, os, parsecsv, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
 
 # nimble pkgs: https://nimble.directory/
 import pkg/[itertools, memo, stint]
@@ -16,11 +13,10 @@ import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
   githash = staticexec "git rev-parse --short HEAD"
-  dayNum = "XX"
-  dayFile = &"data/i{dayNum}.txt"
+  day = "XX"
+  inPath = inputPath(day)
 
-proc getPath():string = commandLineParams().getOr(0,dayFile)
-proc testFile(i: int): string = inputTestFilePath(dayNum, i)
+proc getPath():string = commandLineParams().getOr(0,inPath)
 
 proc part1*(): int =
   result = 1
@@ -28,22 +24,27 @@ proc part1*(): int =
 proc part2*(): int =
   result = 2
 
-proc run*(path:string=dayFile) =
-  echo &"Day{dayNum} at #{githash}"
+proc run*(path:string=inPath) =
+  echo &"Day{day} for {path}"
   var input:seq[string]
   timeit "Read file":
     input = path.getlines
   var res1:int
   timeit &"Part1 is {res1}":
     res1 = part1()
-    # if path == dayFile: check res1 == ?
   var res2:int
   timeit &"Part2 is {res2}":
     res2 = part2()
-    # if path == dayFile: check res2 == ?
+  # case path
+  # of inPath:
+  #   check res2 == ?
+  #   check res1 == ?
 
 when isMainModule:
-  getPath().run()
+  var paths = getCliPaths(default=inPath)
+  for path in paths:
+    echo ""
+    path.run
 
 #[
   Compiler commands:

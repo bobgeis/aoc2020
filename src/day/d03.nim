@@ -16,11 +16,10 @@ import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
   githash = staticexec "git rev-parse --short HEAD"
-  dayNum = "03"
-  dayFile = &"data/i{dayNum}.txt"
-
-proc getPath():string = commandLineParams().getOr(0,dayFile)
-proc testFile(i: int): string = inputTestFilePath(dayNum, i)
+  day = "03"
+  inPath = inputPath(day)
+  testPath = inputPath("03t1")
+  otherPath = inputPath("03o1")
 
 proc part1*(input:seq[string], slope:Vec2i=[3,1]): int =
   var
@@ -39,8 +38,8 @@ proc part2*(input:seq[string]): int =
   for slope in slopes:
     result *= part1(input,slope)
 
-proc run*(path:string=dayFile) =
-  echo &"Day{dayNum} at #{githash}"
+proc run*(path:string=inPath) =
+  echo &"Day{day} for {path}"
   var input:seq[string]
   timeit "Read file":
     input = path.getlines
@@ -48,17 +47,20 @@ proc run*(path:string=dayFile) =
   timeit &"Part1 is {res1}":
     res1 = part1(input)
   case path
-  of dayFile: check res1 == 278
-  of "data/i03t1.txt": check res1 == 7
+  of inPath: check res1 == 278
+  of testPath: check res1 == 7
   var res2:int
   timeit &"Part2 is {res2}":
     res2 = part2(input)
   case path
-  of dayFile: check res2 == 9709761600
-  of "data/i03t1.txt": check res2 == 336
+  of inPath: check res2 == 9709761600
+  of testPath: check res2 == 336
 
 when isMainModule:
-  getPath().run()
+  var paths = getCliPaths(default=inPath)
+  for path in paths:
+    echo ""
+    path.run
 
 #[
   Compiler commands:
