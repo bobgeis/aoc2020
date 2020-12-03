@@ -48,7 +48,7 @@ when isMainModule:
 #[
   Compiler commands:
 ```sh
-export DAY="src/day/dXX.nim
+export DAY="src/day/dXX.nim"
 nim r $DAY
 nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
