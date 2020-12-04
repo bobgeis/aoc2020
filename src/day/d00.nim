@@ -12,7 +12,6 @@ import pkg/[itertools, memo, stint]
 import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
-  githash = staticexec "git rev-parse --short HEAD"
   day = "XX"
   inPath = inputPath(day)
 
