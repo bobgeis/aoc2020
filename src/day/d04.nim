@@ -3,16 +3,12 @@
 ## https://adventofcode.com/2020/day/4
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ algorithm, deques, math, memfiles, options, os, parsecsv, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
-
-# nimble pkgs: https://nimble.directory/
-import pkg/[itertools, memo, stint]
+import std/[ sequtils, sets, strformat, strscans, strutils, unittest]
 
 # local lib modules: src/lib/
-import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
+import lib/[aocutils, bedrock, shenanigans]
 
 const
-  githash = staticexec "git rev-parse --short HEAD"
   day = "04"
   inPath = inputPath(day)
   testPath = inputPath("04t1")
@@ -29,40 +25,54 @@ cid (Country ID)
 ]#
 
 type
+  FieldKind = enum
+    fkByr,fkIyr,fkEyr,fkHgt,fkHcl,fkEcl,fkPid,fkCid
   PassPort = object
     byr,iyr,eyr,hgt,hcl,ecl,pid,cid:string
     valid:bool
+
+proc toFieldKind(s:string):FieldKind =
+  case s
+    of "byr": fkByr
+    of "iyr": fkIyr
+    of "eyr": fkEyr
+    of "hgt": fkHgt
+    of "hcl": fkHcl
+    of "ecl": fkEcl
+    of "pid": fkPid
+    of "cid": fkCid
+    else:
+      err &"Unrecognized passport field: {s}"
+      fkCid
 
 proc readpp(s:string):PassPort =
   var reqs = 0
   for kv in s.split({'\n',' '}):
     [k,v] ..= kv.split(':')
-    case k
-    of "byr":
+    case k.toFieldKind
+    of fkByr:
       result.byr = v
       inc reqs
-    of "iyr":
+    of fkIyr:
       result.iyr = v
       inc reqs
-    of "eyr":
+    of fkEyr:
       result.eyr = v
       inc reqs
-    of "hgt":
+    of fkHgt:
       result.hgt = v
       inc reqs
-    of "hcl":
+    of fkHcl:
       result.hcl = v
       inc reqs
-    of "ecl":
+    of fkEcl:
       result.ecl = v
       inc reqs
-    of "pid":
+    of fkpid:
       result.pid = v
       inc reqs
-    of "cid":
+    of fkcid:
       result.byr = v
-    else:
-      err &"unrecognized passport key{k}"
   if reqs == 7:
     result.valid = true
 
@@ -74,20 +84,20 @@ proc readpp2(s:string):PassPort =
   var reqs = 0
   for kv in s.split({'\n',' '}):
     [k,v] ..= kv.split(':')
-    case k
-    of "byr":
+    case k.toFieldKind
+    of fkbyr:
       if v.parseInt in 1920..2002:
         result.byr = v
         inc reqs
-    of "iyr":
+    of fkiyr:
       if v.parseInt in 2010..2020:
         result.iyr = v
         inc reqs
-    of "eyr":
+    of fkeyr:
       if v.parseInt in 2020..2030:
         result.eyr = v
         inc reqs
-    of "hgt":
+    of fkhgt:
       var
         h:int
         u:string
@@ -95,22 +105,20 @@ proc readpp2(s:string):PassPort =
       ((u == "in" and h in 59..76) or (u == "cm" and h in 150..193)):
         result.hgt = v
         inc reqs
-    of "hcl":
+    of fkhcl:
       if v.len == 7 and v[0] == '#' and v[1..v.high].allit(it in chars):
         result.hcl = v
         inc reqs
-    of "ecl":
+    of fkecl:
       if v in eyecolors:
         result.ecl = v
         inc reqs
-    of "pid":
+    of fkpid:
       if v.len == 9 and v.parseInt >= 0:
         result.pid = v
         inc reqs
-    of "cid":
+    of fkcid:
       result.byr = v
-    else:
-      err &"unrecognized passport key{k}"
   if reqs == 7:
     result.valid = true
 
@@ -157,4 +165,32 @@ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
 nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
 ```
+]#
+
+#[
+  First solution:
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+
+Day04 for in/i04.txt
+Read file in 349 microseconds and 171 nanoseconds
+Part1 is 182 in 616 microseconds and 107 nanoseconds
+Part2 is 109 in 688 microseconds and 88 nanoseconds
+
+real    0m0.007s
+user    0m0.003s
+sys     0m0.002s
+]#
+
+#[
+  Slight changes
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+
+Day04 for in/i04.txt
+Read file in 285 microseconds and 246 nanoseconds
+Part1 is 182 in 471 microseconds and 272 nanoseconds
+Part2 is 109 in 591 microseconds and 991 nanoseconds
+
+real    0m0.006s
+user    0m0.002s
+sys     0m0.002s
 ]#
