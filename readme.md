@@ -116,10 +116,27 @@ user    0m0.001s
 sys     0m0.001s
 ```
 
-<!-- ## d04 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
-<!-- NOT DONE -->
+## d04
+[Link](https://adventofcode.com/2020/day/1)
 
+The parsing is more complicated but otherwise straightforward.
+
+There's a version of the split proc that lets you split on a string, so a string of two newlines `input.split("\n\n")` got you a seq of passports. Then to get key-value pairs you can split on a character set of space and newline `s.split({' ','\n'})`, or on whitespace `s.splitWhitespace`, and then split again on colon. At that point I used parseint, scanf, or iterating over characters.
+
+Initially I thought that we were going to do something more complicated with the passports, so I put them into an object type. Of course we just care if they're valid or not XD Later I used a template to reduce some repetition.
+
+```
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+
+Day04 for in/i04.txt
+Read file in 174 microseconds and 43 nanoseconds
+Part1 is 182 in 404 microseconds and 558 nanoseconds
+Part2 is 109 in 345 microseconds and 443 nanoseconds
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.001s
+```
 
 <!-- ## d05 -->
 <!-- [Link](https://adventofcode.com/2020/day/1) -->
