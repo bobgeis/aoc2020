@@ -24,112 +24,68 @@ pid (Passport ID)
 cid (Country ID)
 ]#
 
-type
-  FieldKind = enum
-    fkByr,fkIyr,fkEyr,fkHgt,fkHcl,fkEcl,fkPid,fkCid
-  PassPort = object
-    byr,iyr,eyr,hgt,hcl,ecl,pid,cid:string
-    valid:bool
-
-proc toFieldKind(s:string):FieldKind =
-  case s
-    of "byr": fkByr
-    of "iyr": fkIyr
-    of "eyr": fkEyr
-    of "hgt": fkHgt
-    of "hcl": fkHcl
-    of "ecl": fkEcl
-    of "pid": fkPid
-    of "cid": fkCid
-    else:
-      err &"Unrecognized passport field: {s}"
-      fkCid
-
-proc readpp(s:string):PassPort =
+proc checkpp(s:string):bool =
   var reqs = 0
   for kv in s.split({'\n',' '}):
     [k,v] ..= kv.split(':')
-    case k.toFieldKind
-    of fkByr:
-      result.byr = v
-      inc reqs
-    of fkIyr:
-      result.iyr = v
-      inc reqs
-    of fkEyr:
-      result.eyr = v
-      inc reqs
-    of fkHgt:
-      result.hgt = v
-      inc reqs
-    of fkHcl:
-      result.hcl = v
-      inc reqs
-    of fkEcl:
-      result.ecl = v
-      inc reqs
-    of fkpid:
-      result.pid = v
-      inc reqs
-    of fkcid:
-      result.byr = v
+    case k
+    of "byr": inc reqs
+    of "iyr": inc reqs
+    of "eyr": inc reqs
+    of "hgt": inc reqs
+    of "hcl": inc reqs
+    of "ecl": inc reqs
+    of "pid": inc reqs
   if reqs == 7:
-    result.valid = true
+    return true
 
 const
   eyecolors = ["amb","blu","brn","gry","grn","hzl","oth"].toHashSet
   chars = {'0'..'9','a'..'f'}
 
-proc readpp2(s:string):PassPort =
+proc checkpp2(s:string):bool =
   var reqs = 0
   for kv in s.split({'\n',' '}):
     [k,v] ..= kv.split(':')
-    case k.toFieldKind
-    of fkbyr:
-      if v.parseInt in 1920..2002:
-        result.byr = v
-        inc reqs
-    of fkiyr:
-      if v.parseInt in 2010..2020:
-        result.iyr = v
-        inc reqs
-    of fkeyr:
-      if v.parseInt in 2020..2030:
-        result.eyr = v
-        inc reqs
-    of fkhgt:
+    case k
+    of "byr":
+      if v.parseInt in 1920..2002: inc reqs
+      else: return false
+    of "iyr":
+      if v.parseInt in 2010..2020: inc reqs
+      else: return false
+    of "eyr":
+      if v.parseInt in 2020..2030: inc reqs
+      else: return false
+    of "hgt":
       var
         h:int
         u:string
       if v.scanf("$i$w",h,u) and
       ((u == "in" and h in 59..76) or (u == "cm" and h in 150..193)):
-        result.hgt = v
         inc reqs
-    of fkhcl:
+      else: return false
+    of "hcl":
       if v.len == 7 and v[0] == '#' and v[1..v.high].allit(it in chars):
-        result.hcl = v
         inc reqs
-    of fkecl:
-      if v in eyecolors:
-        result.ecl = v
-        inc reqs
-    of fkpid:
-      if v.len == 9 and v.parseInt >= 0:
-        result.pid = v
-        inc reqs
-    of fkcid:
-      result.byr = v
+      else: return false
+    of "ecl":
+      if v in eyecolors: inc reqs
+      else: return false
+    of "pid":
+      if v.len == 9 and v.parseInt >= 0: inc reqs
+      else: return false
   if reqs == 7:
-    result.valid = true
+    return true
 
 proc parse*(path:string): seq[string] =
   result = path.readFile.split("\n\n")
 
 proc part1*(input:seq[string]): int =
-  input.countit(it.readpp.valid)
+  input.countit(it.checkpp)
 
 proc part2*(input:seq[string]): int =
-  input.countit(it.readpp2.valid)
+  input.countit(it.checkpp2)
 
 proc run*(path:string=inPath) =
   echo &"Day{day} for {path}"
@@ -193,4 +149,18 @@ Part2 is 109 in 591 microseconds and 991 nanoseconds
 real    0m0.006s
 user    0m0.002s
 sys     0m0.002s
+]#
+
+#[
+  Y'know, we don't actually do anything with the passports, we just check that they are valid, I don't need to be creating an object from them XD
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+
+Day04 for in/i04.txt
+Read file in 179 microseconds and 11 nanoseconds
+Part1 is 182 in 406 microseconds and 162 nanoseconds
+Part2 is 109 in 332 microseconds and 867 nanoseconds
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.001s
 ]#
