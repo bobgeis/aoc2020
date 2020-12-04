@@ -18,6 +18,10 @@ const
 
 proc getPath():string = commandLineParams().getOr(0,inPath)
 
+proc parse*(path:string): seq[string] =
+  result = path.getlines
+  result.doit(echo it)
+
 proc part1*(input:seq[string]): int =
   result = 1
 
@@ -28,7 +32,7 @@ proc run*(path:string=inPath) =
   echo &"Day{day} for {path}"
   var input:seq[string]
   timeit "Read file":
-    input = path.getlines
+    input = path.parse
   var res1:int
   timeit &"Part1 is {res1}":
     res1 = part1(input)
