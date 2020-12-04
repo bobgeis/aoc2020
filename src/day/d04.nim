@@ -1,6 +1,6 @@
 
-## solution for aoc 2020 day XX
-## https://adventofcode.com/2020/day/XX
+## solution for aoc 2020 day 04
+## https://adventofcode.com/2020/day/4
 
 # std lib modules: https://nim-lang.org/docs/lib.html
 import std/[ algorithm, deques, math, options, os, parsecsv, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
@@ -13,7 +13,7 @@ import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
   githash = staticexec "git rev-parse --short HEAD"
-  day = "XX"
+  day = "04"
   inPath = inputPath(day)
 
 proc getPath():string = commandLineParams().getOr(0,inPath)
@@ -49,7 +49,7 @@ when isMainModule:
 #[
   Compiler commands:
 ```sh
-export DAY="src/day/dXX.nim"
+export DAY="src/day/d04.nim"
 nim r $DAY
 nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
