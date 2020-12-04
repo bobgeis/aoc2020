@@ -210,6 +210,9 @@ type
   Seq3i*[T] = seq[seq[seq[T]]]
   Seq4i*[T] = seq[seq[seq[seq[T]]]]
 
+# remember seq[string] == seq[seq[char]]
+proc toSeq2iChar*(s:seq[string]):Seq2i[char] =
+  cast[Seq2i[char]](s)
 
 # getters/setters for tables using coordinates
 template `[]`*[A, T](t: Table[Vec[2, A], T]; x, y: A): T = t[[x, y]]
