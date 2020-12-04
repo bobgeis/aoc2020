@@ -192,6 +192,18 @@ proc pow*(x, y, m: int): int =
   p = (p * p) mod m
   return if (y and 1) == 0: p else: (x * p) mod m
 
+template doit*(s:typed,op:untyped):untyped =
+  ## Call side-effecting code with each item of an sequence.
+  ## Like mapIt or apply, but the code must have no return value.
+  runnableExamples:
+    let t = @[3,5]
+    var v:seq[int] = @[]
+    t.doit(v.add it)
+    assert t == v
+  ##
+  for it {.inject.} in items(s):
+    op
+
 when isMainModule:
 
   block:
@@ -245,6 +257,12 @@ when isMainModule:
     for i in 0.countbetween(x): s.add i
     for i in 0.countbetween(x, 2): s.add i
     assert s == @[0, 1, 2, 3, 4, 5, 0, -1, -2, -3, -4, -5, 0, -2, -4]
+
+  block:
+    let t = @[3,5]
+    var v:seq[int] = @[]
+    t.doit(v.add it)
+    assert t == v
 
   echo "bedrock asserts passed"
 
