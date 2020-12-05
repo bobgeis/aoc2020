@@ -6,7 +6,7 @@ import std/[
   strformat
 ]
 
-import d01, d02, d03
+import d01, d02, d03, d04
 
 const githash = staticexec "git rev-parse --short HEAD"
 
@@ -18,6 +18,8 @@ proc runAll*() =
   d02.run()
   echo ""
   d03.run()
+  echo ""
+  d04.run()
 
 when isMainModule:
   runAll()

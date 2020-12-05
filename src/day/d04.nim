@@ -12,6 +12,7 @@ const
   day = "04"
   inPath = inputPath(day)
   testPath = inputPath("04t1")
+  otherPath = inputPath("04o1")
 
 #[
 byr (Birth Year)
@@ -24,7 +25,7 @@ pid (Passport ID)
 cid (Country ID)
 ]#
 
-proc checkpp(s:string):bool =
+proc checkppCase(s:string):bool =
   var reqs = 0
   for kv in s.split({'\n',' '}):
     [k,v] ..= kv.split(':')
@@ -38,6 +39,12 @@ proc checkpp(s:string):bool =
     of "pid": inc reqs
   if reqs == 7:
     return true
+
+# I like this more concise code from narimiran:
+proc checkpp(s:string):bool =
+  for k in ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]:
+    if k notin s: return false
+  return true
 
 const
   eyecolors = ["amb","blu","brn","gry","grn","hzl","oth"].toHashSet
@@ -95,6 +102,9 @@ proc run*(path:string=inPath) =
   of testPath:
     check res1 == 2
     check res2 == 2
+  of otherPath:
+    check res1 == 233
+    check res2 == 111
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)

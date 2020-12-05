@@ -6,7 +6,7 @@
 # import math, strutils
 import std/[macros, monotimes, strformat, tables, times, unittest]
 
-# import bedrock
+import lib/[bedrock]
 
 
 macro debug*(args: varargs[untyped]): untyped =
