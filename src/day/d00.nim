@@ -15,10 +15,12 @@ const
   day = "00"
   inPath = inputPath(day)
   checkpart1 = {
-    inPath:1,
+    "path":0,
+    # inPath:1,
     }.toTable
   checkpart2 = {
-    inPath:2,
+    "path":0,
+    # inPath:2,
     }.toTable
 
 proc part0*(path:string): seq[string] =
