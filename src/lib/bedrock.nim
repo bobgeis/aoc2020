@@ -15,6 +15,8 @@ proc spy*[T](t: T, msg = ""): T = # For when you want to echo something in the m
 
 proc toString*[T](t: T): string {.inline.} = $t ## For when you want to turn something into a string in the middle of a chain of proc calls.
 
+proc toSeqChar*(s:string):seq[char] = cast[seq[char]](s)
+
 proc getOr*[T](s: openArray[T], i: int, def: T): T =
   ## GetOrDefault for openArrays
   if i < s.len: s[i] else: def
@@ -25,7 +27,7 @@ proc toSet*[T](s: openArray[T]): set[T] =
   for t in s:
     result.incl t
 
-proc toSystemSet*[T](s: openArray[T]): set[T] =
+proc toBitSet*[T](s: openArray[T]): set[T] =
   for t in s:
     result.incl t
 
