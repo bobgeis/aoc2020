@@ -1,6 +1,6 @@
 
-## solution for aoc 2020 day XX
-## https://adventofcode.com/2020/day/XX
+## solution for aoc 2020 day 00
+## https://adventofcode.com/2020/day/00
 
 # std lib modules: https://nim-lang.org/docs/lib.html
 import std/[ algorithm, deques, math, options, os, parsecsv, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
@@ -12,10 +12,17 @@ import pkg/[itertools, memo, stint]
 import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 
 const
-  day = "XX"
+  day = "00"
   inPath = inputPath(day)
+  checkpart1 = {
+    inPath:1,
+    }.toTable
+  checkpart2 = {
+    inPath:2,
+    }.toTable
 
-proc getPath():string = commandLineParams().getOr(0,inPath)
+proc part0*(path:string): seq[string] =
+  path.getLines
 
 proc part1*(input:seq[string]): int =
   result = 1
@@ -23,32 +30,17 @@ proc part1*(input:seq[string]): int =
 proc part2*(input:seq[string]): int =
   result = 2
 
-proc run*(path:string=inPath) =
-  echo &"Day{day} for {path}"
-  var input:seq[string]
-  timeit "Read file":
-    input = path.getlines
-  var res1:int
-  timeit &"Part1 is {res1}":
-    res1 = part1(input)
-  var res2:int
-  timeit &"Part2 is {res2}":
-    res2 = part2(input)
-  # case path
-  # of inPath:
-  #   check res2 == ?
-  #   check res1 == ?
+makeRunProc()
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
-    echo ""
-    path.run
+    path.run.echoRR
 
 #[
   Compiler commands:
 ```sh
-export DAY="src/day/dXX.nim"
+export DAY="src/day/d00.nim"
 nim r $DAY
 nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
