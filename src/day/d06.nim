@@ -14,21 +14,27 @@ import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
 const
   day = "06"
   inPath = inputPath(day)
-  checkpart1 = {
-    inPath:1,
+  checkpart1= {
+    inPath:6506,
     }.toTable
   checkpart2 = {
-    inPath:2,
+    inPath:3243,
     }.toTable
 
 proc part0*(path:string): seq[string] =
-  path.getLines
+  path.readfile.split("\n\n")
+
+proc countGroup(s:string):int =
+  s.split('\n').mapit(it.toBitSet).foldl(a + b).card
+
+proc countGroup2(s:string):int =
+  s.split('\n').mapit(it.toBitSet).foldl(a * b).card
 
 proc part1*(input:seq[string]): int =
-  result = 1
+  input.map(countgroup).sum
 
 proc part2*(input:seq[string]): int =
-  result = 2
+  input.map(countgroup2).sum
 
 makeRunProc()
 
