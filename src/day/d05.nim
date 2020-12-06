@@ -32,7 +32,7 @@ proc part0*(path:string): seq[int] =
   result.sort
 
 proc part1*(input:seq[int]): int =
-  input[input.high]
+  input[^1]
 
 proc part2*(input:seq[int]): int =
   for i,n in input:
@@ -50,7 +50,7 @@ when isMainModule:
 #[
   Compiler commands:
 ```sh
-export DAY="src/day/dXX.nim"
+export DAY="src/day/d05.nim"
 nim r $DAY
 nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
@@ -59,20 +59,16 @@ nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
 ]#
 
 #[
-  First solution. My parsing method is very slow :/
+  First solution. My parsing method is suboptimal
 $ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
-
-Day 05
-
-Answers for in/i05.txt
+Day 05 at 0279e48 for in/i05.txt
 Part1: 835
 Part2: 649
-
 Times:
-Part0:     0.353ms
-Part1:     0.000ms
-Part2:     0.000ms
-Total:     0.363ms
+Part0:   0s   0ms 346us 972ns
+Part1:   0s   0ms   0us  67ns
+Part2:   0s   0ms   0us 506ns
+Total:   0s   0ms 359us 405ns
 
 real    0m0.004s
 user    0m0.001s

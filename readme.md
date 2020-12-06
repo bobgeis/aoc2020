@@ -12,6 +12,7 @@ I probably won't have time to do all of the days. I definitely won't have time t
 
 ## References
 
+- [nim compiler](https://nim-lang.org/docs/nimc.html)
 - [nim manual](https://nim-lang.org/docs/manual.html)
 - [nim std lib](https://nim-lang.org/docs/lib.html)
 - [nimscript](https://nim-lang.org/docs/nimscript.html)
@@ -99,7 +100,7 @@ sys     0m0.001s
 ```
 
 ## d03
-[Link](https://adventofcode.com/2020/day/1)
+[Link](https://adventofcode.com/2020/day/3)
 
 Not too complicated, just need to move across the grid and count trees. Part 2 can re-use the function from part 1 if you make the slope an argument.
 
@@ -117,7 +118,7 @@ sys     0m0.001s
 ```
 
 ## d04
-[Link](https://adventofcode.com/2020/day/1)
+[Link](https://adventofcode.com/2020/day/4)
 
 The parsing is more complicated but otherwise straightforward.
 
@@ -138,107 +139,125 @@ user    0m0.002s
 sys     0m0.001s
 ```
 
-<!-- ## d05 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
-<!-- NOT DONE -->
+## d05
+[Link](https://adventofcode.com/2020/day/5)
 
+Another one where the parsing is the more complicated part. Basically we're being given unsorted binary numbers, but represented with 'B','F','L', and 'R'. They're in a single long one with on gap. For part 1 we have to find the highest, and for part 2 we have to find the one that's missing.
+
+I took an easy but suboptimal method: I used multiReplace to swap all the letters out for ones or zeroes, then used parseBin, then sorted the result. After that it was easy to look at the last index and then run through the seq and find the missing number.
+
+```
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+Day 05 at 0279e48 for in/i05.txt
+Part1: 835
+Part2: 649
+Times:
+Part0:   0s   0ms 346us 972ns
+Part1:   0s   0ms   0us  67ns
+Part2:   0s   0ms   0us 506ns
+Total:   0s   0ms 359us 405ns
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+```
 
 <!-- ## d06 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/6) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d07 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/7) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d08 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/8) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d09 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/9) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d10 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/10) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d11 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/11) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d12 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/12) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d13 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/13) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d14 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/14) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d15 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/15) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d16 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/16) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d17 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/17) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d18 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/18) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d19 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/19) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d20 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/20) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d21 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/21) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d22 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/22) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d23 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/23) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d24 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/24) -->
 <!-- NOT DONE -->
 
 
 <!-- ## d25 -->
-<!-- [Link](https://adventofcode.com/2020/day/1) -->
+<!-- [Link](https://adventofcode.com/2020/day/25) -->
 <!-- NOT DONE -->
 
