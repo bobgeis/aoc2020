@@ -3,15 +3,23 @@
 ## https://adventofcode.com/2020/day/1
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[algorithm, os, strformat, unittest]
+import std/[algorithm, os, strformat, tables, unittest]
 
 # local modules: src/lib/
 import lib/[aocutils, bedrock, shenanigans]
 
 const
-  githash = staticexec "git rev-parse --short HEAD"
   day = "01"
   inPath = inputPath(day)
+  checkpart1 = {
+    inPath:1018944,
+    }.toTable
+  checkpart2 = {
+    inPath:8446464,
+    }.toTable
+
+proc part0*(path:string):seq[int] =
+  path.readIntLines.sorted
 
 proc part1brute*(nums: seq[int]): int =
   for i in 0..nums.high:
@@ -45,25 +53,12 @@ proc part2*(nums: seq[int]): int =
       if k != -1 and i != j and i != k and k != j:
         return x * nums[i] * nums[j]
 
-proc run*(path=inPath) =
-  echo &"Day{day} for {path}"
-  var nums:seq[int]
-  timeit "Read file and sort":
-    nums = path.readIntLines.sorted
-  var res1:int
-  timeit &"Part1 is {res1}":
-    res1 = part1(nums)
-    if path == inPath: check res1 == 1018944
-  var res2:int
-  timeit &"Part2 is {res2}":
-    res2 = part2(nums)
-    if path == inPath: check res2 == 8446464
+makeRunProc()
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
-    echo ""
-    path.run
+    path.run.echoRR
 #[
 ## Compiler commands
 nim r src/day/d01.nim

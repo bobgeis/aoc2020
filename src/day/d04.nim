@@ -3,7 +3,7 @@
 ## https://adventofcode.com/2020/day/4
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ sequtils, sets, strformat, strscans, strutils, unittest]
+import std/[ sequtils, sets, strformat, strscans, strutils, tables, unittest]
 
 # local lib modules: src/lib/
 import lib/[aocutils, shenanigans]
@@ -13,6 +13,16 @@ const
   inPath = inputPath(day)
   testPath = inputPath("04t1")
   otherPath = inputPath("04o1")
+  checkpart1 = {
+    inPath:182,
+    testPath:2,
+    otherPath:233,
+    }.toTable
+  checkpart2 = {
+    inPath:109,
+    testPath:2,
+    otherPath:111,
+  }.toTable
 
 #[
 byr (Birth Year)
@@ -78,39 +88,20 @@ proc checkpp2(s:string):bool =
 proc parse*(path:string): seq[string] =
   result = path.readFile.split("\n\n")
 
+const part0* = parse
+
 proc part1*(input:seq[string]): int =
   input.countit(it.checkpp)
 
 proc part2*(input:seq[string]): int =
   input.countit(it.checkpp2)
 
-proc run*(path:string=inPath) =
-  echo &"Day{day} for {path}"
-  var input:seq[string]
-  timeit "Read file":
-    input = path.parse
-  var res1:int
-  timeit &"Part1 is {res1}":
-    res1 = part1(input)
-  var res2:int
-  timeit &"Part2 is {res2}":
-    res2 = part2(input)
-  case path
-  of inPath:
-    check res1 == 182
-    check res2 == 109
-  of testPath:
-    check res1 == 2
-    check res2 == 2
-  of otherPath:
-    check res1 == 233
-    check res2 == 111
+makeRunProc()
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
-    echo ""
-    path.run
+    path.run.echoRR
 
 #[
   Compiler commands:

@@ -4,15 +4,20 @@
 
 # std lib modules: https://nim-lang.org/docs/lib.html
 import std/[ memfiles, os, sequtils,
-    strformat, strscans, unittest]
+    strformat, strscans, tables, unittest]
 
 # local lib modules: src/lib/
 import lib/[aocutils, bedrock, shenanigans]
 
 const
-  githash = staticexec "git rev-parse --short HEAD"
   day = "02"
   inPath = inputPath(day)
+  checkpart1 = {
+    inPath:569,
+    }.toTable
+  checkpart2 = {
+    inPath:346,
+    }.toTable
 
 proc getPath():string = commandLineParams().getOr(0,inPath)
 
@@ -41,31 +46,21 @@ proc valid(inp:Input):bool =
 proc valid2(inp:Input):bool =
   (inp.pw[inp.lo-1] == inp.c) xor (inp.pw[inp.hi-1] == inp.c)
 
+proc part0*(path:string): seq[Input] =
+  path.parse
+
 proc part1*(inputs:seq[Input]): int =
   inputs.countIt(it.valid)
 
 proc part2*(inputs:seq[Input]): int =
   inputs.countIt(it.valid2)
 
-proc run*(path:string=inPath) =
-  echo &"Day{day} for {path}"
-  var inputs:seq[Input]
-  timeit "Read file and parse":
-    inputs = path.parse
-  var res1:int
-  timeit &"Part1 is {res1}":
-    res1 = part1(inputs)
-    if path == inPath: check res1 == 569
-  var res2:int
-  timeit &"Part2 is {res2}":
-    res2 = part2(inputs)
-    if path == inPath: check res2 == 346
+makeRunProc()
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
-    echo ""
-    path.run
+    path.run.echoRR
 
 
 #[

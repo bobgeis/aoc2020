@@ -3,7 +3,7 @@
 ## https://adventofcode.com/2020/day/3
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ strformat, unittest]
+import std/[ strformat, tables, unittest]
 
 # local lib modules: src/lib/
 import lib/[aocutils, bedrock, shenanigans, vecna]
@@ -13,6 +13,19 @@ const
   inPath = inputPath(day)
   testPath = inputPath("03t1")
   otherPath = inputPath("03o1")
+  checkpart1 = {
+    inPath:278,
+    testPath:7,
+    otherPath:257,
+    }.toTable
+  checkpart2 = {
+    inPath:9709761600.int,
+    testPath:336.int,
+    otherPath:1744787392.int,
+    }.toTable
+
+proc part0*(path:string): seq[string] =
+  path.getLines
 
 proc part1*(input:seq[string], slope:Vec2i=[3,1]): int =
   var
@@ -31,33 +44,12 @@ proc part2*(input:seq[string]): int =
   for slope in slopes:
     result *= part1(input,slope)
 
-proc run*(path:string=inPath) =
-  echo &"Day{day} for {path}"
-  var input:seq[string]
-  timeit "Read file":
-    input = path.getlines
-  var res1:int
-  timeit &"Part1 is {res1}":
-    res1 = part1(input)
-  var res2:int
-  timeit &"Part2 is {res2}":
-    res2 = part2(input)
-  case path
-  of inPath:
-    check res1 == 278
-    check res2 == 9709761600
-  of testPath:
-    check res1 == 7
-    check res2 == 336
-  of otherPath:
-    check res1 == 257
-    check res2 == 1744787392
+makeRunProc()
 
 when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
-    echo ""
-    path.run
+    path.run.echoRR
 
 #[
   Compiler commands:
