@@ -21,19 +21,22 @@ const
     inPath:3243,
     }.toTable
 
-proc part0*(path:string): seq[string] =
-  path.readfile.split("\n\n")
+proc toBitSetGroups(s:string):seq[set[char]] =
+  s.split('\n').mapit(it.toBitSet)
 
-proc countGroup(s:string):int =
-  s.split('\n').mapit(it.toBitSet).foldl(a + b).card
+proc part0*(path:string): seq[seq[set[char]]] =
+  path.readfile.split("\n\n").map(toBitSetGroups)
 
-proc countGroup2(s:string):int =
-  s.split('\n').mapit(it.toBitSet).foldl(a * b).card
+proc countGroup(ss:seq[set[char]]):int =
+  ss.foldl(a + b).card
 
-proc part1*(input:seq[string]): int =
+proc countGroup2(ss:seq[set[char]]):int =
+  ss.foldl(a * b).card
+
+proc part1*(input:seq[seq[set[char]]]): int =
   input.map(countgroup).sum
 
-proc part2*(input:seq[string]): int =
+proc part2*(input:seq[seq[set[char]]]): int =
   input.map(countgroup2).sum
 
 makeRunProc()
@@ -52,4 +55,21 @@ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
 nim check --warnings:on --hints:on $DAY
 nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
 ```
+]#
+
+#[
+  First solution
+$ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
+Day 06 at 1ca03d2 for in/i06.txt
+Part1: 6506
+Part2: 3243
+Times:
+Part0:   0s   0ms 193us 780ns
+Part1:   0s   0ms 289us 116ns
+Part2:   0s   0ms 259us 844ns
+Total:   0s   0ms 754us 510ns
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.001s
 ]#
