@@ -6,7 +6,8 @@ import std/[monotimes,os,sequtils,strformat,strutils,times]
 import lib/[bedrock]
 
 const
-  inputDir = "in"
+  inputDir* = "in"
+  githash* = staticexec "git rev-parse --short HEAD"
 
 proc inputPath*(day: string): string = &"{inputDir}/i{day}.txt"
 
@@ -50,17 +51,22 @@ template makeRunProc*():untyped =
         check checkpart2[path] == res2
     return (day:day,path:path,res:[res1,res2],dur:[dur0,dur1,dur2,durAll])
 
+proc pretty(d:Duration):string =
+  let parts = d.toParts
+  # we aren't going to wait longer than a minute (I hope)
+  const units = ["ns","us","ms","s","m"]
+  for i in Nanoseconds..Seconds:
+    result = &"{parts[i]:>3}{units[i.ord]} {result}"
+  if parts[Minutes] > 0:
+    result = &"{parts[Minutes]:>3}{units[Minutes.ord]} {result}"
 
 proc echoRR*(rr:RunResult) =
-  echo ""
-  echo &"Day {rr.day}"
-  echo ""
-  echo &"Answers for {rr.path}"
+  echo &"Day {rr.day} at {githash} for {rr.path}"
   echo &"Part1: {rr.res[0]}"
   echo &"Part2: {rr.res[1]}"
-  echo ""
-  echo &"Times:"
-  echo &"Part0: {rr.dur[0].inNanoseconds.float / 1e6:>9.3f}ms"
-  echo &"Part1: {rr.dur[1].inNanoseconds.float / 1e6:>9.3f}ms"
-  echo &"Part2: {rr.dur[2].inNanoseconds.float / 1e6:>9.3f}ms"
-  echo &"Total: {rr.dur[3].inNanoseconds.float / 1e6:>9.3f}ms"
+  echo "Times:"
+  echo &"Part0: {rr.dur[0].pretty}"
+  echo &"Part1: {rr.dur[1].pretty}"
+  echo &"Part2: {rr.dur[2].pretty}"
+  echo &"Total: {rr.dur[3].pretty}"
+
