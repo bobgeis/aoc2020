@@ -1,15 +1,10 @@
 import std/[memfiles]
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "02"
   inPath = inputPath(day)
-  checkpart1 = {
-    inPath:569,
-    }.toTable
-  checkpart2 = {
-    inPath:346,
-    }.toTable
+inpath.part1is 569
+inpath.part2is 346
 
 proc getPath():string = commandLineParams().getOr(0,inPath)
 
@@ -21,8 +16,7 @@ type Input = tuple
 proc scanline(s:string):Input =
   var
     lo,hi:int
-    cs:string
-    pw:string
+    cs,pw:string
   if s.scanf("$i-$i $w: $w",lo,hi,cs,pw):
     return (lo,hi,cs[0],pw)
 
@@ -48,11 +42,7 @@ proc part2*(inputs:seq[Input]): int =
   inputs.countIt(it.valid2)
 
 makeRunProc()
-
-when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
 $ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run

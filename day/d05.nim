@@ -1,15 +1,10 @@
 import std/[memfiles]
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "05"
   inPath = inputPath(day)
-  checkpart1 = {
-    inPath:835,
-    }.toTable
-  checkpart2 = {
-    inPath:649,
-    }.toTable
+inpath.part1is 835
+inpath.part2is 649
 
 proc parseToNumber(s:string):int =
   discard s.multiReplace(("L","0"),("F","0"),("R","1"),("B","1")).parseBin(result)
@@ -31,11 +26,7 @@ proc part2*(input:seq[int]): int =
   err &"Could not find your seat!"
 
 makeRunProc()
-
-when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
   First solution. My parsing method is suboptimal

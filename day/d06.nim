@@ -1,17 +1,12 @@
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "06"
   inPath = inputPath(day)
   otherPath = inputPath("06o1")
-  checkpart1= {
-    inPath:6506,
-    otherPath:6768,
-    }.toTable
-  checkpart2 = {
-    inPath:3243,
-    otherPath:3489,
-    }.toTable
+inpath.part1is 6506
+inpath.part2is 3243
+otherPath.part1is 6768
+otherPath.part2is 3489
 
 proc toBitSetGroups(s:string):seq[set['a'..'z']] =
   var b:set['a'..'z'] = {}
@@ -32,9 +27,7 @@ proc part2*(input:seq[seq[set['a'..'z']]]): int =
   input.mapit(it.foldl(a * b).card).sum
 
 makeRunProc()
-
-when isMainModule:
-  getCliPaths(default=inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
   First solution

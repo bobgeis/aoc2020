@@ -1,53 +1,42 @@
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "07"
   inPath = inputPath(day)
   testPath = inputPath("07t1")
   otherPath = inputPath("07o1")
-  checkpart1 = {
-    inpath: 119,
-    testPath: 4,
-    otherPath:205,
-    }.toTable
-  checkpart2 = {
-    inpath: 155802,
-    testPath: 32,
-    otherPath:80902
-    }.toTable
+testPath.part1is 4
+testPath.part2is 32
+inpath.part1is 119
+inpath.part2is 155802
+otherPath.part1is 205
+otherPath.part2is 80902
 
-const
-  myBag = "shiny gold"
+const myBag = "shiny gold"
 
 type
   Bag = seq[(string, int)]
   BagTab = Table[string, Bag]
 
-proc scanline(s: string, contains, containedby: var BagTab) =
+proc scanline(s: string, contains, contained: var BagTab) =
   var
     bname, contents: string
     bag: Bag = @[]
   if s.scanf("$+ bags contain $+", bname, contents):
-    if bname notin containedby:
-      containedby[bname] = @[]
+    discard contained.hasKeyOrPut(bname,@[])
     for content in contents.split(", "):
-      var
-        num: int
-        name: string
+      var num: int; var name: string
       if content.scanf("$i $+ bag", num, name):
         bag.add (name, num)
-        if name notin containedby:
-          containedby[name] = @[]
-        containedby[name].add (bname, num)
+        contained.mgetOrPut(name,@[]).add (bname, num)
     contains[bname] = bag
 
 proc part0*(path: string): (BagTab, BagTab) =
   var
     contains = initTable[string, Bag]()
-    containedby = initTable[string, Bag]()
+    contained = initTable[string, Bag]()
   for line in path.getLines:
-    line.scanline(contains, containedby)
-  return (contains, containedby)
+    line.scanline(contains, contained)
+  return (contains, contained)
 
 proc part1*(input: (BagTab, BagTab)): int =
   let bt = input[1]
@@ -56,18 +45,15 @@ proc part1*(input: (BagTab, BagTab)): int =
 
 proc part2*(input: (BagTab, BagTab)): int =
   let bt = input[0]
-  var
-    q = @[(mybag, 1)]
+  var q = @[(mybag, 1)]
   while q.len > 0:
     [name, num] ..= q.pop
     result.inc num
     q.add bt[name].mapit((it[0], it[1]*num))
-  result.dec # because mybag doesn't contain itself
+  result.dec # dec because mybag doesn't contain itself
 
 makeRunProc()
-
-when isMainModule:
-  getCliPaths(default = inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
   First solution. Wow it's slow (compared to previous days anyway). Most time is spent in the parsing, but part1 could also be faster.

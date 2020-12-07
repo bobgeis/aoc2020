@@ -1,20 +1,15 @@
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "03"
   inPath = inputPath(day)
   testPath = inputPath("03t1")
   otherPath = inputPath("03o1")
-  checkpart1 = {
-    inPath:278,
-    testPath:7,
-    otherPath:257,
-    }.toTable
-  checkpart2 = {
-    inPath:9709761600.int,
-    testPath:336.int,
-    otherPath:1744787392.int,
-    }.toTable
+testPath.part1is 7
+testPath.part2is 336
+inpath.part1is 278
+inpath.part2is 9709761600.int
+otherPath.part1is 257
+otherPath.part2is 1744787392.int
 
 proc part0*(path:string): seq[string] =
   path.getLines
@@ -37,11 +32,7 @@ proc part2*(input:seq[string]): int =
     result *= part1(input,slope)
 
 makeRunProc()
-
-when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
   $ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run

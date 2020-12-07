@@ -1,7 +1,7 @@
 
 ## This files useful for this advent of code repo.  The classic example is getting the input file.
 
-import std/[monotimes,os,sequtils,strformat,strutils,times]
+import std/[monotimes,os,sequtils,strformat,strutils,tables,times]
 
 import lib/[bedrock, timetemple]
 
@@ -24,6 +24,13 @@ proc getCliPaths*(default:string):seq[string] =
 proc readIntLines*(path:string):seq[int] =
   ## for reading in a text file of ints separated by newlines
   path.getlines.map(parseInt)
+
+var
+  checkpart1 = initTable[string,int]()
+  checkpart2 = initTable[string,int]()
+
+proc part1is*(s:string,i:int) = checkpart1[s] = i
+proc part2is*(s:string,i:int) = checkpart2[s] = i
 
 type
   RunResult* = tuple

@@ -1,14 +1,9 @@
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "01"
   inPath = inputPath(day)
-  checkpart1 = {
-    inPath:1018944,
-    }.toTable
-  checkpart2 = {
-    inPath:8446464,
-    }.toTable
+inpath.part1is 1018944
+inpath.part2is 8446464
 
 proc part0*(path:string):seq[int] =
   path.readIntLines.sorted
@@ -46,11 +41,7 @@ proc part2*(nums: seq[int]): int =
         return x * nums[i] * nums[j]
 
 makeRunProc()
-
-when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
 ## Timing for brute force approach (full loops which are O(n^2) and O(n^3)

@@ -1,20 +1,15 @@
-import lib/[imports]
-
+import lib/[imps]
 const
   day = "04"
   inPath = inputPath(day)
   testPath = inputPath("04t1")
   otherPath = inputPath("04o1")
-  checkpart1 = {
-    inPath:182,
-    testPath:2,
-    otherPath:233,
-    }.toTable
-  checkpart2 = {
-    inPath:109,
-    testPath:2,
-    otherPath:111,
-  }.toTable
+testPath.part1is 2
+testPath.part2is 2
+inpath.part1is 182
+inpath.part2is 109
+otherPath.part1is 233
+otherPath.part2is 111
 
 #[
 byr (Birth Year)
@@ -87,11 +82,7 @@ proc part2*(input:seq[string]): int =
   input.countit(it.checkpp2)
 
 makeRunProc()
-
-when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
   First solution:

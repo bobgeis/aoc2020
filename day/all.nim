@@ -8,7 +8,7 @@ import std/[
 
 import lib/[aocutils]
 
-import d01, d02, d03, d04, d05, d06
+import d01, d02, d03, d04, d05, d06, d07
 
 const githash = staticexec "git rev-parse --short HEAD"
 
@@ -21,6 +21,7 @@ proc runAll*() =
     d04.run(),
     d05.run(),
     d06.run(),
+    d07.run(),
   ]
   for day in days:
     echo &"Day {day.day}: {day.dur[3].pretty}"
