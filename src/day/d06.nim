@@ -6,7 +6,7 @@
 import std/[ math, sequtils, strutils, tables, unittest]
 
 # local lib modules: src/lib/
-import lib/[aocutils, bedrock, shenanigans]
+import lib/[aocutils, bedrock]
 
 const
   day = "06"
