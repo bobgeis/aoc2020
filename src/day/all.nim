@@ -6,20 +6,24 @@ import std/[
   strformat
 ]
 
-import d01, d02, d03, d04
+import lib/[aocutils]
+
+import d01, d02, d03, d04, d05, d06
 
 const githash = staticexec "git rev-parse --short HEAD"
 
 proc runAll*() =
-  echo &"All days at #{githash}"
-  echo ""
-  d01.run()
-  echo ""
-  d02.run()
-  echo ""
-  d03.run()
-  echo ""
-  d04.run()
+  echo &"Advent of Code 2020. All days at #{githash}"
+  let days = @[
+    d01.run(),
+    d02.run(),
+    d03.run(),
+    d04.run(),
+    d05.run(),
+    d06.run(),
+  ]
+  for day in days:
+    echo &"Day {day.day}: {day.dur[3].pretty}"
 
 when isMainModule:
   runAll()

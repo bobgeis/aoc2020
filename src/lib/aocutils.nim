@@ -49,7 +49,7 @@ template makeRunProc*():untyped =
         check checkpart2[path] == res2
     return (day:day,path:path,res:[res1,res2],dur:[dur0,dur1,dur2,durAll])
 
-proc pretty(d:Duration):string =
+proc pretty*(d:Duration):string =
   let parts = d.toParts
   # we aren't going to wait longer than a minute (I hope)
   const units = ["ns","us","ms","s","m"]
