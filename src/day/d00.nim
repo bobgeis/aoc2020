@@ -1,15 +1,5 @@
 
-## solution for aoc 2020 day 00
-## https://adventofcode.com/2020/day/00
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ algorithm, deques, math, memfiles, options, os, parsecsv, parseutils, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
-
-# nimble pkgs: https://nimble.directory/
-import pkg/[itertools, memo, stint]
-
-# local lib modules: src/lib/
-import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
+import lib/imports
 
 const
   day = "00"
@@ -35,13 +25,3 @@ makeRunProc()
 when isMainModule:
   getCliPaths(default=inPath).doit(it.run.echoRR)
 
-#[
-  Compiler commands:
-```sh
-export DAY="src/day/d00.nim"
-nim r $DAY
-nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
-nim check --warnings:on --hints:on $DAY
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
-```
-]#
