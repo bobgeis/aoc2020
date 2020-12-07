@@ -1,13 +1,5 @@
-
-## solution for aoc 2020 day 2
-## https://adventofcode.com/2020/day/2
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ memfiles, os, sequtils,
-    strformat, strscans, tables, unittest]
-
-# local lib modules: src/lib/
-import lib/[aocutils, bedrock, shenanigans]
+import std/[memfiles]
+import lib/[imports]
 
 const
   day = "02"
@@ -61,15 +53,6 @@ when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
     path.run.echoRR
-
-
-#[
-## Compiler commands:
-nim r src/day/d02.nim
-nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run
-nim check --warnings:on --hints:on src/day/d02.nim
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed src/day/d02.nim
-]#
 
 #[
 $ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run

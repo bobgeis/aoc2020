@@ -1,12 +1,4 @@
-
-## solution for aoc 2020 day 1
-## https://adventofcode.com/2020/day/1
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[algorithm, os, strformat, tables, unittest]
-
-# local modules: src/lib/
-import lib/[aocutils, bedrock, shenanigans]
+import lib/[imports]
 
 const
   day = "01"
@@ -59,13 +51,6 @@ when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
     path.run.echoRR
-#[
-## Compiler commands
-nim r src/day/d01.nim
-nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/run
-nim c --gc:arc -d:danger --opt:speed src/day/d01.nim && time out/run data/i01others.txt
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed src/day/d01.nim
-]#
 
 #[
 ## Timing for brute force approach (full loops which are O(n^2) and O(n^3)

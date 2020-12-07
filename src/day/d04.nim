@@ -1,12 +1,4 @@
-
-## solution for aoc 2020 day 04
-## https://adventofcode.com/2020/day/4
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ sequtils, sets, strformat, strscans, strutils, tables, unittest]
-
-# local lib modules: src/lib/
-import lib/[aocutils, shenanigans]
+import lib/[imports]
 
 const
   day = "04"
@@ -85,10 +77,8 @@ proc checkpp2(s:string):bool =
   if reqs == 7:
     return true
 
-proc parse*(path:string): seq[string] =
+proc part0*(path:string): seq[string] =
   result = path.readFile.split("\n\n")
-
-const part0* = parse
 
 proc part1*(input:seq[string]): int =
   input.countit(it.checkpp)
@@ -102,17 +92,6 @@ when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
     path.run.echoRR
-
-#[
-  Compiler commands:
-```sh
-export DAY="src/day/d04.nim"
-nim r $DAY
-nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
-nim check --warnings:on --hints:on $DAY
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
-```
-]#
 
 #[
   First solution:

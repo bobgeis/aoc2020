@@ -1,12 +1,4 @@
-
-## solution for aoc 2020 day 06
-## https://adventofcode.com/2020/day/6
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ math, sequtils, strutils, tables, unittest]
-
-# local lib modules: src/lib/
-import lib/[aocutils, bedrock]
+import lib/[imports]
 
 const
   day = "06"
@@ -43,17 +35,6 @@ makeRunProc()
 
 when isMainModule:
   getCliPaths(default=inPath).doit(it.run.echoRR)
-
-#[
-  Compiler commands:
-```sh
-export DAY="src/day/d06.nim"
-nim r $DAY
-nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
-nim check --warnings:on --hints:on $DAY
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
-```
-]#
 
 #[
   First solution

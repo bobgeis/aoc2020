@@ -1,5 +1,5 @@
 
-import lib/imports
+import lib/[imports]
 
 const
   day = "00"

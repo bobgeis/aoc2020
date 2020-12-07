@@ -1,12 +1,4 @@
-
-## solution for aoc 2020 day 3
-## https://adventofcode.com/2020/day/3
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ strformat, tables, unittest]
-
-# local lib modules: src/lib/
-import lib/[aocutils, bedrock, shenanigans, vecna]
+import lib/[imports]
 
 const
   day = "03"
@@ -50,18 +42,6 @@ when isMainModule:
   var paths = getCliPaths(default=inPath)
   for path in paths:
     path.run.echoRR
-
-#[
-  Compiler commands:
-```sh
-export DAY="src/day/d03.nim"
-nim r $DAY
-nim r $DAY data/i03t1.txt
-nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
-nim check --warnings:on --hints:on $DAY
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
-```
-]#
 
 #[
   $ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
