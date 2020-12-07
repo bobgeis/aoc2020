@@ -28,28 +28,28 @@ const
   myBag = "shiny gold"
 
 type
-  Bag = Table[string,int]
+  Bag = seq[(string,int)]
   BagTab = Table[string,Bag]
 
 proc scanline(s:string, contains,containedby: var BagTab) =
   var
-    b,contents:string
-    tab = initTable[string,int]()
-  if s.scanf("$+ bags contain $+",b,contents):
-    if b notin containedby:
-      containedby[b] = initTable[string,int]()
+    bname,contents:string
+    bag:Bag = @[]
+  if s.scanf("$+ bags contain $+",bname,contents):
+    if bname notin containedby:
+      containedby[bname] = @[]
     for content in contents.split(", "):
       var
         num:int
         name:string
       if content.scanf("$i $+ bag",num,name):
-        tab[name] = num
+        bag.add (name,num)
         if name notin containedby:
-          containedby[name] = initTable[string,int]()
-        containedby[name][b] = num
+          containedby[name] = @[]
+        containedby[name].add (bname,num)
       elif content == "no other bags.": discard
       else: err &"Could not scanf content: '{content}'"
-    contains[b] = tab
+    contains[bname] = bag
   else: err &"Could not scanline: '{s}'"
 
 proc part0*(path:string): (BagTab,BagTab) =
@@ -62,21 +62,18 @@ proc part0*(path:string): (BagTab,BagTab) =
 
 proc part1*(input:(BagTab,BagTab)): int =
   let bt = input[1]
-  proc adjs(s:string):seq[string] =
-    toSeq(bt[s].keys)
+  proc adjs(s:string):seq[string] = bt[s].mapit(it[0])
   bfs(mybag,adjs).len - 1 # - 1 because mybag doesn't contain itself
 
 proc part2*(input:(BagTab,BagTab)): int =
   let bt = input[0]
   var
     q = @[(mybag,1)]
-    visited = initHashSet[string]()
     count = 0
   while q.len > 0:
     [name, num] ..= q.pop
-    visited.incl name
     count += num
-    q.add toSeq(bt[name].pairs).mapit((it[0],it[1]*num))
+    q.add bt[name].mapit((it[0],it[1]*num))
   return count - 1 # - 1 because mybag doesn't contain itself
 
 makeRunProc()
@@ -94,3 +91,4 @@ nim check --warnings:on --hints:on $DAY
 nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
 ```
 ]#
+
