@@ -3,22 +3,22 @@
 ## https://adventofcode.com/2020/day/6
 
 # std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ algorithm, deques, math, memfiles, options, os, parsecsv, parseutils, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
-
-# nimble pkgs: https://nimble.directory/
-import pkg/[itertools, memo, stint]
+import std/[ math, sequtils, strutils, tables, unittest]
 
 # local lib modules: src/lib/
-import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
+import lib/[aocutils, bedrock, shenanigans]
 
 const
   day = "06"
   inPath = inputPath(day)
+  otherPath = inputPath("06o1")
   checkpart1= {
     inPath:6506,
+    otherPath:6768,
     }.toTable
   checkpart2 = {
     inPath:3243,
+    otherPath:3489,
     }.toTable
 
 proc toBitSetGroups(s:string):seq[set['a'..'z']] =
@@ -27,32 +27,22 @@ proc toBitSetGroups(s:string):seq[set['a'..'z']] =
     if c == '\n':
       result.add b
       b = {}
-    else:
-      b.incl c
-  if b.len > 0:
-    result.add b
+    else: b.incl c
+  if b.len > 0: result.add b
 
 proc part0*(path:string): seq[seq[set['a'..'z']]] =
   path.readfile.split("\n\n").map(toBitSetGroups)
 
-proc countGroup(ss:seq[set['a'..'z']]):int =
-  ss.foldl(a + b).card
-
-proc countGroup2(ss:seq[set['a'..'z']]):int =
-  ss.foldl(a * b).card
-
 proc part1*(input:seq[seq[set['a'..'z']]]): int =
-  input.map(countgroup).sum
+  input.mapit(it.foldl(a + b).card).sum
 
 proc part2*(input:seq[seq[set['a'..'z']]]): int =
-  input.map(countgroup2).sum
+  input.mapit(it.foldl(a * b).card).sum
 
 makeRunProc()
 
 when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+  getCliPaths(default=inPath).doit(it.run.echoRR)
 
 #[
   Compiler commands:
