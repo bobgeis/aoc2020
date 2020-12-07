@@ -6,28 +6,28 @@ import std/[macros, memfiles, monotimes, sequtils, strformat, strutils, sugar, t
 
 proc square*(n: SomeNumber): SomeNumber = n * n
 
-proc flip*[T, U](t: (T, U)): (U, T) = (t[1], t[
-    0]) ## Take a two item tuple, and return a tuple of the items in reverse order
+proc flip*[T, U](t: (T, U)): (U, T) {.inline.} =
+  ## Take a two item tuple, and return a tuple of the items in reverse order
+  (t[1], t[0])
 
-proc spy*[T](t: T, msg = ""): T = # For when you want to echo something in the middle of a chain of proc calls.
+proc spy*[T](t: T, msg = ""): T =
+  # For when you want to echo something in the middle of a chain of proc calls.
   echo &"{msg}{$t}"
   return t
 
-proc toString*[T](t: T): string {.inline.} = $t ## For when you want to turn something into a string in the middle of a chain of proc calls.
+proc toString*[T](t: T): string {.inline.} =
+  ## For when you want to turn something into a string in the middle of a chain of proc calls.
+  $t
 
 proc toSeqChar*(s:string):seq[char] = cast[seq[char]](s)
 
-proc getOr*[T](s: openArray[T], i: int, def: T): T =
+proc getOr*[T](s: openArray[T], i: int, def: T): T {.inline.} =
   ## GetOrDefault for openArrays
   if i < s.len: s[i] else: def
 
 proc parseInt*(c: char): int = parseInt($c)
 
-proc toSet*[T](s: openArray[T]): set[T] =
-  for t in s:
-    result.incl t
-
-proc toBitSet*[T](s: openArray[T]): set[T] =
+proc toBitSet*[T](s: openArray[T]): set[T] {.inline.} =
   for t in s:
     result.incl t
 
