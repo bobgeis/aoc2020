@@ -21,22 +21,30 @@ const
     inPath:3243,
     }.toTable
 
-proc toBitSetGroups(s:string):seq[set[char]] =
-  s.split('\n').mapit(it.toBitSet)
+proc toBitSetGroups(s:string):seq[set['a'..'z']] =
+  var b:set['a'..'z'] = {}
+  for c in s:
+    if c == '\n':
+      result.add b
+      b = {}
+    else:
+      b.incl c
+  if b.len > 0:
+    result.add b
 
-proc part0*(path:string): seq[seq[set[char]]] =
+proc part0*(path:string): seq[seq[set['a'..'z']]] =
   path.readfile.split("\n\n").map(toBitSetGroups)
 
-proc countGroup(ss:seq[set[char]]):int =
+proc countGroup(ss:seq[set['a'..'z']]):int =
   ss.foldl(a + b).card
 
-proc countGroup2(ss:seq[set[char]]):int =
+proc countGroup2(ss:seq[set['a'..'z']]):int =
   ss.foldl(a * b).card
 
-proc part1*(input:seq[seq[set[char]]]): int =
+proc part1*(input:seq[seq[set['a'..'z']]]): int =
   input.map(countgroup).sum
 
-proc part2*(input:seq[seq[set[char]]]): int =
+proc part2*(input:seq[seq[set['a'..'z']]]): int =
   input.map(countgroup2).sum
 
 makeRunProc()
@@ -68,6 +76,22 @@ Part0:   0s   0ms 193us 780ns
 Part1:   0s   0ms 289us 116ns
 Part2:   0s   0ms 259us 844ns
 Total:   0s   0ms 754us 510ns
+
+real    0m0.004s
+user    0m0.002s
+sys     0m0.001s
+]#
+
+#[
+  Tried removing one set of extra string allocations and use a smaller bitset.
+Day 06 at <Uncommitted> for in/i06.txt
+Part1: 6506
+Part2: 3243
+Times:
+Part0:   0s   0ms 649us 724ns
+Part1:   0s   0ms  11us 906ns
+Part2:   0s   0ms  10us 402ns
+Total:   0s   0ms 687us 371ns
 
 real    0m0.004s
 user    0m0.002s
