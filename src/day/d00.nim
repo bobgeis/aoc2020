@@ -16,28 +16,24 @@ const
   inPath = inputPath(day)
   checkpart1 = {
     "path":0,
-    # inPath:1,
     }.toTable
   checkpart2 = {
     "path":0,
-    # inPath:2,
     }.toTable
 
 proc part0*(path:string): seq[string] =
   path.getLines
 
 proc part1*(input:seq[string]): int =
-  result = 1
+  result = 0
 
 proc part2*(input:seq[string]): int =
-  result = 2
+  result = 0
 
 makeRunProc()
 
 when isMainModule:
-  var paths = getCliPaths(default=inPath)
-  for path in paths:
-    path.run.echoRR
+  getCliPaths(default=inPath).doit(it.run.echoRR)
 
 #[
   Compiler commands:
