@@ -2,7 +2,11 @@
 ## This file is for miscellanious utilities.  It may import from the std libs or nimble libs, but from no local files.  It should contain generally useful procs, things that you potentially might have wished were in the std lib.
 ## Note that lots of things are in modules in the std lib, such as `reverse` and `reversed` which are in the `algorithms` std module. Try to be thorough in your search before you add something here.
 
-import std/[macros, memfiles, monotimes, sequtils, strformat, strutils, sugar, tables, times]
+import std/[macros, memfiles, monotimes, sequtils, sets, strformat, strutils, sugar, tables, times]
+
+type
+  SomeSeq[T] = seq[T] or openarray[T] or string or cstring or set[T] or HashSet[T]
+  SomeTable[U,V] = Table[U,V] or TableRef[U,V] or OrderedTable[U,V] or OrderedTableRef[U,V]
 
 proc square*(n: SomeNumber): SomeNumber = n * n
 
@@ -30,6 +34,17 @@ proc parseInt*(c: char): int = parseInt($c)
 proc toBitSet*[T](s: openArray[T]): set[T] {.inline.} =
   for t in s:
     result.incl t
+
+proc itemSeq*[T](t:SomeSeq[T]):seq[T] {.inline.} = toSeq(t.items)
+proc mitemSeq*[T](t:var SomeSeq[T]):var seq[T] {.inline.} = toSeq(t.mitems)
+proc pairSeq*[T](t:SomeSeq[T]):seq[(int,T)] {.inline.} = toSeq(t.pairs)
+proc mpairSeq*[T](t:var SomeSeq[T]):seq[(int,var T)] {.inline.} = toSeq(t.mpairs)
+
+proc keySeq*[U,V](t:SomeTable[U,V]):seq[U] {.inline.} = toSeq(t.keys)
+proc valSeq*[U,V](t:SomeTable[U,V]):seq[V] {.inline.} = toSeq(t.values)
+proc pairSeq*[U,V](t:SomeTable[U,V]):seq[(U,V)] {.inline.} = toSeq(t.pairs)
+proc mvalSeq*[U,V](t:var SomeTable[U,V]):var seq[V] {.inline.} = toSeq(t.mvalues)
+proc mpairSeq*[U,V](t:var SomeTable[U,V]):var seq[(U,V)] {.inline.} = toSeq(t.mpairs)
 
 template toSeq*(src,iter:untyped):untyped =
   ## A two argument version of the toSeq template.  This exists to enable UFCS with toSeq.  This enables code like: `foo.bar.toSeq(pairs).sorted.baz`, whereas before it would have to be written like: `toSeq(foo.bar.pairs).sorted.baz`, which can feel clunky.
