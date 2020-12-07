@@ -15,13 +15,16 @@ const
   day = "07"
   inPath = inputPath(day)
   testPath = inputPath("07t1")
+  otherPath = inputPath("07o1")
   checkpart1 = {
     inpath:119,
     testPath:4,
+    # otherPath:0,
     }.toTable
   checkpart2 = {
     inpath:155802,
     testPath:32,
+    # otherPath,0
     }.toTable
 
 const
@@ -92,3 +95,19 @@ nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
 ```
 ]#
 
+#[
+  First solution. Wow it's slow (compared to previous days anyway). Most time is spent in the parsing, but part1 could also be faster.
+$ nim c -d:fast src/day/d07.nim && time out/run
+Day 07 at 846e99f for in/i07.txt
+Part1: 119
+Part2: 155802
+Times:
+Part0:   0s   3ms 297us 756ns
+Part1:   0s   0ms 621us 922ns
+Part2:   0s   0ms  45us 856ns
+Total:   0s   3ms 975us 200ns
+
+real    0m0.008s
+user    0m0.005s
+sys     0m0.002s
+]#
