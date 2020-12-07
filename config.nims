@@ -15,7 +15,7 @@ const
   nimOutDir = "out"
   nimDocDir = "doc"
 
-switch("path",nimSrc)
+switch("path",".")
 switch("out",&"{nimOutDir}/run")
 hint("Processing", false)
 hint("Conf",false)
