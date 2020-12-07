@@ -1,15 +1,4 @@
-
-## solution for aoc 2020 day 07
-## https://adventofcode.com/2020/day/7
-
-# std lib modules: https://nim-lang.org/docs/lib.html
-import std/[ algorithm, deques, math, memfiles, options, os, parsecsv, parseutils, sequtils, sets, strformat, strscans, strtabs, strutils, sugar, tables, unittest]
-
-# nimble pkgs: https://nimble.directory/
-import pkg/[itertools, memo, stint]
-
-# local lib modules: src/lib/
-import lib/[aocutils, bedrock, graphwalk, shenanigans, vecna]
+import lib/[imports]
 
 const
   day = "07"
@@ -17,83 +6,68 @@ const
   testPath = inputPath("07t1")
   otherPath = inputPath("07o1")
   checkpart1 = {
-    inpath:119,
-    testPath:4,
-    # otherPath:0,
+    inpath: 119,
+    testPath: 4,
+    otherPath:205,
     }.toTable
   checkpart2 = {
-    inpath:155802,
-    testPath:32,
-    # otherPath,0
+    inpath: 155802,
+    testPath: 32,
+    otherPath:80902
     }.toTable
 
 const
   myBag = "shiny gold"
 
 type
-  Bag = seq[(string,int)]
-  BagTab = Table[string,Bag]
+  Bag = seq[(string, int)]
+  BagTab = Table[string, Bag]
 
-proc scanline(s:string, contains,containedby: var BagTab) =
+proc scanline(s: string, contains, containedby: var BagTab) =
   var
-    bname,contents:string
-    bag:Bag = @[]
-  if s.scanf("$+ bags contain $+",bname,contents):
+    bname, contents: string
+    bag: Bag = @[]
+  if s.scanf("$+ bags contain $+", bname, contents):
     if bname notin containedby:
       containedby[bname] = @[]
     for content in contents.split(", "):
       var
-        num:int
-        name:string
-      if content.scanf("$i $+ bag",num,name):
-        bag.add (name,num)
+        num: int
+        name: string
+      if content.scanf("$i $+ bag", num, name):
+        bag.add (name, num)
         if name notin containedby:
           containedby[name] = @[]
-        containedby[name].add (bname,num)
-      elif content == "no other bags.": discard
-      else: err &"Could not scanf content: '{content}'"
+        containedby[name].add (bname, num)
     contains[bname] = bag
-  else: err &"Could not scanline: '{s}'"
 
-proc part0*(path:string): (BagTab,BagTab) =
+proc part0*(path: string): (BagTab, BagTab) =
   var
-    contains = initTable[string,Bag]()
-    containedby = initTable[string,Bag]()
+    contains = initTable[string, Bag]()
+    containedby = initTable[string, Bag]()
   for line in path.getLines:
-    line.scanline(contains,containedby)
-  return (contains,containedby)
+    line.scanline(contains, containedby)
+  return (contains, containedby)
 
-proc part1*(input:(BagTab,BagTab)): int =
+proc part1*(input: (BagTab, BagTab)): int =
   let bt = input[1]
-  proc adjs(s:string):seq[string] = bt[s].mapit(it[0])
-  bfs(mybag,adjs).len - 1 # - 1 because mybag doesn't contain itself
+  proc adjs(s: string): seq[string] = bt[s].mapit(it[0])
+  bfs(mybag, adjs).len - 1 # - 1 because mybag doesn't contain itself
 
-proc part2*(input:(BagTab,BagTab)): int =
+proc part2*(input: (BagTab, BagTab)): int =
   let bt = input[0]
   var
-    q = @[(mybag,1)]
-    count = 0
+    q = @[(mybag, 1)]
   while q.len > 0:
     [name, num] ..= q.pop
-    count += num
-    q.add bt[name].mapit((it[0],it[1]*num))
-  return count - 1 # - 1 because mybag doesn't contain itself
+    result.inc num
+    q.add bt[name].mapit((it[0], it[1]*num))
+  result.dec # because mybag doesn't contain itself
 
 makeRunProc()
 
 when isMainModule:
-  getCliPaths(default=inPath).doit(it.run.echoRR)
-
-#[
-  Compiler commands:
-```sh
-export DAY="src/day/d07.nim"
-nim r $DAY
-nim c --gc:arc -d:danger --opt:speed $DAY && time out/run
-nim check --warnings:on --hints:on $DAY
-nim r --gc:arc --hints:on --warnings:on -d:danger --opt:speed $DAY
-```
-]#
+  getCliPaths(default = inPath).doit(it.run.echoRR)
 
 #[
   First solution. Wow it's slow (compared to previous days anyway). Most time is spent in the parsing, but part1 could also be faster.
