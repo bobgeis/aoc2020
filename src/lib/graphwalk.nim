@@ -13,17 +13,16 @@ proc bfs*[T](start: T, adjs: proc(n: T): seq[T]): Table[T, (int, T)] =
   q.addLast((0, start))
   while q.len > 0:
     let (cost, n) = q.popFirst
-    if paths.cb(n): return
-    else:
-      marked.incl n
+    marked.incl n
     for m in n.adjs:
       if m in marked: continue
       paths[m] = (cost + 1, n)
       q.addLast((cost + 1, m))
   return paths
 
-proc bfs*[T](start: T, adjs: proc(n: T): seq[T], cb: proc(paths: Table[T, (int,
-    T)], n: T): bool) =
+proc bfs*[T](start: T,
+  adjs: proc(n: T): seq[T],
+  cb: proc(paths: Table[T, (int,T)], n: T): bool) =
   var
     marked = initHashSet[T]()
     q = initDeque[(int, T)]()
