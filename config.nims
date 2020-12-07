@@ -15,7 +15,6 @@ const
   nimOutDir = "out"
   nimDocDir = "doc"
 
---gc:arc # swap in --gc:orc if you get leaks
 switch("path",nimSrc)
 switch("out",&"{nimOutDir}/run")
 hint("Processing", false)
@@ -25,6 +24,7 @@ switch("warnings","off")
 switch("verbosity", "0")
 
 if defined(fast):
+  --gc:arc # swap in --gc:orc if you get leaks
   --d:release
   --d:danger
   --opt:speed
