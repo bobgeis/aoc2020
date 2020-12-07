@@ -162,10 +162,26 @@ user    0m0.001s
 sys     0m0.001s
 ```
 
-<!-- ## d06 -->
-<!-- [Link](https://adventofcode.com/2020/day/6) -->
-<!-- NOT DONE -->
+## d06
+[Link](https://adventofcode.com/2020/day/6)
 
+This day was a good opportunity to use nim's bitsets (system.set). At first I used the toBitSet proc in my lib, but then realized it was making character sets, when they just needed to be 'a'..'z' (which is much smaller). At the same time, I realized I was making a lot more strings than I needed. So I refactored one function to scan through a string of an entire "group" and make a seq of sets out of them. There's still one extra round of string allocation that I could come and look at again later.
+
+```
+$ nim c -d:fast src/day/d06.nim && time out/run
+Day 06 at 963d09d for in/i06.txt
+Part1: 6506
+Part2: 3243
+Times:
+Part0:   0s   0ms 447us 170ns
+Part1:   0s   0ms   9us 735ns
+Part2:   0s   0ms   8us  94ns
+Total:   0s   0ms 481us 673ns
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+```
 
 <!-- ## d07 -->
 <!-- [Link](https://adventofcode.com/2020/day/7) -->

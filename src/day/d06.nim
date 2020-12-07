@@ -84,16 +84,17 @@ sys     0m0.001s
 
 #[
   Tried removing one set of extra string allocations and use a smaller bitset.
-Day 06 at <Uncommitted> for in/i06.txt
+$ nim c -d:fast src/day/d06.nim && time out/run
+Day 06 at 963d09d for in/i06.txt
 Part1: 6506
 Part2: 3243
 Times:
-Part0:   0s   0ms 649us 724ns
-Part1:   0s   0ms  11us 906ns
-Part2:   0s   0ms  10us 402ns
-Total:   0s   0ms 687us 371ns
+Part0:   0s   0ms 447us 170ns
+Part1:   0s   0ms   9us 735ns
+Part2:   0s   0ms   8us  94ns
+Total:   0s   0ms 481us 673ns
 
 real    0m0.004s
-user    0m0.002s
+user    0m0.001s
 sys     0m0.001s
 ]#
