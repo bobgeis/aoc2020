@@ -37,51 +37,6 @@ template assertcheck*(conditions: untyped):untyped =
   when compileOption("assertions"):
     unittest.check conditions
 
-
-proc echoMonoTime(t: Duration, msg: string = "", iters: int = 1) =
-  ## Need in ordre to call strformat's `&` macro from a template/macro
-  var timeStr = msg
-  if iters > 1:
-    timeStr &= &", {iters} times"
-  if timeStr.len > 0: timeStr &= " in "
-  # timeStr &= &"{t.inNanoseconds.float / 1e6} ms"
-  timeStr &= $t
-  echo timeStr
-
-template timevar*(dur:untyped, body:untyped):untyped =
-  ## A timing template, it takes the name of a var that it will declare as a Duration.
-  ## Durations are in std/times
-  ## Adapted from Kaynato's https://github.com/Kaynato/AdventOfCode/blob/master/timeit.nim
-  var dur:Duration
-  let t1 = getMonoTime()
-  body
-  let t2 = getMonoTime()
-  dur = t2 - t1
-
-template timeadd*(dur:var Duration, body:untyped):untyped =
-  ## A timing template, it takes the name of a var Duration that it will add to
-  ## Durations are in std/times
-  ## Adapted from Kaynato's https://github.com/Kaynato/AdventOfCode/blob/master/timeit.nim
-  let t1 = getMonoTime()
-  body
-  let t2 = getMonoTime()
-  dur += t2 - t1
-
-
-template timeit*(msg: string = "", iters: int = 1, body: untyped): untyped =
-  ## A handy timing template,
-  ## Adapted from Kaynato's https://github.com/Kaynato/AdventOfCode/blob/master/timeit.nim
-  # import std/[monotimes]
-  let t1 = getMonoTime()
-  for i in 1..iters:
-    body
-  let t2 = getMonoTime()
-  echoMonoTime(t2-t1, msg, iters)
-
-template timeit*(msg: string, body: untyped): untyped = timeit(msg, 1, body)
-template timeit*(iters: int, body: untyped): untyped = timeit("", iters, body)
-template timeit*(body: untyped): untyped = timeit("", 1, body)
-
 proc binBy*[T, U](ts: openArray[T], fn: proc (x: T): U {.closure.}): TableRef[U, seq[T]] =
   ## Given a sequence `ts`, and a proc `fn` that will turn the items of `ts` into something hashable, create a table that bins each of the items into subsequences using the value of returned from `fn`.
   ## Inspired by partition from https://github.com/jabbalaci/nimpykot/blob/82ed5e40c50af133946555acf07bbf01071c2d0f/src/pykot/functional.nim

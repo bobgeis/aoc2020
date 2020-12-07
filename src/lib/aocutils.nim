@@ -3,7 +3,7 @@
 
 import std/[monotimes,os,sequtils,strformat,strutils,times]
 
-import lib/[bedrock]
+import lib/[bedrock, timetemple]
 
 const
   inputDir* = "in"
@@ -33,8 +33,6 @@ type
     dur: array[4,Duration]
 
 template makeRunProc*():untyped =
-# template runit*(part0:untyped):untyped =
-# template runit*(part0,part1,part2:untyped):untyped =
   proc run*(path:string=inPath):RunResult =
     timevar durall:
       timevar dur0:
