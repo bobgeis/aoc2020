@@ -27,3 +27,18 @@ proc runAll*() =
 
 when isMainModule:
   runAll()
+
+#[
+$ nim c -d:fast  src/day/all.nim && time out/run
+Advent of Code 2020. All days at #1ae4e21
+Day 01:   0s   0ms 165us  96ns
+Day 02:   0s   0ms 607us 586ns
+Day 03:   0s   0ms  92us 688ns
+Day 04:   0s   1ms 202us 348ns
+Day 05:   0s   0ms 518us 852ns
+Day 06:   0s   0ms 455us 613ns
+
+real    0m0.007s
+user    0m0.004s
+sys     0m0.002s
+]#
