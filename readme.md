@@ -183,14 +183,52 @@ user    0m0.001s
 sys     0m0.001s
 ```
 
-<!-- ## d07 -->
-<!-- [Link](https://adventofcode.com/2020/day/7) -->
-<!-- NOT DONE -->
+## d07
+[Link](https://adventofcode.com/2020/day/7)
+
+This is the slowest day so far by a wide margin. Almost all the time is spent in part0 (parsing and processing common to part1 and part2). This is probably due to reading the input multiple times (once to split by lines, twice to split the bagname from what it contains, and then again to parse those into keys in a table or add to a seq). There's lots of room for improvement here.
+
+After that, part1 and part2 are just graphwalks. Part1 could be improved upon, part2 is pretty quick!
+
+```
+$ nim c -d:fast day/d07.nim && time out/run
+Day 07 at #19c33d0 for in/i07.txt
+Part1: 119
+Part2: 155802
+Times:
+Part0:   0s   2ms 545us 787ns
+Part1:   0s   0ms 934us  38ns
+Part2:   0s   0ms  47us 465ns
+Total:   0s   3ms 543us 642ns
+
+real    0m0.009s
+user    0m0.005s
+sys     0m0.002s
+```
 
 
-<!-- ## d08 -->
-<!-- [Link](https://adventofcode.com/2020/day/8) -->
-<!-- NOT DONE -->
+## d08
+[Link](https://adventofcode.com/2020/day/8)
+
+Oo a "Handheld Game Console". This could be this year's analogue to last year's intcode machines. It's premature to put it into its own lib, but that will probably happen if we see more of it.
+
+Part 1 is fast: run it and watch for an infinite loop. My implementation of part 2 is simple but not very fast. There's room to do something smarter there.
+
+```
+$ nim c -d:fast day/d08.nim && time out/run
+Day 08 at #19c33d0 for in/i08.txt
+Part1: 1217
+Part2: 501
+Times:
+Part0:   0s   0ms 361us 962ns
+Part1:   0s   0ms  53us 515ns
+Part2:   0s   5ms 737us 390ns
+Total:   0s   6ms 159us 965ns
+
+real    0m0.010s
+user    0m0.007s
+sys     0m0.002s
+```
 
 
 <!-- ## d09 -->
