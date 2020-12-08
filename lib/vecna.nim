@@ -211,7 +211,7 @@ type
   Seq4i*[T] = seq[seq[seq[seq[T]]]]
 
 # remember seq[string] == seq[seq[char]]
-proc toSeq2iChar*(s:seq[string]):Seq2i[char] =
+proc toSeq2iChar*(s: seq[string]): Seq2i[char] =
   cast[Seq2i[char]](s)
 
 # getters/setters for tables using coordinates
@@ -230,8 +230,8 @@ template `[]`*[A, T](t: TableRef[Vec[3, A], T]; x, y, z: A): T = t[[x, y, z]]
 template `[]=`*[A, T](t: var TableRef[Vec[3, A], T]; x, y, z: A; val: T) = t[[x,
     y, z]] = val
 template `[]`*[A, T](t: TableRef[Vec[4, A], T]; x, y, z, w: A): T = t[[x, y, z, w]]
-template `[]=`*[A, T](t: var TableRef[Vec[4, A], T]; x, y, z, w: A; val: T) = t[[
-    x, y, z, w]] = val
+template `[]=`*[A, T](t: var TableRef[Vec[4, A], T]; x, y, z, w: A; val: T) = t[
+    [x, y, z, w]] = val
 
 # getters/setters for seqs using coordinates
 template `[]`*[T](s: Seq2i[T]; x, y: int): T = s[y][x]
@@ -266,8 +266,8 @@ proc getMinMax*[N](hs: HashSet[Vec[N, int]]): (Vec[N, int], Vec[N, int]) =
     mins = highest[N, int]()
     maxs = lowest[N, int]()
   for item in hs.items:
-    mins.min= item
-    maxs.max= item
+    mins.min = item
+    maxs.max = item
   return (mins, maxs)
 
 iterator grid*[T](t: Tab2i[T] or TabR2i[T] or Set2i): Vec2i =
@@ -343,15 +343,15 @@ when isMainModule:
       tr = newTable[Vec2i, int]()
     t[0, 1] = 1
     assert 1 == t[0, 1]
-    tr[0,1] = 1
-    assert 1 == tr[0,1]
+    tr[0, 1] = 1
+    assert 1 == tr[0, 1]
 
   block:
-    var t = initTable[Vec2i,int]()
-    t[-1,1] = 2
-    t[10,-10] = 0
-    [mn,mx] ..= t.getMinMax
-    assert mn == [-1,-10]
-    assert mx == [10,1]
+    var t = initTable[Vec2i, int]()
+    t[-1, 1] = 2
+    t[10, -10] = 0
+    [mn, mx] ..= t.getMinMax
+    assert mn == [-1, -10]
+    assert mx == [10, 1]
 
   echo "vecna asserts passed"

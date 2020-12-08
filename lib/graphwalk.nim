@@ -22,7 +22,7 @@ proc bfs*[T](start: T, adjs: proc(n: T): seq[T]): Table[T, (int, T)] =
 
 proc bfs*[T](start: T,
   adjs: proc(n: T): seq[T],
-  cb: proc(paths: Table[T, (int,T)], n: T): bool) =
+  cb: proc(paths: Table[T, (int, T)], n: T): bool) =
   var
     marked = initHashSet[T]()
     q = initDeque[(int, T)]()

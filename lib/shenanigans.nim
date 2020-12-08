@@ -33,7 +33,7 @@ macro debug*(args: varargs[untyped]): untyped =
     result.add newCall("writeLine", newIdentNode("stdout"), n)
 
 
-template assertcheck*(conditions: untyped):untyped =
+template assertcheck*(conditions: untyped): untyped =
   when compileOption("assertions"):
     unittest.check conditions
 
