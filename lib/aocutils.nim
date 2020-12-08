@@ -67,7 +67,7 @@ proc echoRR*(rr: RunResult) =
   echo &"Day {rr.day} at #{githash} for {rr.path}"
   echo &"Part1: {rr.res[0]}"
   echo &"Part2: {rr.res[1]}"
-  when defined(fast):
+  when defined(release):
     echo "Times:"
     echo &"Part0: {rr.dur[0].pretty}"
     echo &"Part1: {rr.dur[1].pretty}"
