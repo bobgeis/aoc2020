@@ -1,8 +1,5 @@
-
-## This files useful for this advent of code repo.  The classic example is getting the input file.
-
+## This contains procs and templates useful for this advent of code repo.
 import std/[monotimes,os,sequtils,strformat,strutils,tables,times]
-
 import lib/[bedrock, timetemple]
 
 const
@@ -21,16 +18,20 @@ proc getCliPaths*(default:string):seq[string] =
     else:
       echo &"Could not find file for {arg} or {arg.inputPath}"
 
-proc readIntLines*(path:string):seq[int] =
-  ## for reading in a text file of ints separated by newlines
-  path.getlines.map(parseInt)
+proc readIntLines*(path:string):seq[int] = path.getlines.map(parseInt)
 
-var
-  checkpart1 = initTable[string,int]()
-  checkpart2 = initTable[string,int]()
+var answers:array[1..2,Table[string,int]] = [
+  initTable[string,int](),
+  initTable[string,int](),
+  ]
 
-proc part1is*(s:string,i:int) = checkpart1[s] = i
-proc part2is*(s:string,i:int) = checkpart2[s] = i
+proc part1is*(s:string,i:int) = answers[1][s] = i
+proc part2is*(s:string,i:int) = answers[2][s] = i
+proc checkpart*(part,i:int,path:string) =
+  if path in answers[part]:
+    let j = answers[part][path]
+    if i != j:
+      echo &"FAIL: {path} part {part} got {i} but expected {j}"
 
 type
   RunResult* = tuple
@@ -50,15 +51,12 @@ template makeRunProc*():untyped =
       var res2:int
       timevar dur2:
         res2 = part2(input)
-      if path in checkpart1:
-        check checkpart1[path] == res1
-      if path in checkpart2:
-        check checkpart2[path] == res2
+    checkpart(1,res1,path)
+    checkpart(2,res2,path)
     return (day:day,path:path,res:[res1,res2],dur:[dur0,dur1,dur2,durAll])
 
 proc pretty*(d:Duration):string =
   let parts = d.toParts
-  # we aren't going to wait longer than a minute (I hope)
   const units = ["ns","us","ms","s","m"]
   for i in Nanoseconds..Seconds:
     result = &"{parts[i]:>3}{units[i.ord]} {result}"
@@ -66,7 +64,7 @@ proc pretty*(d:Duration):string =
     result = &"{parts[Minutes]:>3}{units[Minutes.ord]} {result}"
 
 proc echoRR*(rr:RunResult) =
-  echo &"Day {rr.day} at {githash} for {rr.path}"
+  echo &"Day {rr.day} at #{githash} for {rr.path}"
   echo &"Part1: {rr.res[0]}"
   echo &"Part2: {rr.res[1]}"
   when defined(fast):
