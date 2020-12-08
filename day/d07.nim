@@ -22,12 +22,12 @@ proc scanline(s: string, contains, contained: var BagTab) =
     bname, contents: string
     bag: Bag = @[]
   if s.scanf("$+ bags contain $+", bname, contents):
-    discard contained.hasKeyOrPut(bname,@[])
+    discard contained.hasKeyOrPut(bname, @[])
     for content in contents.split(", "):
       var num: int; var name: string
       if content.scanf("$i $+ bag", num, name):
         bag.add (name, num)
-        contained.mgetOrPut(name,@[]).add (bname, num)
+        contained.mgetOrPut(name, @[]).add (bname, num)
     contains[bname] = bag
 
 proc part0*(path: string): (BagTab, BagTab) =

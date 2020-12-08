@@ -6,39 +6,39 @@ const
 inpath.part1is 569
 inpath.part2is 346
 
-proc getPath():string = commandLineParams().getOr(0,inPath)
+proc getPath(): string = commandLineParams().getOr(0, inPath)
 
 type Input = tuple
-  lo,hi:int
-  c:char
-  pw:string
+  lo, hi: int
+  c: char
+  pw: string
 
-proc scanline(s:string):Input =
+proc scanline(s: string): Input =
   var
-    lo,hi:int
-    cs,pw:string
-  if s.scanf("$i-$i $w: $w",lo,hi,cs,pw):
-    return (lo,hi,cs[0],pw)
+    lo, hi: int
+    cs, pw: string
+  if s.scanf("$i-$i $w: $w", lo, hi, cs, pw):
+    return (lo, hi, cs[0], pw)
 
-proc parse(path:string):seq[Input] =
+proc parse(path: string): seq[Input] =
   var mm = memfiles.open(path)
   defer: close(mm)
   for line in mm.lines:
     result.add line.scanline
 
-proc valid(inp:Input):bool =
+proc valid(inp: Input): bool =
   inp.pw.countIt(it == inp.c) in inp.lo..inp.hi
 
-proc valid2(inp:Input):bool =
+proc valid2(inp: Input): bool =
   (inp.pw[inp.lo-1] == inp.c) xor (inp.pw[inp.hi-1] == inp.c)
 
-proc part0*(path:string): seq[Input] =
+proc part0*(path: string): seq[Input] =
   path.parse
 
-proc part1*(inputs:seq[Input]): int =
+proc part1*(inputs: seq[Input]): int =
   inputs.countIt(it.valid)
 
-proc part2*(inputs:seq[Input]): int =
+proc part2*(inputs: seq[Input]): int =
   inputs.countIt(it.valid2)
 
 makeRunProc()

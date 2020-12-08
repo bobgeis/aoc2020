@@ -8,8 +8,8 @@ inpath.part2is 3243
 otherPath.part1is 6768
 otherPath.part2is 3489
 
-proc toBitSetGroups(s:string):seq[set['a'..'z']] =
-  var b:set['a'..'z'] = {}
+proc toBitSetGroups(s: string): seq[set['a'..'z']] =
+  var b: set['a'..'z'] = {}
   for c in s:
     if c == '\n':
       result.add b
@@ -17,13 +17,13 @@ proc toBitSetGroups(s:string):seq[set['a'..'z']] =
     else: b.incl c
   if b.len > 0: result.add b
 
-proc part0*(path:string): seq[seq[set['a'..'z']]] =
+proc part0*(path: string): seq[seq[set['a'..'z']]] =
   path.readfile.split("\n\n").map(toBitSetGroups)
 
-proc part1*(input:seq[seq[set['a'..'z']]]): int =
+proc part1*(input: seq[seq[set['a'..'z']]]): int =
   input.mapit(it.foldl(a + b).card).sum
 
-proc part2*(input:seq[seq[set['a'..'z']]]): int =
+proc part2*(input: seq[seq[set['a'..'z']]]): int =
   input.mapit(it.foldl(a * b).card).sum
 
 makeRunProc()

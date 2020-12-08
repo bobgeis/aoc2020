@@ -22,10 +22,10 @@ pid (Passport ID)
 cid (Country ID)
 ]#
 
-proc checkppCase(s:string):bool =
+proc checkppCase(s: string): bool =
   var reqs = 0
-  for kv in s.split({'\n',' '}):
-    [k,v] ..= kv.split(':')
+  for kv in s.split({'\n', ' '}):
+    [k, v] ..= kv.split(':')
     case k
     of "byr": inc reqs
     of "iyr": inc reqs
@@ -38,47 +38,48 @@ proc checkppCase(s:string):bool =
     return true
 
 # I like this more concise code from narimiran:
-proc checkpp(s:string):bool =
+proc checkpp(s: string): bool =
   for k in ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]:
     if k notin s: return false
   return true
 
 const
-  eyecolors = ["amb","blu","brn","gry","grn","hzl","oth"].toHashSet
-  chars = {'0'..'9','a'..'f'}
+  eyecolors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"].toHashSet
+  chars = {'0'..'9', 'a'..'f'}
 
-template checkKey(key:string,body:untyped):untyped =
+template checkKey(key: string, body: untyped): untyped =
   if k == key:
     if body:
       inc reqs
     else:
       return false
 
-proc checkpp2(s:string):bool =
+proc checkpp2(s: string): bool =
   var reqs = 0
-  for kv in s.split({'\n',' '}):
-    [k,v] ..= kv.split(':')
+  for kv in s.split({'\n', ' '}):
+    [k, v] ..= kv.split(':')
     checkKey "byr", v.parseInt in 1920..2002
     checkKey "iyr", v.parseInt in 2010..2020
     checkKey "eyr", v.parseInt in 2020..2030
     checkKey "hgt":
       var
-        h:int
-        u:string
-      v.scanf("$i$w",h,u) and ((u == "in" and h in 59..76) or (u == "cm" and h in 150..193))
+        h: int
+        u: string
+      v.scanf("$i$w", h, u) and ((u == "in" and h in 59..76) or (u == "cm" and
+          h in 150..193))
     checkKey "hcl", v.len == 7 and v[0] == '#' and v[1..v.high].allit(it in chars)
     checkKey "ecl", v in eyecolors
     checkKey "pid", v.len == 9 and v.parseInt >= 0
   if reqs == 7:
     return true
 
-proc part0*(path:string): seq[string] =
+proc part0*(path: string): seq[string] =
   result = path.readFile.split("\n\n")
 
-proc part1*(input:seq[string]): int =
+proc part1*(input: seq[string]): int =
   input.countit(it.checkpp)
 
-proc part2*(input:seq[string]): int =
+proc part2*(input: seq[string]): int =
   input.countit(it.checkpp2)
 
 makeRunProc()

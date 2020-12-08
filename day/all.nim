@@ -1,11 +1,5 @@
-
 ## run all the days in sequence
-## nim c --gc:arc -d:danger --opt:speed src/day/all.nim && time out/run
-
-import std/[
-  strformat
-]
-
+import std/[strformat]
 import lib/[aocutils]
 
 import d01, d02, d03, d04, d05, d06, d07

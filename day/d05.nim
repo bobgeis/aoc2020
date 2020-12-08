@@ -6,21 +6,22 @@ const
 inpath.part1is 835
 inpath.part2is 649
 
-proc parseToNumber(s:string):int =
-  discard s.multiReplace(("L","0"),("F","0"),("R","1"),("B","1")).parseBin(result)
+proc parseToNumber(s: string): int =
+  discard s.multiReplace(
+    ("L", "0"), ("F", "0"), ("R", "1"), ("B", "1")).parseBin(result)
 
-proc part0*(path:string): seq[int] =
+proc part0*(path: string): seq[int] =
   var f = memfiles.open(path)
   defer: f.close
   for line in f.lines:
     result.add line.parseToNumber
   result.sort
 
-proc part1*(input:seq[int]): int =
+proc part1*(input: seq[int]): int =
   input[^1]
 
-proc part2*(input:seq[int]): int =
-  for i,n in input:
+proc part2*(input: seq[int]): int =
+  for i, n in input:
     if input[i+1] != n+1:
       return n+1
   err &"Could not find your seat!"

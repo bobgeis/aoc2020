@@ -5,7 +5,7 @@ const
 inpath.part1is 1018944
 inpath.part2is 8446464
 
-proc part0*(path:string):seq[int] =
+proc part0*(path: string): seq[int] =
   path.readIntLines.sorted
 
 proc part1brute*(nums: seq[int]): int =

@@ -11,12 +11,12 @@ inpath.part2is 9709761600.int
 otherPath.part1is 257
 otherPath.part2is 1744787392.int
 
-proc part0*(path:string): seq[string] =
+proc part0*(path: string): seq[string] =
   path.getLines
 
-proc part1*(input:seq[string], slope:Vec2i=[3,1]): int =
+proc part1*(input: seq[string], slope: Vec2i = [3, 1]): int =
   var
-    pos = [0,0]
+    pos = [0, 0]
     w = input[0].len
   for y in 0..input.high:
     if pos.y > input.high: return
@@ -25,11 +25,11 @@ proc part1*(input:seq[string], slope:Vec2i=[3,1]): int =
     pos += slope
     pos.x = pos.x.wrap(w)
 
-proc part2*(input:seq[string]): int =
-  let slopes = [[1,1],[3,1],[5,1],[7,1],[1,2]]
+proc part2*(input: seq[string]): int =
+  let slopes = [[1, 1], [3, 1], [5, 1], [7, 1], [1, 2]]
   result = 1
   for slope in slopes:
-    result *= part1(input,slope)
+    result *= part1(input, slope)
 
 makeRunProc()
 when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
