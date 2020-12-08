@@ -13,32 +13,32 @@ type
     oknop = "nop"
     okacc = "acc"
     okjmp = "jmp"
-  Operation = (OpKind,int)
+  Operation = (OpKind, int)
   HGC = ref object
     code: seq[Operation]
-    acc:int
+    acc: int
     seen: HashSet[int]
 
-proc newHgc(code:seq[Operation]): HGC =
+proc newHgc(code: seq[Operation]): HGC =
   result = HGC(
-    code:code,
-    acc:0,
+    code: code,
+    acc: 0,
   )
 
-proc copyHgc(hgc:HGC):HGC =
-  result = HGC(code:hgc.code,acc:0)
+proc copyHgc(hgc: HGC): HGC =
+  result = HGC(code: hgc.code, acc: 0)
 
-proc scanOp(s:string):Operation =
-    var op:string; var i:int
-    if s.scanf("$w $i",op,i):
-      return (parseEnum[OpKind](op),i)
-    else: err &"Would not scan: {s}"
+proc scanOp(s: string): Operation =
+  var op: string; var i: int
+  if s.scanf("$w $i", op, i):
+    return (parseEnum[OpKind](op), i)
+  else: err &"Would not scan: {s}"
 
-proc pathToHgc(path:string):HGC =
+proc pathToHgc(path: string): HGC =
   path.getLines.mapit(it.scanOp).newHgc
 
-proc doOp(hgc:var HGC,curr:int):int =
-  [op,i] ..= hgc.code[curr]
+proc doOp(hgc: var HGC, curr: int): int =
+  [op, i] ..= hgc.code[curr]
   case op
   of oknop: return curr + 1
   of okjmp: return curr + i
@@ -46,7 +46,7 @@ proc doOp(hgc:var HGC,curr:int):int =
     hgc.acc.inc(i)
     return curr + 1
 
-proc run(hgc:var HGC):int =
+proc run(hgc: var HGC): int =
   var
     curr = 0
     seen = initHashSet[int]()
@@ -62,7 +62,7 @@ proc part1*(input: HGC): int =
   var hgc = input.copyHgc
   hgc.run
 
-proc changeLastJmpOrkNop(hgc: var HGC, start:int):int =
+proc changeLastJmpOrkNop(hgc: var HGC, start: int): int =
   for i in start.countdown(0):
     [op] ..= hgc.code[i]
     if op == okjmp:
@@ -72,7 +72,7 @@ proc changeLastJmpOrkNop(hgc: var HGC, start:int):int =
       hgc.code[i][0] = okjmp
       return i - 1
 
-proc run2(hgc:var HGC):int =
+proc run2(hgc: var HGC): int =
   var
     curr = 0
     seen = initHashSet[int]()

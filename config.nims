@@ -3,7 +3,7 @@
 ## but it's also a good place to put helper tasks
 ## https://nim-lang.org/docs/nimscript.html
 
-import std/[strformat, strutils]
+import std/[os, strformat, strutils, sequtils]
 
 const
   nimDayDir = "day"
@@ -44,5 +44,10 @@ task cleandoc, "empty the doc dir":
   excho &"mkdir doc"
 
 task prettyall, "nimpretty all the code":
-  for file in gorge("ls **/*.nim").split:
+  for file in gorge("find . -type f -name *.nim").split:
     excho &"nimpretty --indent=2 {file}"
+
+task prettyallr, "nimpretty all using walkdirrec":
+  for file in walkDirRec(".", {pcFile, pcDir}):
+    if file.splitFile().ext == ".nim":
+      excho &"nimpretty --indent=2 {file}"
