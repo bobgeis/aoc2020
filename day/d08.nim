@@ -95,7 +95,24 @@ makeRunProc()
 when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
 #[
-  Trying with parallel made it slower!
+  First approach I thought of, probably room for improvement.
+$ nim c -d:fast day/d08.nim && time out/run
+Day 08 at #55facf9 for in/i08.txt
+Part1: 1217
+Part2: 501
+Times:
+Part0:   0s   0ms 559us 824ns
+Part1:   0s   0ms  57us 255ns
+Part2:   0s   5ms 559us 327ns
+Total:   0s   6ms 183us 124ns
+
+real    0m0.010s
+user    0m0.007s
+sys     0m0.002s
+]#
+
+#[
+  Trying with parallel made it slower! Might be because I have an old laptop with only 2 cores...
 $ nim c --threads:on -d:fast day/d08.nim && time out/run
 Day 08 at #4ef64b2 for in/i08.txt
 Part1: 1217

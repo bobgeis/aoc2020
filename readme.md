@@ -212,18 +212,18 @@ sys     0m0.002s
 
 Oo a "Handheld Game Console". This could be this year's analogue to last year's intcode machines. It's premature to put it into its own lib, but that will probably happen if we see more of it.
 
-Part 1 is fast: run it and watch for an infinite loop. My implementation of part 2 is simple but not very fast. There's room to do something smarter there. I tried using [parallel](https://nim-lang.org/docs/manual_experimental.html#parallel-amp-spawn), but that made things _slower_, at least on my machine.
+Part 1 is fast: run it and watch for an infinite loop. My implementation of part 2 is simple but not very fast. There's room to do something smarter there. I tried using [parallel](https://nim-lang.org/docs/manual_experimental.html#parallel-amp-spawn), but that made things _slower_, (at least on my machine).
 
 ```
 $ nim c -d:fast day/d08.nim && time out/run
-Day 08 at #19c33d0 for in/i08.txt
+Day 08 at #55facf9 for in/i08.txt
 Part1: 1217
 Part2: 501
 Times:
-Part0:   0s   0ms 361us 962ns
-Part1:   0s   0ms  53us 515ns
-Part2:   0s   5ms 737us 390ns
-Total:   0s   6ms 159us 965ns
+Part0:   0s   0ms 559us 824ns
+Part1:   0s   0ms  57us 255ns
+Part2:   0s   5ms 559us 327ns
+Total:   0s   6ms 183us 124ns
 
 real    0m0.010s
 user    0m0.007s
