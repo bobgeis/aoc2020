@@ -39,7 +39,7 @@ template assertcheck*(conditions: untyped): untyped =
 
 proc binBy*[T, U](ts: openArray[T], fn: proc (x: T): U {.closure.}): TableRef[U, seq[T]] =
   ## Given a sequence `ts`, and a proc `fn` that will turn the items of `ts` into something hashable, create a table that bins each of the items into subsequences using the value of returned from `fn`.
-  ## Inspired by partition from https://github.com/jabbalaci/nimpykot/blob/82ed5e40c50af133946555acf07bbf01071c2d0f/src/pykot/functional.nim
+  ## Inspired by partition from https://github.com/jabbalaci/nimpykot/blob/master/src/pykot/functional.nim
   runnableExamples:
     import sugar, tables
     let # example 1

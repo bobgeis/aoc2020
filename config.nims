@@ -1,8 +1,6 @@
-
 ## this exists primarily to play with nimscript,
 ## but it's also a good place to put helper tasks
 ## https://nim-lang.org/docs/nimscript.html
-
 import std/[os, strformat, strutils, sequtils]
 
 const

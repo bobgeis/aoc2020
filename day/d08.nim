@@ -1,3 +1,5 @@
+{.experimental: "parallel".}
+import std/[threadpool]
 import lib/[imps]
 const
   day = "08"
@@ -17,7 +19,6 @@ type
   HGC = ref object
     code: seq[Operation]
     acc: int
-    seen: HashSet[int]
 
 proc newHgc(code: seq[Operation]): HGC =
   result = HGC(
@@ -62,34 +63,32 @@ proc part1*(input: HGC): int =
   var hgc = input.copyHgc
   hgc.run
 
-proc changeLastJmpOrkNop(hgc: var HGC, start: int): int =
-  for i in start.countdown(0):
-    [op] ..= hgc.code[i]
-    if op == okjmp:
-      hgc.code[i][0] = oknop
-      return i - 1
-    elif op == oknop:
-      hgc.code[i][0] = okjmp
-      return i - 1
+proc findSpots(hgc:HGC):seq[int] =
+  for i,opi in hgc.code:
+    if opi[0] == okacc: result.add i
 
-proc run2(hgc: var HGC): int =
+proc runSpot(input: HGC, spot:int):int =
   var
+    hgc = input.copyHgc
     curr = 0
     seen = initHashSet[int]()
+  hgc.code[spot][0] = if hgc.code[spot][0] == oknop: okjmp else: oknop
   while curr < hgc.code.len:
     if curr in seen: return 0
     seen.incl curr
     curr = hgc.doOp curr
   return hgc.acc
 
+proc runpara(input:HGC):int =
+  let spots = input.findspots.reversed
+  var ch = newSeq[int](spots.len)
+  parallel:
+    for i in 0..ch.high:
+      ch[i] = spawn input.runSpot(i)
+  ch.max
+
 proc part2*(input: HGC): int =
-  var
-    hgc = input.copyHgc
-    start = input.code.high
-  while hgc.run2 == 0:
-    hgc = input.copyHgc
-    start = hgc.changeLastJmpOrkNop(start)
-  hgc.acc
+  input.runpara
 
 makeRunProc()
 when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)

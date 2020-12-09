@@ -1,6 +1,5 @@
 ## imps: the little demons on your shoulder telling you to write macros
-## This module imports and then exports all the frequently used
-## modules.
+## This module imports and then exports frequently used modules.
 ## Note that some modules will still need to be imported explicitly,
 ## because the module symbol will be needed in scope for disambiguation.
 

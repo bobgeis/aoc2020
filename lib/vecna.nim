@@ -1,7 +1,8 @@
-
+## Vecna: a lich famous for his love of vectors
 ## Vectors of N dimensions and Any type.
 ## AKA: Yet Another Simple Vector Lib, but "yasvl" is harder to pronounce.
-## This was made with my convenience and learning in mind while I did Advent of Code and other exercises in nim.
+## This was made with my convenience and learning in mind while I did
+## Advent of Code and other exercises in nim.
 ## If you are interested in performance,
 ## then you should probably look at something like arraymancer.
 
