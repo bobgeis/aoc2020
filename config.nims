@@ -49,3 +49,8 @@ task prettyallr, "nimpretty all using walkdirrec":
   for file in walkDirRec(".", {pcFile, pcDir}):
     if file.splitFile().ext == ".nim":
       excho &"nimpretty --indent=2 {file}"
+
+task docs, "generate code doc":
+  --project
+  switch("out",nimDocdir)
+  setCommand("doc")

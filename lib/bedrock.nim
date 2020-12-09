@@ -53,6 +53,7 @@ proc mpairSeq*[U, V](t: var SomeTable[U, V]): var seq[(U, V)] {.
 template toSeq*(src, iter: untyped): untyped =
   ## A two argument version of the toSeq template.  This exists to enable UFCS with toSeq.  This enables code like: `foo.bar.toSeq(pairs).sorted.baz`, whereas before it would have to be written like: `toSeq(foo.bar.pairs).sorted.baz`, which can feel clunky.
   runnableExamples:
+    import sequtils
     let arr = [2, 4, 6, 8]
     assert arr.toSeq(pairs).mapit(it[1] - 1) == @[1, 3, 5, 7]
   toSeq(src.iter)
