@@ -93,3 +93,19 @@ proc part2*(input: HGC): int =
 makeRunProc()
 when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
+#[
+  Trying with parallel made it slower!
+$ nim c --threads:on -d:fast day/d08.nim && time out/run
+Day 08 at #4ef64b2 for in/i08.txt
+Part1: 1217
+Part2: 501
+Times:
+Part0:   0s   0ms 735us 275ns
+Part1:   0s   0ms  86us 178ns
+Part2:   0s  16ms 193us 432ns
+Total:   0s  17ms  22us 760ns
+
+real    0m0.022s
+user    0m0.033s
+sys     0m0.009s
+]#
