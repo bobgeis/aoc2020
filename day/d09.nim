@@ -62,3 +62,18 @@ proc part2*(parsed: (seq[int],int)): int =
 makeRunProc()
 when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
 
+#[
+$ nim c -d:fast day/d09.nim && time out/run
+Day 09 at #2a81254 for in/i09.txt
+Part1: 2089807806
+Part2: 245848639
+Times:
+Part0:   0s   0ms 605us 319ns
+Part1:   0s   0ms   0us  87ns
+Part2:   0s   0ms 446us 495ns
+Total:   0s   1ms  60us 726ns
+
+real    0m0.007s
+user    0m0.002s
+sys     0m0.003s
+]#
