@@ -2,8 +2,8 @@ import lib/[imps]
 const
   day = "03"
   inPath = inputPath(day)
-  testPath = inputPath("03t1")
-  otherPath = inputPath("03o1")
+  testPath = inputPath(day,"t1")
+  otherPath = inputPath(day,"o1")
 testPath.part1is 7
 testPath.part2is 336
 inpath.part1is 278
@@ -32,7 +32,7 @@ proc part2*(input: seq[string]): int =
     result *= part1(input, slope)
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   $ nim c --gc:arc -d:danger --opt:speed $DAY && time out/run

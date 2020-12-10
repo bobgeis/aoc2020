@@ -2,8 +2,8 @@ import lib/[imps]
 const
   day = "07"
   inPath = inputPath(day)
-  testPath = inputPath("07t1")
-  otherPath = inputPath("07o1")
+  testPath = inputPath(day,"t1")
+  otherPath = inputPath(day,"o1")
 testPath.part1is 4
 testPath.part2is 32
 inpath.part1is 119
@@ -53,7 +53,7 @@ proc part2*(input: (BagTab, BagTab)): int =
   result.dec # dec because mybag doesn't contain itself
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   First solution. Wow it's slow (compared to previous days anyway). Most time is spent in the parsing, but part1 could also be faster.

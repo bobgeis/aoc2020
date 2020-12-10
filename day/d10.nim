@@ -2,13 +2,14 @@ import lib/[imps]
 const
   day = "10"
   inPath = inputPath(day)
-  testPath = inputPath("10t1")
-  testPath2 = inputPath("10t2")
+  testPath = inputPath(day,"t1")
+  testPath2 = inputPath(day,"t2")
 
 inpath.part1is 1836
 inpath.part2is 43406276662336.int
 testpath.part1is 220
 testpath.part2is 19208
+testpath2.part1is 35
 testpath2.part2is 8
 
 proc part0*(path: string): seq[int] =
@@ -30,7 +31,7 @@ proc part2*(input: seq[int]): int =
   return paths[input[^1]]
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
 $ nim c -d:fast day/d10.nim && time out/run

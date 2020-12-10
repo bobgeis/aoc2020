@@ -2,7 +2,7 @@ import lib/[imps]
 const
   day = "06"
   inPath = inputPath(day)
-  otherPath = inputPath("06o1")
+  otherPath = inputPath(day,"o1")
 inpath.part1is 6506
 inpath.part2is 3243
 otherPath.part1is 6768
@@ -27,7 +27,7 @@ proc part2*(input: seq[seq[set['a'..'z']]]): int =
   input.mapit(it.foldl(a * b).card).sum
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   First solution

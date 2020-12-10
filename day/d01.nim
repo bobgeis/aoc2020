@@ -41,7 +41,7 @@ proc part2*(nums: seq[int]): int =
         return x * nums[i] * nums[j]
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
 ## Timing for brute force approach (full loops which are O(n^2) and O(n^3)

@@ -27,7 +27,7 @@ proc part2*(input: seq[int]): int =
   err &"Could not find your seat!"
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   First solution. My parsing method is suboptimal

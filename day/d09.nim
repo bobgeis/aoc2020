@@ -60,7 +60,7 @@ proc part2*(parsed: (seq[int],int)): int =
   parsed[0].walk(parsed[1])
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
 $ nim c -d:fast day/d09.nim && time out/run

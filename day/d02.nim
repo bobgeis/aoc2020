@@ -42,7 +42,7 @@ proc part2*(inputs: seq[Input]): int =
   inputs.countIt(it.valid2)
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
 $ nim c --gc:arc -d:danger --opt:speed src/day/d02.nim && time out/run

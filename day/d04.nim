@@ -2,8 +2,8 @@ import lib/[imps]
 const
   day = "04"
   inPath = inputPath(day)
-  testPath = inputPath("04t1")
-  otherPath = inputPath("04o1")
+  testPath = inputPath(day,"t1")
+  otherPath = inputPath(day,"o1")
 testPath.part1is 2
 testPath.part2is 2
 inpath.part1is 182
@@ -83,7 +83,7 @@ proc part2*(input: seq[string]): int =
   input.countit(it.checkpp2)
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   First solution:

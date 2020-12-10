@@ -2,7 +2,7 @@ import lib/[imps]
 const
   day = "08"
   inPath = inputPath(day)
-  testPath = inputPath("08t1")
+  testPath = inputPath(day,"t1")
 inpath.part1is 1217
 inpath.part2is 501
 testPath.part1is 5
@@ -92,7 +92,7 @@ proc part2*(input: HGC): int =
   hgc.acc
 
 makeRunProc()
-when isMainModule: getCliPaths(inPath).doit(it.run.echoRR)
+when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   First approach I thought of, probably room for improvement.

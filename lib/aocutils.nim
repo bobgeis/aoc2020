@@ -6,17 +6,20 @@ const
   inputDir* = "in"
   githash* = staticexec "git rev-parse --short HEAD"
 
-proc inputPath*(day: string): string = &"{inputDir}/i{day}.txt"
+proc inputPath*(day: string,suffix:string=""): string = &"{inputDir}/i{day}{suffix}.txt"
 
-proc getCliPaths*(default: string): seq[string] =
-  if paramCount() == 0: result.add default
-  for arg in commandLineParams():
+proc getCliPaths*(day: string): seq[string] =
+  var args = commandLineParams()
+  if args.len == 0: args.add day
+  for arg in args:
     if arg.fileExists:
       result.add arg
     elif arg.inputPath.fileExists:
       result.add arg.inputPath
+    elif day.inputPath(arg).fileExists:
+      result.add day.inputPath(arg)
     else:
-      echo &"Could not find file for {arg} or {arg.inputPath}"
+      echo &"Could not find file {arg} or {arg.inputPath} or {day.inputpath(arg)}"
 
 proc readIntLines*(path: string): seq[int] = path.getlines.map(parseInt)
 
