@@ -9,15 +9,18 @@ inpath.part1is 1836
 testpath.part1is 220
 testpath.part2is 19208
 
-system.`-`.liftToMap2(minusMap)
-
 proc part0*(path: string): seq[int] =
   path.readIntLines.sorted
 
 proc part1*(input: seq[int]): int =
-  let ds = minusMap(input[1..input.high],input[0..(input.high - 1)])
-  # ones + 1 for the outlet and threes +1 for the device
-  return (ds.countit(it == 1) + 1) * (ds.countit(it == 3) + 1)
+  var
+    ones = 1    # +1 for the outlet
+    threes = 1  # +1 for the device
+  for i in 1..input.high:
+    let diff = input[i] - input[i-1]
+    if diff == 1: ones.inc
+    elif diff == 3: threes.inc
+  return ones * threes
 
 proc part2*(input: seq[int]): int =
   result = 0
