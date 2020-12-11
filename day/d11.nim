@@ -9,56 +9,48 @@ inpath.part1is 2273
 testPath.part1is 37
 testPath.part2is 26
 
-proc part0*(path: string): seq[string] =
-  path.getLines
+type Seat = tuple[pos:Vec2i,adjs:seq[Vec2i]]
+const dirs = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]]
+proc sum[T](tab:CountTable[T]): int = tab.toSeq(values).sum
+proc getAdjs(pos:Vec2i):seq[Vec2i] = dirs.mapit(it + pos)
+proc part0*(path: string): seq[string] = path.getLines
 
-proc getSeats(input:seq[string]):seq[Vec2i] =
+proc makeSeats1(input:seq[string]):seq[Seat] =
   for j,line in input:
     for i,c in line:
-      if c == 'L': result.add [i,j]
+      if c == 'L':
+        let pos = [i,j].Vec2i
+        result.add (pos,pos.getAdjs)
 
-const adjs = [
-  [0,1],
-  [0,-1],
-  [1,0],
-  [-1,0],
-  [1,1],
-  [1,-1],
-  [-1,1],
-  [-1,-1],
-]
-
-proc getAdjs(pos:Vec2i):seq[Vec2i] = adjs.mapit(it + pos)
-
-proc checkpos(tab:CountTable[Vec2i],pos:Vec2i): int =
-  let sum = pos.getadjs.mapit(tab[it]).sum
+proc checkseat(tab:CountTable[Vec2i],seat:Seat):int =
+  let sum = seat.adjs.mapit(tab[it]).sum
   if sum == 0: 1
   elif sum > 3: 0
-  else: tab[pos]
+  else: tab[seat.pos]
 
-proc sum[T](tab:CountTable[T]): int = tab.toSeq(values).sum
-
-proc iterate(seats:seq[Vec2i],src:CountTable[Vec2i],tar:var CountTable[Vec2i]):int =
+proc iterate(seats:seq[Seat],src:CountTable[Vec2i],tar:var CountTable[Vec2i]):int =
   tar.clear
-  for pos in seats:
-    tar[pos] = src.checkpos(pos)
+  for seat in seats:
+    tar[seat.pos] = src.checkseat(seat)
   tar.sum
 
-proc part1*(input: seq[string]): int =
+proc simulate(seats:seq[Seat]): int =
   var
-    seats = input.getSeats
     odds = initCountTable[Vec2i]()
     evens = initCountTable[Vec2i]()
     lastnum = 0
     num = seats.iterate(evens,odds)
   while true:
     lastnum = num
-    num = seats.iterate(evens,odds)
-    if lastnum == num and evens == odds: break
-    lastnum = num
     num = seats.iterate(odds,evens)
     if lastnum == num and evens == odds: break
-  result = num
+    lastnum = num
+    num = seats.iterate(evens,odds)
+    if lastnum == num and evens == odds: break
+  return num
+
+proc part1*(input: seq[string]): int =
+  return input.makeSeats1.simulate
 
 proc part2*(input: seq[string]): int =
   result = 0
