@@ -1,4 +1,3 @@
-import std/[intsets]
 import lib/[imps]
 const
   day = "09"
@@ -25,39 +24,23 @@ proc part0*(path: string):(seq[int],int) =
   let n = si.getTargetNumber
   return (si,n)
 
-proc part1*(parsed: (seq[int],int)): int =
-  return parsed[1]
-
-proc sum[T](d:Deque[T]):T =
-  for t in d:
-    result += t
-
-proc min[T](d:Deque[T]):T =
-  result = d[0]
-  for t in d:
-    if t < result: result = t
-
-proc max[T](d:Deque[T]):T =
-  result = d[0]
-  for t in d:
-    if result < t: result = t
+proc part1*(parsed: (seq[int],int)): int = parsed[1]
 
 proc walk(si:seq[int],target:int):int =
   var
-    i = 0
-    sum = 0
+    i, sum = 0
     d = initDeque[int]()
   while sum != target:
     if sum < target:
       d.addlast si[i]
+      sum.inc d[^1]
       i.inc
     if sum > target:
+      sum.dec d[0]
       discard d.popfirst
-    sum = d.sum
-  return d.min + d.max
+  return d.toSeq(items).min + d.toSeq(items).max
 
-proc part2*(parsed: (seq[int],int)): int =
-  parsed[0].walk(parsed[1])
+proc part2*(parsed: (seq[int],int)): int = parsed[0].walk(parsed[1])
 
 makeRunProc()
 when isMainModule: getCliPaths(day).doit(it.run.echoRR)
