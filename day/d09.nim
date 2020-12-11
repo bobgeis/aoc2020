@@ -60,3 +60,22 @@ real    0m0.007s
 user    0m0.002s
 sys     0m0.003s
 ]#
+
+#[
+  Removed some unnecessary bits.
+  Some of the speed improvement is due to noise.
+  I need to do better benchmarking.
+$ nim c -d:fast day/d09.nim && time out/run
+Day 09 at #9a670ad for in/i09.txt
+Part1: 2089807806
+Part2: 245848639
+Times:
+Part0:   0s   0ms 384us 107ns
+Part1:   0s   0ms   0us  66ns
+Part2:   0s   0ms  44us 618ns
+Total:   0s   0ms 434us 918ns
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+]#
