@@ -206,6 +206,14 @@ type
   Set4i* = HashSet[Vec4i]
   Set4f* = HashSet[Vec4f]
 
+  # common counttables
+  Ctab2i* = CountTable[Vec2i]
+  Ctab2f* = CountTable[Vec2f]
+  Ctab3i* = CountTable[Vec3i]
+  Ctab3f* = CountTable[Vec3f]
+  Ctab4i* = CountTable[Vec4i]
+  Ctab4f* = CountTable[Vec4f]
+
   # common nested seqs, Can only use vecs of ints as keys, the x coordinate should always be the innermost coordinate
   Seq2i*[T] = seq[seq[T]]
   Seq3i*[T] = seq[seq[seq[T]]]
@@ -283,6 +291,17 @@ proc getMinMax*[N, T](t: Table[Vec[N, int], T] or TableRef[Vec[N, int], T]): (
     maxs.max = k
   return (mins, maxs)
 
+proc getMinMax*[N](t: CountTable[Vec[N, int]] or CountTableRef[Vec[N, int]]): (
+    Vec[N, int], Vec[N, int]) =
+  ## Get a vector of all the minimum values for each coordinate and a vector of all the maximum values for each coordinate among the keys of the given vector table/tableref.
+  var
+    mins = highest[N, int]()
+    maxs = lowest[N, int]()
+  for k in t.keys:
+    mins.min = k
+    maxs.max = k
+  return (mins, maxs)
+
 proc getMinMax*[N](hs: HashSet[Vec[N, int]]): (Vec[N, int], Vec[N, int]) =
   ## Get a vector of all the minimum values for each coordinate and a vector of all the maximum values for each coordinate among the keys of the given vector hashset.
   var
@@ -293,20 +312,26 @@ proc getMinMax*[N](hs: HashSet[Vec[N, int]]): (Vec[N, int], Vec[N, int]) =
     maxs.max = item
   return (mins, maxs)
 
-iterator grid*[T](t: Tab2i[T] or TabR2i[T] or Set2i): Vec2i =
+iterator grid*[T](t: Tab2i[T] or TabR2i[T]): Vec2i =
   let (mins, maxs) = t.getMinMax
   for y in mins.y..maxs.y:
     for x in mins.x..maxs.x:
       yield [x, y]
 
-iterator grid*[T](t: Tab3i[T] or TabR3i[T] or Set3i): Vec3i =
+iterator grid*(t: Set2i or Ctab2i): Vec2i =
+  let (mins, maxs) = t.getMinMax
+  for y in mins.y..maxs.y:
+    for x in mins.x..maxs.x:
+      yield [x, y]
+
+iterator grid*[T](t: Tab3i[T] or TabR3i[T] or Set3i or Ctab3i): Vec3i =
   let (mins, maxs) = t.getMinMax
   for z in mins.z..maxs.z:
     for y in mins.y..maxs.y:
       for x in mins.x..maxs.x:
         yield [x, y, z]
 
-iterator grid*[T](t: Tab4i[T] or TabR4i[T] or Set4i): Vec4i =
+iterator grid*[T](t: Tab4i[T] or TabR4i[T] or Set4i or Ctab4i): Vec4i =
   let (mins, maxs) = t.getMinMax
   for w in mins.w..maxs.w:
     for z in mins.z..maxs.z:
@@ -322,7 +347,15 @@ proc drawTab*[T](t: Tab2i[T] or TabR2i[T]; p: proc(v: Vec2i): char): string =
       result.add '\n'
     result.add p(v)
 
-proc drawTab*[T](t: Tab3i[T] or TabR3i[T]; p: proc(v: Vec3i): char): string =
+proc drawTab*(t: Ctab2i; p: proc(v: Vec2i): char): string =
+  var yPrev = int.high
+  for v in t.grid():
+    if v.y != yPrev:
+      yPrev = v.y
+      result.add '\n'
+    result.add p(v)
+
+proc drawTab*[T](t: Tab3i[T] or TabR3i[T] or Ctab3i; p: proc(v: Vec3i): char): string =
   var zPrev, yPrev = int.high
   for v in t.grid():
     if v.z != zPrev:
