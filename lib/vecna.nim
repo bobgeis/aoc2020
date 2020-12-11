@@ -211,10 +211,6 @@ type
   Seq3i*[T] = seq[seq[seq[T]]]
   Seq4i*[T] = seq[seq[seq[seq[T]]]]
 
-# remember seq[string] == seq[seq[char]]
-proc toSeq2iChar*(s: seq[string]): Seq2i[char] =
-  cast[Seq2i[char]](s)
-
 # getters/setters for tables using coordinates
 template `[]`*[A, T](t: Table[Vec[2, A], T]; x, y: A): T = t[[x, y]]
 template `[]=`*[A, T](t: var Table[Vec[2, A], T]; x, y: A; val: T) = t[[x, y]] = val
@@ -243,12 +239,38 @@ template `[]`*[T](s: Seq4i[T]; x, y, z, w: int): T = s[w][z][y][x]
 template `[]=`*[T](s: Seq4i[T]; x, y, z, w: int; val: T) = s[w][z][y][x] = val
 
 # getters/setters for seqs using vecs
-template `[]`*[T](s: Seq2i[T]; v: Vec2i): T = s[v.x, v.y]
-template `[]=`*[T](s: Seq2i[T]; v: Vec2i; val: T): T = s[v.x, v.y] = val
-template `[]`*[T](s: Seq3i[T]; v: Vec3i): T = s[v.x, v.y, v.z]
-template `[]=`*[T](s: Seq3i[T]; v: Vec3i; val: T): T = s[v.x, v.y, v.z] = val
-template `[]`*[T](s: Seq4i[T]; v: Vec4i): T = s[v.x, v.y, v.z, v.w]
-template `[]=`*[T](s: Seq4i[T]; v: Vec4i; val: T): T = s[v.x, v.y, v.z, v.w] = val
+template `[]`*[T](s: Seq2i[T]; arg: Vec2i): T =
+  let v = arg
+  s[v.x, v.y]
+template `[]=`*[T](s: Seq2i[T]; arg: Vec2i; val: T): T =
+  let v = arg
+  s[v.x, v.y] = val
+template `[]`*[T](s: Seq3i[T]; arg: Vec3i): T =
+  let v = arg
+  s[v.x, v.y, v.z]
+template `[]=`*[T](s: Seq3i[T]; arg: Vec3i; val: T): T =
+  let v = arg
+  s[v.x, v.y, v.z] = val
+template `[]`*[T](s: Seq4i[T]; arg: Vec4i): T =
+  let v = arg
+  s[v.x, v.y, v.z, v.w]
+template `[]=`*[T](s: Seq4i[T]; arg: Vec4i; val: T): T =
+  let v = arg
+  s[v.x, v.y, v.z, v.w] = val
+
+# remember seq[string] == seq[seq[char]]
+proc toSeq2iChar*(s: seq[string]): Seq2i[char] =
+  cast[Seq2i[char]](s)
+
+# seq[string] can be treated as seq[seq[char]]
+template `[]`*(s: seq[string]; x, y: int): char = s[y][x]
+template `[]=`*(s: seq[string]; x, y: int; val: char) = s[y][x] = val
+template `[]`*(s: seq[string]; arg: Vec2i):char =
+  let v = arg
+  s[v.y][v.x]
+template `[]=`*(s: seq[string]; arg: Vec2i; val:char) =
+  let v = arg
+  s[v.y][v.x] = val
 
 proc getMinMax*[N, T](t: Table[Vec[N, int], T] or TableRef[Vec[N, int], T]): (
     Vec[N, int], Vec[N, int]) =
