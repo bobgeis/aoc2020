@@ -90,3 +90,29 @@ Part1:   0s 914ms 642us 744ns
 Part2:   0s 633ms 969us 258ns
 Total:   1s 548ms 721us 687ns
 ]#
+
+#[
+  This day is slower by far than any that came before (~1.5 seconds!).
+  THis is mostly because of my algorithm, which is a naive iteration.
+  The simulation seems to flash but regions of stability grow in from the corners until the
+  whole grid is static.
+  It might be possible to leverage that using changelists.
+  That is, each iteration, keep track of the seats that changed and only evaluate seats reachable
+  from them.
+  At first this should be the same or worse than the current method, but it will speed up as
+  more of the grid becomes static.
+  It might also be possible to use parallelization or a matrix package like arraymancer.
+$ nim c -d:fast  day/d11.nim && time out/run
+Day 11 at #a2a2cde for in/i11.txt
+Part1: 2273
+Part2: 2064
+Times:
+Part0:   0s   0ms 103us 709ns
+Part1:   0s 908ms  57us 720ns
+Part2:   0s 544ms 625us 210ns
+Total:   1s 452ms 793us 655ns
+
+real    0m1.469s
+user    0m1.404s
+sys     0m0.056s
+]#
