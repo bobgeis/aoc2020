@@ -20,10 +20,10 @@ hint("Conf", false)
 switch("hints", "off")
 switch("warnings", "off")
 switch("verbosity", "0")
+--gc: arc # swap in --gc:orc if you get leaks
 
 proc setFast() =
   --d: fast
-  --gc: arc # swap in --gc:orc if you get leaks
   --d: release
   --d: danger
   --opt: speed
