@@ -11,8 +11,12 @@ testPath.part2is 26
 
 type Seat = tuple[pos:Vec2i,adjs:seq[Vec2i]]
 const dirs = [[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]]
-proc sum[T](tab:CountTable[T]): int = tab.toSeq(values).sum
+var tolerance = 3
 proc getAdjs(pos:Vec2i):seq[Vec2i] = dirs.mapit(it + pos)
+
+proc sum[T](tab:CountTable[T]): int =
+  for v in tab.values: result.inc v
+
 proc part0*(path: string): seq[string] = path.getLines
 
 proc makeSeats1(input:seq[string]):seq[Seat] =
@@ -22,14 +26,14 @@ proc makeSeats1(input:seq[string]):seq[Seat] =
         let pos = [i,j].Vec2i
         result.add (pos,pos.getAdjs)
 
-var tolerance = 3
 proc checkseat(tab:CountTable[Vec2i],seat:Seat):int =
-  let sum = seat.adjs.mapit(tab[it]).sum
+  var sum = 0
+  for pos in seat.adjs: sum.inc tab[pos]
   if sum == 0: 1
   elif sum > tolerance: 0
   else: tab[seat.pos]
 
-proc iterate(seats:seq[Seat],src:CountTable[Vec2i],tar:var CountTable[Vec2i]):int =
+proc tick(seats:seq[Seat],src:CountTable[Vec2i],tar:var CountTable[Vec2i]):int =
   tar.clear
   for seat in seats:
     tar[seat.pos] = src.checkseat(seat)
@@ -40,14 +44,14 @@ proc simulate(seats:seq[Seat]): int =
     odds = initCountTable[Vec2i]().Ctab2i
     evens = initCountTable[Vec2i]().Ctab2i
     lastnum = 0
-    num = seats.iterate(evens,odds)
+    num = seats.tick(evens,odds)
   while true:
     lastnum = num
-    num = seats.iterate(odds,evens)
+    num = seats.tick(odds,evens)
     if lastnum == num and evens == odds:
       break
     lastnum = num
-    num = seats.iterate(evens,odds)
+    num = seats.tick(evens,odds)
     if lastnum == num and evens == odds:
       break
   return num
@@ -115,4 +119,21 @@ Total:   1s 452ms 793us 655ns
 real    0m1.469s
 user    0m1.404s
 sys     0m0.056s
+]#
+
+#[
+  Removed some intermediate seqs. There's still a lot of potential improvement.
+$ nim c -d:fast  day/d11.nim && time out/run
+Day 11 at #4fa702e for in/i11.txt
+Part1: 2273
+Part2: 2064
+Times:
+Part0:   0s   0ms 106us 316ns
+Part1:   0s 792ms 730us 839ns
+Part2:   0s 467ms 548us 796ns
+Total:   1s 260ms 393us 301ns
+
+real    0m1.264s
+user    0m1.256s
+sys     0m0.004s
 ]#
