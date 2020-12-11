@@ -8,6 +8,7 @@ I probably won't have time to do all of the days. I definitely won't have time t
 ## Link
 
 - [nim aoc 2020 thread](https://forum.nim-lang.org/t/7162)
+- [Awesome Advent of Code](https://github.com/Bogdanp/awesome-advent-of-code#nim)
 - [aoc subreddit](https://old.reddit.com/r/adventofcode/)
 
 ## References
@@ -231,87 +232,108 @@ sys     0m0.002s
 ```
 
 
-<!-- ## d09 -->
-<!-- [Link](https://adventofcode.com/2020/day/9) -->
-<!-- NOT DONE -->
+## d09
+[Link](https://adventofcode.com/2020/day/9)
 
+At first I wanted to do something clever in part 1, but after a short discussion, I realized that just brute forcing everything might work better. I tried it and it worked.
 
-<!-- ## d10 -->
-<!-- [Link](https://adventofcode.com/2020/day/10) -->
-<!-- NOT DONE -->
+For part 2, I just used a deque to walk along the input, adding and dropping integers as needed to until they summed to the target value.
 
+```
+$ nim c -d:fast day/d09.nim && time out/run
+Day 09 at #9a670ad for in/i09.txt
+Part1: 2089807806
+Part2: 245848639
+Times:
+Part0:   0s   0ms 384us 107ns
+Part1:   0s   0ms   0us  66ns
+Part2:   0s   0ms  44us 618ns
+Total:   0s   0ms 434us 918ns
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+```
+
+## d10
+[Link](https://adventofcode.com/2020/day/10)
+
+For part 1, first I made use of `liftToMap2` to find the differences, but then I realized it might be better to NOT make multiple seqs, and just iterate over the sorted input. Finally I swapped if/elifs into case/ofs. The result was actually a few lines longer, but probably slightly faster (fewer allocations).
+
+For part 2, I tried a recursive solution first, but it was tricky to work out some off-by-x issues, and I wasn't really happy with it. I decided an iterative solution would be better. Each "node" can have only up to three "edges" going in and up to three "edges" going out. If you evaluate them in order, then a lot of things are simpler than in the more general graph or DAG case. So I made a table that mapped each value to the number of ways to reach that value, then started with 1 way to reach value 0, and then used that knowledge to generate the rest. The last value in the sequence is the answer. Finally after looking around a little, I recognized CountTable is a little nicer for this problem than Table is (basically it lets you dispense with `getOrDefault`).
+
+```
+$ nim c -d:fast day/d10.nim && time out/run
+Day 10 at #2a81254 for in/i10.txt
+Part1: 1836
+Part2: 43406276662336
+Times:
+Part0:   0s   0ms 112us 659ns
+Part1:   0s   0ms   0us 363ns
+Part2:   0s   0ms  31us 637ns
+Total:   0s   0ms 152us 873ns
+
+real    0m0.003s
+user    0m0.001s
+sys     0m0.001s
+```
 
 <!-- ## d11 -->
 <!-- [Link](https://adventofcode.com/2020/day/11) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d12 -->
 <!-- [Link](https://adventofcode.com/2020/day/12) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d13 -->
 <!-- [Link](https://adventofcode.com/2020/day/13) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d14 -->
 <!-- [Link](https://adventofcode.com/2020/day/14) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d15 -->
 <!-- [Link](https://adventofcode.com/2020/day/15) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d16 -->
 <!-- [Link](https://adventofcode.com/2020/day/16) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d17 -->
 <!-- [Link](https://adventofcode.com/2020/day/17) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d18 -->
 <!-- [Link](https://adventofcode.com/2020/day/18) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d19 -->
 <!-- [Link](https://adventofcode.com/2020/day/19) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d20 -->
 <!-- [Link](https://adventofcode.com/2020/day/20) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d21 -->
 <!-- [Link](https://adventofcode.com/2020/day/21) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d22 -->
 <!-- [Link](https://adventofcode.com/2020/day/22) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d23 -->
 <!-- [Link](https://adventofcode.com/2020/day/23) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d24 -->
 <!-- [Link](https://adventofcode.com/2020/day/24) -->
-<!-- NOT DONE -->
 
 
 <!-- ## d25 -->
 <!-- [Link](https://adventofcode.com/2020/day/25) -->
-<!-- NOT DONE -->
 
