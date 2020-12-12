@@ -183,36 +183,28 @@ proc onseg*[A](a, p1, p2: Vec[2, A]): bool =
 
 type
   # common tables
-  Tab2i*[T] = Table[Vec2i, T]
-  Tab2f*[T] = Table[Vec2f, T]
-  Tab3i*[T] = Table[Vec3i, T]
-  Tab3f*[T] = Table[Vec3f, T]
-  Tab4i*[T] = Table[Vec4i, T]
-  Tab4f*[T] = Table[Vec4f, T]
-
-  # common tablerefs
-  TabR2i*[T] = TableRef[Vec2i, T]
-  TabR2f*[T] = TableRef[Vec2f, T]
-  TabR3i*[T] = TableRef[Vec3i, T]
-  TabR3f*[T] = TableRef[Vec3f, T]
-  TabR4i*[T] = TableRef[Vec4i, T]
-  TabR4f*[T] = TableRef[Vec4f, T]
+  Tab2i*[T] = SomeTable[Vec2i, T]
+  Tab2f*[T] = SomeTable[Vec2f, T]
+  Tab3i*[T] = SomeTable[Vec3i, T]
+  Tab3f*[T] = SomeTable[Vec3f, T]
+  Tab4i*[T] = SomeTable[Vec4i, T]
+  Tab4f*[T] = SomeTable[Vec4f, T]
 
   # common hashsets
-  Set2i* = HashSet[Vec2i]
-  Set2f* = HashSet[Vec2f]
-  Set3i* = HashSet[Vec3i]
-  Set3f* = HashSet[Vec3f]
-  Set4i* = HashSet[Vec4i]
-  Set4f* = HashSet[Vec4f]
+  Set2i* = SomeSet[Vec2i]
+  Set2f* = SomeSet[Vec2f]
+  Set3i* = SomeSet[Vec3i]
+  Set3f* = SomeSet[Vec3f]
+  Set4i* = SomeSet[Vec4i]
+  Set4f* = SomeSet[Vec4f]
 
   # common counttables
-  Ctab2i* = CountTable[Vec2i]
-  Ctab2f* = CountTable[Vec2f]
-  Ctab3i* = CountTable[Vec3i]
-  Ctab3f* = CountTable[Vec3f]
-  Ctab4i* = CountTable[Vec4i]
-  Ctab4f* = CountTable[Vec4f]
+  Ctab2i* = SomeCountTable[Vec2i]
+  Ctab2f* = SomeCountTable[Vec2f]
+  Ctab3i* = SomeCountTable[Vec3i]
+  Ctab3f* = SomeCountTable[Vec3f]
+  Ctab4i* = SomeCountTable[Vec4i]
+  Ctab4f* = SomeCountTable[Vec4f]
 
   # common nested seqs, Can only use vecs of ints as keys, the x coordinate should always be the innermost coordinate
   Seq2i*[T] = seq[seq[T]]
@@ -220,23 +212,13 @@ type
   Seq4i*[T] = seq[seq[seq[seq[T]]]]
 
 # getters/setters for tables using coordinates
-template `[]`*[A, T](t: Table[Vec[2, A], T]; x, y: A): T = t[[x, y]]
-template `[]=`*[A, T](t: var Table[Vec[2, A], T]; x, y: A; val: T) = t[[x, y]] = val
-template `[]`*[A, T](t: Table[Vec[3, A], T]; x, y, z: A): T = t[[x, y, z]]
-template `[]=`*[A, T](t: var Table[Vec[3, A], T]; x, y, z: A; val: T) = t[[x, y, z]] = val
-template `[]`*[A, T](t: Table[Vec[4, A], T]; x, y, z, w: A): T = t[[x, y, z, w]]
-template `[]=`*[A, T](t: var Table[Vec[4, A], T]; x, y, z, w: A; val: T) = t[[x,
+template `[]`*[A, T](t: SomeTable[Vec[2, A], T]; x, y: A): T = t[[x, y]]
+template `[]=`*[A, T](t: var SomeTable[Vec[2, A], T]; x, y: A; val: T) = t[[x, y]] = val
+template `[]`*[A, T](t: SomeTable[Vec[3, A], T]; x, y, z: A): T = t[[x, y, z]]
+template `[]=`*[A, T](t: var SomeTable[Vec[3, A], T]; x, y, z: A; val: T) = t[[x, y, z]] = val
+template `[]`*[A, T](t: SomeTable[Vec[4, A], T]; x, y, z, w: A): T = t[[x, y, z, w]]
+template `[]=`*[A, T](t: var SomeTable[Vec[4, A], T]; x, y, z, w: A; val: T) = t[[x,
     y, z, w]] = val
-
-# getters/setters for tablerefs using coordinates
-template `[]`*[A, T](t: TableRef[Vec[2, A], T]; x, y: A): T = t[[x, y]]
-template `[]=`*[A, T](t: var TableRef[Vec[2, A], T]; x, y: A; val: T) = t[[x, y]] = val
-template `[]`*[A, T](t: TableRef[Vec[3, A], T]; x, y, z: A): T = t[[x, y, z]]
-template `[]=`*[A, T](t: var TableRef[Vec[3, A], T]; x, y, z: A; val: T) = t[[x,
-    y, z]] = val
-template `[]`*[A, T](t: TableRef[Vec[4, A], T]; x, y, z, w: A): T = t[[x, y, z, w]]
-template `[]=`*[A, T](t: var TableRef[Vec[4, A], T]; x, y, z, w: A; val: T) = t[
-    [x, y, z, w]] = val
 
 # getters/setters for seqs using coordinates
 template `[]`*[T](s: Seq2i[T]; x, y: int): T = s[y][x]
@@ -280,7 +262,7 @@ template `[]=`*(s: seq[string]; arg: Vec2i; val:char) =
   let v = arg
   s[v.y][v.x] = val
 
-proc getMinMax*[N, T](t: Table[Vec[N, int], T] or TableRef[Vec[N, int], T]): (
+proc getMinMax*[N, T](t: SomeTable[Vec[N, int], T]): (
     Vec[N, int], Vec[N, int]) =
   ## Get a vector of all the minimum values for each coordinate and a vector of all the maximum values for each coordinate among the keys of the given vector table/tableref.
   var
@@ -291,7 +273,7 @@ proc getMinMax*[N, T](t: Table[Vec[N, int], T] or TableRef[Vec[N, int], T]): (
     maxs.max = k
   return (mins, maxs)
 
-proc getMinMax*[N](t: CountTable[Vec[N, int]] or CountTableRef[Vec[N, int]]): (
+proc getMinMax*[N](t: SomeCountTable[Vec[N, int]]): (
     Vec[N, int], Vec[N, int]) =
   ## Get a vector of all the minimum values for each coordinate and a vector of all the maximum values for each coordinate among the keys of the given vector table/tableref.
   var
@@ -312,7 +294,7 @@ proc getMinMax*[N](hs: HashSet[Vec[N, int]]): (Vec[N, int], Vec[N, int]) =
     maxs.max = item
   return (mins, maxs)
 
-iterator grid*[T](t: Tab2i[T] or TabR2i[T]): Vec2i =
+iterator grid*[T](t: Tab2i[T]): Vec2i =
   let (mins, maxs) = t.getMinMax
   for y in mins.y..maxs.y:
     for x in mins.x..maxs.x:
@@ -324,14 +306,21 @@ iterator grid*(t: Set2i or Ctab2i): Vec2i =
     for x in mins.x..maxs.x:
       yield [x, y]
 
-iterator grid*[T](t: Tab3i[T] or TabR3i[T] or Set3i or Ctab3i): Vec3i =
+iterator grid*[T](t: Tab3i[T]): Vec3i =
   let (mins, maxs) = t.getMinMax
   for z in mins.z..maxs.z:
     for y in mins.y..maxs.y:
       for x in mins.x..maxs.x:
         yield [x, y, z]
 
-iterator grid*[T](t: Tab4i[T] or TabR4i[T] or Set4i or Ctab4i): Vec4i =
+iterator grid*(t: Set3i or Ctab3i): Vec3i =
+  let (mins, maxs) = t.getMinMax
+  for z in mins.z..maxs.z:
+    for y in mins.y..maxs.y:
+      for x in mins.x..maxs.x:
+        yield [x, y, z]
+
+iterator grid*[T](t: Tab4i[T]): Vec4i =
   let (mins, maxs) = t.getMinMax
   for w in mins.w..maxs.w:
     for z in mins.z..maxs.z:
@@ -339,7 +328,15 @@ iterator grid*[T](t: Tab4i[T] or TabR4i[T] or Set4i or Ctab4i): Vec4i =
         for x in mins.x..maxs.x:
           yield [x, y, z, w]
 
-proc drawTab*[T](t: Tab2i[T] or TabR2i[T]; p: proc(v: Vec2i): char): string =
+iterator grid*(t: Set4i or Ctab4i): Vec4i =
+  let (mins, maxs) = t.getMinMax
+  for w in mins.w..maxs.w:
+    for z in mins.z..maxs.z:
+      for y in mins.y..maxs.y:
+        for x in mins.x..maxs.x:
+          yield [x, y, z, w]
+
+proc drawTab*[T](t: Tab2i[T]; p: proc(v: Vec2i): char): string =
   var yPrev = int.high
   for v in t.grid():
     if v.y != yPrev:
@@ -355,7 +352,18 @@ proc drawTab*(t: Ctab2i; p: proc(v: Vec2i): char): string =
       result.add '\n'
     result.add p(v)
 
-proc drawTab*[T](t: Tab3i[T] or TabR3i[T] or Ctab3i; p: proc(v: Vec3i): char): string =
+proc drawTab*[T](t: Tab3i[T]; p: proc(v: Vec3i): char): string =
+  var zPrev, yPrev = int.high
+  for v in t.grid():
+    if v.z != zPrev:
+      zPrev = v.z
+      result.add &"\n\nz={v.z}"
+    if v.y != yPrev:
+      yPrev = v.y
+      result.add '\n'
+    result.add p(v)
+
+proc drawTab*(t: Ctab3i; p: proc(v: Vec3i): char): string =
   var zPrev, yPrev = int.high
   for v in t.grid():
     if v.z != zPrev:

@@ -6,10 +6,10 @@ import std/[macros, memfiles, monotimes, sequtils, sets,
   strformat, strutils, sugar, tables, times]
 
 type
-  SomeSeq*[T] = seq[T] or openarray[T] or string or cstring or
-    set[T] or HashSet[T]
+  SomeSeq*[T] = seq[T] or openarray[T] or string or cstring
   SomeTable*[U, V] = Table[U, V] or TableRef[U, V] or
     OrderedTable[U, V] or OrderedTableRef[U, V]
+  SomeCountTable*[T] = CountTable[T] or CountTableRef[T]
 
 proc square*(n: SomeNumber): SomeNumber = n * n
 
