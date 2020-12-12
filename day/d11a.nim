@@ -66,7 +66,6 @@ proc simulate(seats:Tab2i[seq[Vec2i]]):int =
     state = initTable[Vec2i,bool]()
     tocheck: Set2i
   while changes.len > 0:
-    debug changes.len
     tocheck = state.applychanges(seats,changes)
     changes = state.getchanges(seats,tocheck)
   return state.toseq(values).mapit(it.int).sum
@@ -86,34 +85,31 @@ when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
 #[
   I tried adding a changelist. This was NOT actually faster than my first attempt.
-$ time out/run11 && time out/run11a
-
-d11.nim
-Day 11 at #7e795de for in/i11.txt
+$ nim dcf -o:out/run11 11 && nim dcf -o:out/run11a 11a && time out/run11 && time out/run11a
+nim c -o:out/run11 -d:fast day/d11.nim
+nim c -o:out/run11a -d:fast day/d11a.nim
+Day 11 at #452e853 for in/i11.txt
 Part1: 2273
 Part2: 2064
 Times:
-Part0:   0s   0ms 493us 825ns
-Part1:   1s  43ms 847us  97ns
-Part2:   0s 658ms 672us 936ns
-Total:   1s 703ms  22us  65ns
+Part0:   0s   0ms  89us 151ns
+Part1:   0s 779ms 838us 767ns
+Part2:   0s 484ms  58us 757ns
+Total:   1s 263ms 993us 752ns
 
-real    0m1.709s
-user    0m1.406s
-sys     0m0.018s
-
-d11a.nim
-Day 11 at #7e795de for in/i11.txt
+real    0m1.268s
+user    0m1.257s
+sys     0m0.004s
+Day 11 at #452e853 for in/i11.txt
 Part1: 2273
 Part2: 2064
 Times:
-Part0:   0s   0ms 107us 254ns
-Part1:   0s 772ms 789us 538ns
-Part2:   0s 883ms 502us 144ns
-Total:   1s 656ms 406us 417ns
+Part0:   0s   0ms 102us 228ns
+Part1:   0s 565ms 802us 416ns
+Part2:   0s 643ms 473us 143ns
+Total:   1s 209ms 385us 146ns
 
-real    0m1.662s
-user    0m1.388s
-sys     0m0.021s
-
+real    0m1.214s
+user    0m1.202s
+sys     0m0.005s
 ]#
