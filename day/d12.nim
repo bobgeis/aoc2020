@@ -10,18 +10,10 @@ testPath.part1is 25
 testPath.part2is 286
 
 type
-  CmdKind = enum
-    ckN = "N"
-    ckE = "E"
-    ckS = "S"
-    ckW = "W"
-    ckL = "L"
-    ckR = "R"
-    ckF = "F"
-  Cmd = (CmdKind,int)
+  Cmd = (char,int)
 
 const
-  dirTab = {ckN:[0,1],ckE:[1,0],ckS:[0,-1],ckW:[-1,0]}.toTable
+  dirTab = {'N':[0,1],'E':[1,0],'S':[0,-1],'W':[-1,0]}.toTable
   angTab = {0:[1,0],90:[0,1],180:[-1,0],270:[0,-1]}.toTable
 
 proc wrapA(a:int):int = a.wrap(0,360)
@@ -35,9 +27,10 @@ proc rotate(v:Vec2i,a:int):Vec2i =
     [0,0]
 
 proc scanCmd(s:string):Cmd =
-  var cmd: CmdKind
-  result[0] = parseEnum[CmdKind]($s[0])
-  result[1] = parseInt(s[1..^1])
+  var num:int
+  result[0] = s[0]
+  discard parseInt(s,num,1)
+  result[1] = num
 
 proc part0*(path: string): seq[Cmd] =
   for line in path.getLines:
@@ -49,13 +42,14 @@ proc part1*(input: seq[Cmd]): int =
     pos = [0,0]
   for (cmd,amt) in input:
     case cmd
-    of ckN: pos += dirTab[ckN] * amt
-    of ckE: pos += dirTab[ckE] * amt
-    of ckS: pos += dirTab[ckS] * amt
-    of ckW: pos += dirTab[ckW] * amt
-    of ckF: pos += angTab[angle] * amt
-    of ckR: angle = wrapA(angle - amt)
-    of ckL: angle = wrapA(angle + amt)
+    of 'N': pos += dirTab['N'] * amt
+    of 'E': pos += dirTab['E'] * amt
+    of 'S': pos += dirTab['S'] * amt
+    of 'W': pos += dirTab['W'] * amt
+    of 'F': pos += angTab[angle] * amt
+    of 'R': angle = wrapA(angle - amt)
+    of 'L': angle = wrapA(angle + amt)
+    else: discard
   pos.mdist
 
 proc part2*(input: seq[Cmd]): int =
@@ -64,13 +58,14 @@ proc part2*(input: seq[Cmd]): int =
     way = [10,1]
   for (cmd,amt) in input:
     case cmd
-    of ckN: way += dirTab[ckN] * amt
-    of ckE: way += dirTab[ckE] * amt
-    of ckS: way += dirTab[ckS] * amt
-    of ckW: way += dirTab[ckW] * amt
-    of ckF: pos += way * amt
-    of ckL: way = way.rotate(amt)
-    of ckR: way = way.rotate(360-amt)
+    of 'N': way += dirTab['N'] * amt
+    of 'E': way += dirTab['E'] * amt
+    of 'S': way += dirTab['S'] * amt
+    of 'W': way += dirTab['W'] * amt
+    of 'F': pos += way * amt
+    of 'L': way = way.rotate(amt)
+    of 'R': way = way.rotate(360-amt)
+    else: discard
   pos.mdist
 
 makeRunProc()
@@ -90,6 +85,25 @@ Part0:   0s   0ms 375us 194ns
 Part1:   0s   0ms  37us 851ns
 Part2:   0s   0ms  29us 582ns
 Total:   0s   0ms 450us  18ns
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+]#
+
+#[
+  Changing parsing maybe sped things up a little.
+$ nim dt d12
+nim c  -d:fast day/d12.nim
+time out/run
+Day 12 at #ef9f4d3 for in/i12.txt
+Part1: 521
+Part2: 22848
+Times:
+Part0:   0s   0ms 219us 320ns
+Part1:   0s   0ms  40us 655ns
+Part2:   0s   0ms  30us 799ns
+Total:   0s   0ms 297us 235ns
 
 real    0m0.004s
 user    0m0.001s
