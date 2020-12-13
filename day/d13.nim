@@ -2,11 +2,11 @@ import lib/[imps]
 const
   day = "13"
   inPath = inputPath(day)
-  # testPath = inputPath(day,"t1")
+  testPath = inputPath(day,"t1")
 
 # inpath.part1is 1
 # inpath.part2is 2
-# testPath.part1is 1
+testPath.part1is 295
 # testPath.part2is 2
 
 proc part0*(path: string): seq[string] =
