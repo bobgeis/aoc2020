@@ -64,3 +64,21 @@ proc part2*(input:seq[string]): int =
 makeRunProc()
 when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
+#[
+  There is some work duplicated bt part 1 and 2, but it's so fast that it's probably not worth addressing.
+$ nim dt 13
+nim c  -d:fast day/d13.nim
+time out/run
+Day 13 at #fbb0b76 for in/i13.txt
+Part1: 205
+Part2: 803025030761664
+Times:
+Part0:   0s   0ms  77us 399ns
+Part1:   0s   0ms  12us 436ns
+Part2:   0s   0ms  20us 168ns
+Total:   0s   0ms 116us  91ns
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+]#
