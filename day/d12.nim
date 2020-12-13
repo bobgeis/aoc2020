@@ -76,4 +76,22 @@ proc part2*(input: seq[Cmd]): int =
 makeRunProc()
 when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
+#[
+  Initial timing.
+  Processing into commands is the slowest step.
+$ nim dt d12
+nim c  -d:fast day/d12.nim
+time out/run
+Day 12 at #da2aa06 for in/i12.txt
+Part1: 521
+Part2: 22848
+Times:
+Part0:   0s   0ms 375us 194ns
+Part1:   0s   0ms  37us 851ns
+Part2:   0s   0ms  29us 582ns
+Total:   0s   0ms 450us  18ns
 
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+]#
