@@ -1,6 +1,6 @@
 import lib/[imps]
 const
-  day = "00"
+  day = "13"
   inPath = inputPath(day)
   # testPath = inputPath(day,"t1")
 
