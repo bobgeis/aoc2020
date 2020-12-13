@@ -49,17 +49,20 @@ proc part2*(input:seq[string]): int =
   ## Once we sync any two buses correctly,
   ## then we can treat them as a single larger bus with a longer period, lcm(a,b).
   ## We can do this repeatedly until we have a single large "bus".
-  ## The time that this "bus" first departs is our answer.
-  var period = 1
+  ## The time that this "bus" first departs is our answer (it does not depart at t=0!).
+  var
+    deptr = 0
+    period = 1
   for (i,bus) in input[1].parse2:
     let
-      wait = (bus-i).pmod(bus) # account for the offset using python's mod
+      wait = (bus-i).pmod(bus) # account for the offset using python's mod, which handles i > bus the way we need
       newper = period.lcm(bus)
-    for j in result.countup(newper, period):
+    for j in deptr.countup(newper+deptr, period):
       if j mod bus == wait:
-        result = j
         period = newper
+        deptr = j
         break
+  deptr
 
 makeRunProc()
 when isMainModule: getCliPaths(day).doit(it.run.echoRR)
