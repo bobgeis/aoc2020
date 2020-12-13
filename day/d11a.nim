@@ -1,4 +1,5 @@
 import lib/[imps]
+# import times
 const
   day = "11"
   inPath = inputPath(day)
@@ -46,39 +47,53 @@ proc makeSeats2(input:seq[string]):Table[Vec2i,seq[Vec2i]] =
         let pos = [i,j]
         result[pos] = pos.getVisible(input)
 
-proc getChanges(state:Tab2i[bool],seats:Tab2i[seq[Vec2i]],tocheck:Set2i):seq[(Vec2i,bool)] =
+proc tick(seats:Tab2i[seq[Vec2i]],state:var Tab2i[bool],changed:var Set2i) =
+  for v in changed:
+    let curr = state[v]
+    state[v] = not state[v]
+
+proc getChanges(seats:Tab2i[seq[Vec2i]],state:Tab2i[int8],changes:var seq[(Vec2i,int8)],tocheck:Set2i) =
+  changes.setlen 0
   for v in tocheck:
     let curr = state[v]
-    var sum = 0
-    for pos in seats[v]: sum.inc state[pos].int
-    if sum == 0 and not curr: result.add (v,true)
-    elif sum > tolerance and curr: result.add (v,false)
+    var sum = 0.int8
+    for pos in seats[v]: sum.inc state[pos]
+    if sum == 0 and curr == 0: changes.add (v,1.int8)
+    elif sum > tolerance and curr == 1: changes.add (v,0.int8)
 
-proc applyChanges(state: var Tab2i[bool],seats:Tab2i[seq[Vec2i]],changes:seq[(Vec2i,bool)]):Set2i =
+proc applyChanges(seats:Tab2i[seq[Vec2i]],state: var Tab2i[int8],changes:seq[(Vec2i,int8)],tocheck:var Set2i) =
+  tocheck.init
   for (v,b) in changes:
     state[v] = b
-    for pos in seats[v]:
-      result.incl pos
+    tocheck.incl v
 
 proc simulate(seats:Tab2i[seq[Vec2i]]):int =
   var
-    changes: seq[(Vec2i,bool)] = seats.toSeq(keys).mapit((it,false))
-    state = initTable[Vec2i,bool]()
+    changes: seq[(Vec2i,int8)] = seats.toSeq(keys).mapit((it,0.int8))
+    state = initTable[Vec2i,int8]()
     tocheck: Set2i
   while changes.len > 0:
-    tocheck = state.applychanges(seats,changes)
-    changes = state.getchanges(seats,tocheck)
+    seats.applychanges(state,changes,tocheck)
+    seats.getchanges(state,changes,tocheck)
   return state.toseq(values).mapit(it.int).sum
 
 proc part0*(path: string): seq[string] = path.getLines
 
 proc part1*(input: seq[string]): int =
   tolerance = 3
-  input.makeSeats1.simulate
+  # timevar prep:
+  let seats = input.makeSeats1
+  # timevar sim:
+  result = seats.simulate
+  # debug prep.inMilliseconds,sim.inMilliseconds
 
 proc part2*(input: seq[string]): int =
   tolerance = 4
-  input.makeSeats2.simulate
+  # timevar prep:
+  let seats = input.makeSeats2
+  # timevar sim:
+  result = seats.simulate
+  # debug prep.inMilliseconds,sim.inMilliseconds
 
 makeRunProc()
 when isMainModule: getCliPaths(day).doit(it.run.echoRR)
@@ -112,4 +127,23 @@ Total:   1s 209ms 385us 146ns
 real    0m1.214s
 user    0m1.202s
 sys     0m0.005s
+]#
+
+#[
+  Remove some unnecessary allocations and type conversions
+$ nim dt 11a
+nim c  -d:fast day/d11a.nim
+time out/run
+Day 11 at #49ac352 for in/i11.txt
+Part1: 2273
+Part2: 2064
+Times:
+Part0:   0s   0ms 102us 578ns
+Part1:   0s 343ms 445us 793ns
+Part2:   0s 410ms 586us 117ns
+Total:   0s 754ms 141us 850ns
+
+real    0m0.762s
+user    0m0.737s
+sys     0m0.019s
 ]#
