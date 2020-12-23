@@ -60,10 +60,8 @@ proc playRec(parent1,parent2:Deque[int],vpar1,vpar2:int):(bool,int) =
     p2 = parent2.slice(vpar2-1)
     sums = initHashSet[int]()
   while p1.len > 0 and p2.len > 0:
-    let newSum = p1.sumDeck * p2.sumDeck
-    if newSum in sums:
+    if sums.containsOrIncl(p1.sumDeck * p2.sumDeck):
       return (true,sumDeck(p1))
-    else: sums.incl newSum
     let
       v1 = p1.popFirst
       v2 = p2.popFirst
@@ -83,3 +81,20 @@ proc part2*(input: seq[Deque[int]]): int =
 makeRunProc()
 when isMainModule: getCliPaths(day).doit(it.run.echoRR)
 
+#[
+  There are probably better ways to do part 2
+nim c  -d:fast day/d22.nim
+time out/run
+Day 22 at #eb5886a for in/i22.txt
+Part1: 32401
+Part2: 31436
+Times:
+Part0:   0s   0ms 377us 302ns
+Part1:   0s   0ms  68us 545ns
+Part2:   0s 258ms 185us 122ns
+Total:   0s 258ms 640us 987ns
+
+real    0m0.268s
+user    0m0.256s
+sys     0m0.004s
+]#
