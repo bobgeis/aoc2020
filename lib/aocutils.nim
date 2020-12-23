@@ -50,12 +50,16 @@ template makeRunProc*(): untyped =
         let input = part0(path)
       var res1: int
       timevar dur1:
-        res1 = part1(input)
+        when not defined(skipPart1):
+          res1 = part1(input)
       var res2: int
       timevar dur2:
-        res2 = part2(input)
-    checkpart(1, res1, path)
-    checkpart(2, res2, path)
+        when not defined(skipPart2):
+          res2 = part2(input)
+    when not defined(skipPart1):
+      checkpart(1, res1, path)
+    when not defined(skipPart2):
+      checkpart(2, res2, path)
     return (day: day, path: path, res: [res1, res2], dur: [dur0, dur1, dur2, durAll])
 
 proc pretty*(d: Duration): string =
@@ -73,7 +77,9 @@ proc echoRR*(rr: RunResult) =
   when defined(release):
     echo "Times:"
     echo &"Part0: {rr.dur[0].pretty}"
-    echo &"Part1: {rr.dur[1].pretty}"
-    echo &"Part2: {rr.dur[2].pretty}"
+    when not defined(skipPart1):
+      echo &"Part1: {rr.dur[1].pretty}"
+    when not defined(skipPart2):
+      echo &"Part2: {rr.dur[2].pretty}"
     echo &"Total: {rr.dur[3].pretty}"
 
